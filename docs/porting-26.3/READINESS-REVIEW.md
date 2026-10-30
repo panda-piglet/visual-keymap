@@ -1,5 +1,7 @@
 # Visual Keymap：Minecraft 26.3 迁移就绪性审查
 
+> 历史状态说明：本文主体记录 Phase 2.6 结束时的就绪性结论。维护者随后已批准 Phase 3 A 与最小 B1；实际执行结果见 [`PHASE3-A-B1-REPORT.md`](PHASE3-A-B1-REPORT.md)，26.2 材料步骤见 [`BASELINE-ASSETS.md`](BASELINE-ASSETS.md)。本文原有表格不回写为“当时已经完成”，以保留审计时间线。
+
 > 审查日期：2026-10-30  
 > 审查范围：Phase 1、Phase 2 与 Phase 2.6 阻碍解除；未修改功能源码、构建配置或版本号
 > 源码基线：`USTC-XeF2/visual-keymap@053e736c77b15e0727c93abed7c94c3b0fb64618`  
