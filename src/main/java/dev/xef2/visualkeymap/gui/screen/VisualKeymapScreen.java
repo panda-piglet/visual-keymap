@@ -5,6 +5,7 @@ import dev.xef2.visualkeymap.KeymapSnapshot;
 import dev.xef2.visualkeymap.ModConfig;
 import dev.xef2.visualkeymap.VisualKeymap;
 import dev.xef2.visualkeymap.api.KeyBinding;
+import dev.xef2.visualkeymap.gui.NativeFileDialog;
 import dev.xef2.visualkeymap.gui.widget.KeybindsListWidget;
 import dev.xef2.visualkeymap.gui.widget.KeyboardWidget;
 import dev.xef2.visualkeymap.input.MinecraftInputCode;
@@ -25,12 +26,9 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.PointerBuffer;
-import org.lwjgl.system.MemoryStack;
-import org.lwjgl.util.tinyfd.TinyFileDialogs;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,53 +100,37 @@ public class VisualKeymapScreen extends OptionsSubScreen {
     }
 
     private void doExport() {
-        String path;
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            PointerBuffer filters = stack.mallocPointer(1);
-            filters.put(stack.UTF8("*.json"));
-            filters.flip();
-            path = TinyFileDialogs.tinyfd_saveFileDialog(
-                    VisualKeymap.getTranslatedComponent("gui.export_dialog").getString(),
-                    new File(FabricLoader.getInstance().getConfigDir().toFile(), "visualkeymap-export.json").getAbsolutePath(),
-                    filters,
-                    null
-            );
-        }
-        if (path != null) {
-            try {
-                VisualKeymap.exportKeyBindings(new File(path));
-            } catch (IOException ignored) {
-            }
-        }
+        Path defaultPath = FabricLoader.getInstance().getConfigDir().resolve("visualkeymap-export.json");
+        NativeFileDialog.showSave(
+                VisualKeymap.getTranslatedComponent("gui.export_dialog").getString(),
+                defaultPath,
+                path -> {
+                    try {
+                        VisualKeymap.exportKeyBindings(path.toFile());
+                    } catch (IOException ignored) {
+                    }
+                }
+        );
     }
 
     private void doImport() {
-        String path;
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            PointerBuffer filters = stack.mallocPointer(1);
-            filters.put(stack.UTF8("*.json"));
-            filters.flip();
-            path = TinyFileDialogs.tinyfd_openFileDialog(
-                    VisualKeymap.getTranslatedComponent("gui.import_dialog").getString(),
-                    "",
-                    filters,
-                    null,
-                    false
-            );
-        }
-        if (path != null) {
-            try {
-                KeymapSnapshot snapshot = VisualKeymap.importKeyBindings(new File(path));
-                List<KeymapSnapshot.ImportMatch> matches = snapshot.matchBindings(VisualKeymap.getApiImplementations())
-                        .stream()
-                        .filter(m -> !m.binding.getKeyCodes().equals(m.entry.keys()))
-                        .toList();
-                if (!matches.isEmpty()) {
-                    this.minecraft.setScreenAndShow(new ImportPreviewScreen(this, matches));
+        NativeFileDialog.showOpen(
+                VisualKeymap.getTranslatedComponent("gui.import_dialog").getString(),
+                path -> {
+                    try {
+                        KeymapSnapshot snapshot = VisualKeymap.importKeyBindings(path.toFile());
+                        List<KeymapSnapshot.ImportMatch> matches = snapshot
+                                .matchBindings(VisualKeymap.getApiImplementations())
+                                .stream()
+                                .filter(m -> !m.binding.getKeyCodes().equals(m.entry.keys()))
+                                .toList();
+                        if (!matches.isEmpty()) {
+                            this.minecraft.setScreenAndShow(new ImportPreviewScreen(this, matches));
+                        }
+                    } catch (IOException ignored) {
+                    }
                 }
-            } catch (IOException ignored) {
-            }
-        }
+        );
     }
 
     private List<? extends KeyBinding> getUnboundBindings() {

@@ -3,6 +3,7 @@ package dev.xef2.visualkeymap;
 import dev.xef2.visualkeymap.api.KeyBinding;
 import dev.xef2.visualkeymap.api.MinecraftImpl;
 import dev.xef2.visualkeymap.api.VisualKeymapApi;
+import dev.xef2.visualkeymap.gui.NativeFileDialog;
 import dev.xef2.visualkeymap.gui.screen.VisualKeymapScreen;
 import dev.xef2.visualkeymap.integration.CommandKeysIntegration;
 import dev.xef2.visualkeymap.integration.MaLiLibIntegration;
@@ -59,6 +60,7 @@ public class VisualKeymap implements ClientModInitializer {
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            NativeFileDialog.poll();
             while (keyBinding.consumeClick()) {
                 client.setScreenAndShow(new VisualKeymapScreen(client.gui.screen(), client.options));
             }
