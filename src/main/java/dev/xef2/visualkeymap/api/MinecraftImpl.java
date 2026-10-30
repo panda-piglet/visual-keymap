@@ -1,6 +1,7 @@
 package dev.xef2.visualkeymap.api;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import dev.xef2.visualkeymap.input.MinecraftInputCode;
 import dev.xef2.visualkeymap.mixin.KeyMappingAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -47,14 +48,15 @@ public class MinecraftImpl implements VisualKeymapApi<MinecraftImpl.MinecraftKey
         @Override
         public List<Integer> getKeyCodes() {
             InputConstants.Key boundKey = ((KeyMappingAccessor) this.keyMapping).getKey();
-            return boundKey.equals(InputConstants.UNKNOWN) ? List.of() : List.of(boundKey.getValue());
+            return MinecraftInputCode.encode(boundKey).stream().boxed().toList();
         }
 
         @Override
         public List<Integer> getModifierKeyCodes() {
             Options options = Minecraft.getInstance().options;
             if (Arrays.stream(options.debugKeys).anyMatch(binding -> binding == this.keyMapping)) {
-                return List.of(((KeyMappingAccessor) options.keyDebugModifier).getKey().getValue());
+                InputConstants.Key modifier = ((KeyMappingAccessor) options.keyDebugModifier).getKey();
+                return MinecraftInputCode.encode(modifier).stream().boxed().toList();
             }
             return super.getModifierKeyCodes();
         }

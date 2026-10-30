@@ -6,6 +6,7 @@ import dev.xef2.visualkeymap.api.VisualKeymapApi;
 import dev.xef2.visualkeymap.gui.screen.VisualKeymapScreen;
 import dev.xef2.visualkeymap.integration.CommandKeysIntegration;
 import dev.xef2.visualkeymap.integration.MaLiLibIntegration;
+import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
@@ -14,7 +15,6 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
-import org.lwjgl.glfw.GLFW;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,7 +53,8 @@ public class VisualKeymap implements ClientModInitializer {
         );
         KeyMapping keyBinding = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 getTranslationKey("key.open_keymap"),
-                GLFW.GLFW_KEY_UNKNOWN,
+                InputConstants.Type.KEYBOARD,
+                InputConstants.UNKNOWN.getValue(),
                 category
         ));
 

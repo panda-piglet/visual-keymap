@@ -1,6 +1,7 @@
 package dev.xef2.visualkeymap.api;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import dev.xef2.visualkeymap.input.MinecraftInputCode;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
@@ -83,10 +84,7 @@ public abstract class KeyBinding {
     }
 
     private static Component getDisplayNameFromCode(int code) {
-        InputConstants.Type inputType = code >= 0 && code <= 7
-                ? InputConstants.Type.MOUSE
-                : InputConstants.Type.KEYSYM;
-        return inputType.getOrCreate(code).getDisplayName();
+        return MinecraftInputCode.getDisplayName(code);
     }
 
     public Component getBoundKeysLocalizedText() {

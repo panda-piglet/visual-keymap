@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.mojang.blaze3d.platform.InputConstants;
 import dev.xef2.visualkeymap.api.KeyBinding;
 import dev.xef2.visualkeymap.api.VisualKeymapApi;
+import dev.xef2.visualkeymap.input.MinecraftInputCode;
 
 import java.io.File;
 import java.io.FileReader;
@@ -82,10 +83,16 @@ public record KeymapSnapshot(int version, List<KeymapSnapshot.BindingEntry> bind
         }
 
         public List<InputConstants.Key> getKeysFromEntry() {
-            return entry.keys().stream().map(code -> {
-                InputConstants.Type type = code >= 0 && code <= 7 ? InputConstants.Type.MOUSE : InputConstants.Type.KEYSYM;
-                return type.getOrCreate(code);
-            }).toList();
+            if (!this.canApply()) {
+                throw new IllegalStateException("Snapshot contains an unsupported canonical key code");
+            }
+            return entry.keys().stream()
+                    .map(code -> MinecraftInputCode.decode(code).orElseThrow())
+                    .toList();
+        }
+
+        public boolean canApply() {
+            return entry.keys().stream().allMatch(MinecraftInputCode::canApply);
         }
     }
 }
