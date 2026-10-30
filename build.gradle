@@ -1,5 +1,5 @@
 plugins {
-    id 'net.fabricmc.fabric-loom' version '1.17-SNAPSHOT'
+    id 'net.fabricmc.fabric-loom' version '1.19.3'
 }
 
 version = project.mod_version
@@ -30,11 +30,11 @@ dependencies {
 
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    compileOnly "fi.dy.masa.malilib:malilib-fabric-${project.malilib_version}"
+    compileOnly "maven.modrinth:malilib:${project.malilib_version}"
     compileOnly "maven.modrinth:commandkeys:${project.commandkeys_version}"
     compileOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
 
-    runtimeOnly "fi.dy.masa.malilib:malilib-fabric-${project.malilib_version}"
+    runtimeOnly "maven.modrinth:malilib:${project.malilib_version}"
     runtimeOnly "maven.modrinth:commandkeys:${project.commandkeys_version}"
     runtimeOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
 }
