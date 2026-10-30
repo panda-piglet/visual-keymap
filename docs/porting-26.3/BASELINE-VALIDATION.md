@@ -1,5 +1,7 @@
 # Minecraft 26.2 真实行为基线验收
 
+> 2026-10-31 补充：第 1–7 节记录首批 `baseline-26.2/` 材料；第 8 节记录后来提供的私有混合 provider 原件，并取代前文“没有真实 Minecraft provider 快照”的相关结论。私有原件没有复制到仓库。
+
 ## 1. 结论与证据边界
 
 本次验收检查了工作区 `baseline-26.2/` 中的全部材料，并逐帧抽查两段录屏。材料直接证明了 Visual Keymap 1.4.0 在 Minecraft 26.2 中的主界面、控制页入口、MaLiLib 单键编辑、导出、导入预览和确认应用主路径。没有发现与 Phase 1 功能清单冲突的实际行为，也没有发现已完成 B1 代码与真实 J/F9 编码不一致。
@@ -188,7 +190,7 @@ extensionTableSha256=0E45BE43A316246A555578E89F6BFF2016BB5CCD3FFDA713571DDAF3004
 | S-02 | **PASS** | B1 自检覆盖 A–E 与 mouse 4–8 的 namespace/type 碰撞。 |
 | S-03 | **NOT TESTED** | 没有真实鼠标读、显示、编辑、快照和触发材料。 |
 | S-04 | **NOT TESTED** | B2 尚未实施，业务调用点尚未接入集中层，不能验收。 |
-| S-05 | **NOT TESTED** | 已取得真实键盘 golden，但缺 0–7 鼠标、空 keys/unknown 和 modifiers，且尚未在 26.3 往返。 |
+| S-05 | **PASS（Minecraft F8 子项）/ NOT TESTED（其余）** | 第 8 节新增真实混合 provider 原件；Minecraft F8 已在 26.3 完成导入、应用、重启和再导出。0–7 鼠标、空 keys/unknown、非空 modifiers 以及 MaLiLib live 往返仍未覆盖。 |
 | S-06 | **STATICALLY VERIFIED** | B1 保留 F25 `314` tombstone；无 26.2/26.3 GUI、导入导出或物理事件证据。 |
 | S-07 | **NOT TESTED** | 冻结表碰撞/往返已自动通过；显示、编辑、冲突和 26.3 应用链尚未实施。 |
 | S-08 | **NOT TESTED** | 四类 provider 的同类键读改存未执行。 |
@@ -223,5 +225,86 @@ B2 尚未完成，当前不存在可宣称“已经回归”的 B2 行为；也�
 6. Visual Keymap 三项配置的默认创建、修改、返回即时生效和重启恢复；保留脱敏后的真实 `visualkeymap.json`。
 7. 英文、三种 GUI 缩放、最小窗口/全屏、数字小键盘开关和 tooltip 数量边界。
 8. 外部 `visualkeymap` entrypoint 消费方、异常隔离、provider 顺序及公开 API 编译。
+
+## 8. 2026-10-31 补充：混合 provider 原件与 B2 跨版本验证
+
+### 8.1 私有原件与完整性
+
+维护者在工作区私有目录补充了两个未修改文件。它们不在 Git 仓库内，本次没有复制、暂存或提交：
+
+| 本地路径 | 字节 | SHA-256 | 处理决定 |
+| --- | ---: | --- | --- |
+| `baseline-private/26.2/version 1.json` | 448 | `B3244C2560E54D84D459277AD9C12BCCB19F6AB9D5DF11D2226052FBFD320970` | 原始 26.2 导出；私有保留 |
+| `baseline-private/26.2/options.txt` | 5,360 | `8CB130FEF450BD991D55A9C89D48E3891FAF4BA72C1389F85C720D45EC9FBB28` | 完整个人实例配置；私有保留 |
+
+读取和哈希命令：
+
+```powershell
+Get-FileHash -Algorithm SHA256 -LiteralPath 'baseline-private/26.2/version 1.json'
+Get-FileHash -Algorithm SHA256 -LiteralPath 'baseline-private/26.2/options.txt'
+Get-Content -Raw -Encoding UTF8 -LiteralPath 'baseline-private/26.2/version 1.json' | ConvertFrom-Json
+Select-String -LiteralPath 'baseline-private/26.2/options.txt' -Pattern 'visualkeymap'
+```
+
+测试结束后再次计算 JSON 原件哈希，仍为 `B3244C...20970`；原件未被修改。
+
+### 8.2 version 1 结构与 provider
+
+快照可正常解析，顶层 `version=1`，共有 3 条记录，provider 集合为 `minecraft, malilib`。该文件是混合 provider 快照，不得标记为纯 Minecraft 快照：
+
+| provider | ID | keys | modifiers | 结论 |
+| --- | --- | --- | --- | --- |
+| `minecraft` | `visualkeymap.key.open_keymap` | `[297]` | `[]` | F8 的 26.2 规范整数 |
+| `malilib` | `tweakFreeCamera` | `[74]` | `[]` | J，与既有真实 MaLiLib 快照一致 |
+| `malilib` | `tweakHoldAttack` | `[298]` | `[]` | F9，与既有真实 MaLiLib 快照一致 |
+
+`options.txt` 含：
+
+```text
+key_visualkeymap.key.open_keymap:key.keyboard.f8
+```
+
+这与快照的 Minecraft provider、稳定 ID 和规范码 `297` 交叉一致。MaLiLib 热键不会写入 Minecraft `options.txt`，因此不能用该文件交叉验证 J/F9 的第三方配置落盘；其 provider/ID/键码只在本阶段做静态确认，live 行为等待 C1。
+
+### 8.3 安全派生与测试边界
+
+为避免尚未迁移的 `MaLiLibIntegration` 影响第三方真实配置，测试只从原件过滤 `provider == "minecraft"`，生成 ignored 文件：
+
+```text
+runs/mc-26.3-b2.5/config/b25-derived-from-real-26.2-minecraft-only.json
+SHA-256 D76F01E5EAC78436CED81C5ECE53FF68001413CE1650822F12F215FDB2A58127
+```
+
+派生文件保留 `version=1` 以及原始 Minecraft 记录的 provider、ID、keys 和 modifiers。它明确是由真实原件生成的测试副本，不是原版直接导出结果。原始混合快照和私人 `options.txt` 均未放入隔离 gameDir。
+
+### 8.4 Minecraft provider 动态往返
+
+执行命令：
+
+```powershell
+$env:JAVA_HOME='E:\02_Development\05_Environment\graalvm-jdk-25.0.4+7.1'
+$env:GRADLE_USER_HOME='E:\02_Development\01_Workspace\VisualKeyMap26.3\.gradle-user-home'
+$env:TEMP='E:\02_Development\01_Workspace\VisualKeyMap26.3\.tmp'
+$env:TMP=$env:TEMP
+.\gradlew.bat runClient --no-daemon
+```
+
+| 步骤 | 预期 | 实际 | 状态 |
+| --- | --- | --- | --- |
+| 启动隔离 26.3 实例 | 当前打开键为未绑定 | Visual Keymap 显示 `Not Bound`，隔离 `options.txt` 为 `key.keyboard.unknown` | **PASS** |
+| 导入派生副本 | 只匹配 Minecraft 记录 | 预览标题为 `1 keybindings changes`，显示 `Not Bound → F8`，默认勾选 | **PASS** |
+| 确认导入 | live binding 变为 F8 | 原版 Key Binds 立即显示 F8；隔离 `options.txt` 写 `key.keyboard.f8` | **PASS** |
+| 完全退出并重启 | F8 被持久化 | 第二次启动后原版 Key Binds 仍显示 F8 | **PASS** |
+| 再导出 version 1 | Minecraft 规范语义不变 | 生成 `b25-real-26.2-minecraft-roundtrip.json`，SHA-256 `15E948A1D8BCDB0A7DCA913F91DA7D32D01AE0211CFEBB73B2B75D3596E3D662` | **PASS** |
+| 语义比较 | version/provider/ID/keys/modifiers 相等 | 原件与再导出均为 `1` 和 `minecraft|visualkeymap.key.open_keymap|297|`，`SemanticEqual=True` | **PASS** |
+
+两次 `runClient` 均通过游戏内 `Quit Game` 正常退出，Gradle 分别返回 `BUILD SUCCESSFUL`。隔离实例导入后的 `options.txt` SHA-256 为 `30EC0316B5916DEE0935D8C190D3A7FF020F2BA7BA9540BAA14624F7BB276155`；该值只用于本地测试证据，不代表 26.2 私有原件。
+
+### 8.5 结论与剩余边界
+
+- “缺少真实 26.2 Minecraft provider 快照”遗留问题已关闭。
+- Minecraft provider 的 F8 读取、预览、应用、保存、重启恢复和 version 1 语义往返均为 **PASS**。
+- 同一原件中的 MaLiLib 两条记录仅为 **STATICALLY VERIFIED**；其 26.3 live 往返仍 **BLOCKED** 于 C1，不能因 Minecraft 子集通过而升级状态。
+- 原件不含鼠标 0–7、unknown/空绑定或非空 modifiers；TEST-PLAN S-05 的这些子项仍为 **NOT TESTED**。
 
 本次工作到基线验收和文档/夹具整理为止；未修改功能源码、构建配置或版本号，未进入 B2 或后续迁移阶段。

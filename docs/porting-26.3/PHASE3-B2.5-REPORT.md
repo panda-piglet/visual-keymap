@@ -12,11 +12,12 @@
 
 B2 的核心实施已经达到进入 C 阶段的条件：Minecraft 26.3 客户端使用独立 gameDir 启动；`clean test` 和 `clean build` 均成功且实际执行 B1 编码自检；原版 Minecraft provider 的普通键、鼠标、未绑定、重置、搜索、导入预览、确认应用、保存、重启恢复、SDL 打开/保存/取消和 version 1 语义往返均获得动态证据；F25 tombstone 和未知 extension 均不会应用到 live binding。
 
-仍有三个受控条件：
+原先“缺少真实 26.2 Minecraft provider 快照”的条件已经关闭。维护者补充的原始快照同时包含 Minecraft 与 MaLiLib provider；Minecraft F8 子集已经完成 26.2→26.3 导入、应用、重启和再导出动态往返。
 
-1. 尚缺真实 26.2 Minecraft provider 快照，因此“26.2 原件 → 26.3 原版 provider 动态往返”仍为 `BLOCKED`。本阶段用 26.3 实际导出文件验证了 B2 管线，但没有把它冒充 26.2 golden file。
-2. 真实 26.2 快照只有 MaLiLib provider；其 live 匹配、应用和再导出必须等待 C1，B2 仅完成静态解析。
-3. 当前 CommandKeys `3.104.1+26.3` 依赖实际解析为 NeoForge JAR，Fabric Loader 没有加载它。C2 在修正为明确的 Fabric 发布物前为 `BLOCKED`；这不阻止先启动 C1 或 C3。
+仍有两个受控条件：
+
+1. 同一真实快照中的 MaLiLib 记录，其 live 匹配、应用和再导出必须等待 C1；B2.5 没有修改或调用尚未迁移的 adapter 写入路径。
+2. 当前 CommandKeys `3.104.1+26.3` 依赖实际解析为 NeoForge JAR，Fabric Loader 没有加载它。C2 在修正为明确的 Fabric 发布物前为 `BLOCKED`；这不阻止先启动 C1 或 C3。
 
 本报告完成后停止，不进入 C1/C2/C3。
 
@@ -26,7 +27,8 @@ B2 的核心实施已经达到进入 C 阶段的条件：Minecraft 26.3 客户�
 | --- | --- | --- |
 | `8127205` `test: isolate Minecraft 26.3 client run directory` | 为 Loom client run configuration 设置独立目录 | `build.gradle` |
 | `05ae402` `test: run canonical input checks with JUnit` | 用 JUnit 5 包装并执行既有 B1 main 自检；未改自检逻辑 | `build.gradle`、`CanonicalInputCodeTest.java` |
-| 本报告提交（哈希见最终交付） | 记录 B2.5 证据、状态和 C 阶段门槛 | 本文件 |
+| `34d8fc5` `docs: record Phase 3 B2.5 validation` | 记录首轮 B2.5 证据、状态和 C 阶段门槛 | 本文件 |
+| 本次补充提交（哈希见最终交付） | 记录真实混合 provider 原件及 Minecraft F8 跨版本往返 | 本文件、`BASELINE-VALIDATION.md`、`TEST-PLAN.md` |
 
 本阶段没有修改 `src/main`、`MaLiLibIntegration`、`CommandKeysIntegration`、`VisualKeymapApi`、version 1 schema 或任何 Mixin。`runs/mc-26.3-b2.5/`、Gradle 报告和测试中生成的快照均为 Git ignored 本地证据，不纳入提交。
 
@@ -128,38 +130,57 @@ extensionTableSha256=0E45BE43A316246A555578E89F6BFF2016BB5CCD3FFDA713571DDAF3004
 
 ### 5.1 A 类：Minecraft provider
 
-目前没有真实 26.2 Minecraft provider 快照。B2.5 生成了两个真实 26.3 客户端导出文件用于验证 B2 自身：
+维护者补充了两个未修改原件，保存在仓库外的本地私有目录：
 
-- `runs/mc-26.3-b2.5/config/b25-native-f8-before-restart.json`
-- `runs/mc-26.3-b2.5/config/b25-native-f8-after-import.json`
+| 原件 | 字节 | SHA-256 | Git 处理 |
+| --- | ---: | --- | --- |
+| `baseline-private/26.2/version 1.json` | 448 | `B3244C2560E54D84D459277AD9C12BCCB19F6AB9D5DF11D2226052FBFD320970` | 私有保留，不提交 |
+| `baseline-private/26.2/options.txt` | 5,360 | `8CB130FEF450BD991D55A9C89D48E3891FAF4BA72C1389F85C720D45EC9FBB28` | 个人完整配置，不提交 |
 
-两者解析后的语义均为：
+JSON 是 version 1，共 3 条记录，不是纯 Minecraft 快照。Minecraft 记录为：
 
 ```text
-version=1
 minecraft|visualkeymap.key.open_keymap|297|
 ```
 
-即 provider、binding ID、F8 规范码 `297` 和空 modifiers 完全一致，`SemanticEqual=True`。这证明 26.3 的“实际导出 → 改为 F7 → 导入预览 F7→F8 → 确认 → 再导出”管线不改变规范数据；它不替代真实 26.2 golden file。
+原始 `options.txt` 同时包含：
 
-需要维护者补充的最小 26.2 步骤：
+```text
+key_visualkeymap.key.open_keymap:key.keyboard.f8
+```
 
-1. 使用独立 26.2 实例，在原版控制页把 `Visual Keymap - Open Visual Keymap` 从 `Not Bound` 改为 F8。
-2. 进入原版 Visual Keymap，导出 version 1 JSON。
-3. 完全退出客户端后，提供未修改 JSON 和该实例的 `options.txt`。
+因此 provider、稳定 ID、F8 规范整数 `297` 和空 modifiers 与 Minecraft 26.2 实际持久化文本交叉一致。
 
-该材料到位后才能把 S-05 中 Minecraft provider 的跨版本部分从 `BLOCKED` 改为 `PASS/FAIL`。
+为避免调用尚未迁移的 MaLiLib adapter，测试从原件按 `provider == "minecraft"` 过滤生成 ignored 派生文件：
+
+```text
+runs/mc-26.3-b2.5/config/b25-derived-from-real-26.2-minecraft-only.json
+SHA-256 D76F01E5EAC78436CED81C5ECE53FF68001413CE1650822F12F215FDB2A58127
+```
+
+该文件明确是测试派生物，不是 26.2 原始导出。原件测试前后 SHA-256 未改变。
+
+实际动态结果：
+
+1. 26.3 初始 live binding 为 `Not Bound`。
+2. 导入派生副本后，预览显示 `1 keybindings changes` 和 `Not Bound → F8`，默认勾选。
+3. `Import Selected` 后，原版 Key Binds 立即显示 F8，隔离实例 `options.txt` 写入 `key.keyboard.f8`。
+4. 完全退出并重启客户端后，原版 Key Binds 仍显示 F8。
+5. 重启后导出 `b25-real-26.2-minecraft-roundtrip.json`，SHA-256 为 `15E948A1D8BCDB0A7DCA913F91DA7D32D01AE0211CFEBB73B2B75D3596E3D662`。
+6. 再导出文件仍为 version 1，Minecraft 记录仍为 `minecraft|visualkeymap.key.open_keymap|297|`，语义比较为 `True`。
+
+结论：S-05 的“真实 26.2 Minecraft F8 provider 跨版本往返”子项 **PASS**；“缺少真实 Minecraft provider 快照”遗留问题已关闭。S-05 对 0–7 鼠标、unknown/空绑定及非空 modifiers 的完整覆盖仍未完成。
 
 ### 5.2 B 类：MaLiLib provider
 
-`test-fixtures/porting-26.3/snapshots/real-26.2-malilib-v1.json` 是真实 26.2 数据的语义副本：
+新增的真实 26.2 原件是混合 provider 快照，其中 MaLiLib 部分为：
 
 | provider | ID | keys | modifiers |
 | --- | --- | --- | --- |
 | `malilib` | `tweakFreeCamera` | `[74]`（J） | `[]` |
 | `malilib` | `tweakHoldAttack` | `[298]`（F9） | `[]` |
 
-version 1 结构和规范码与 B1 表一致，静态解析 **PASS**。C1 尚未迁移，因此其 live binding 匹配、应用、保存和再导出为 **BLOCKED**，不能作为 B2 硬性失败。
+version 1 结构和规范码与 B1 表一致，静态解析 **PASS**。原有 `test-fixtures/porting-26.3/snapshots/real-26.2-malilib-v1.json` 仍是这两条 MaLiLib 记录的仓库语义副本。C1 尚未迁移，因此其 live binding 匹配、应用、保存和再导出为 **BLOCKED**，不能作为 B2 硬性失败。
 
 ### 5.3 C 类：静态/合成专项
 
@@ -190,7 +211,7 @@ version 1 结构和规范码与 B1 表一致，静态解析 **PASS**。C1 尚未
 | X-09 键盘/鼠标/空值 | **PASS（F8、中键、空绑定）/ NOT TESTED（全部 0–7）** | F8=297、中键=2、Reset=unknown；M4–M8 动态缺口同 E-03。 |
 | S-01/S-02 | **PASS** | 121 legacy、127 extension、247 keyboard、8 mouse 的碰撞和往返自动化通过。 |
 | S-04 集中边界 | **STATICALLY VERIFIED** | B2 核心 GUI/provider/快照仍只通过集中兼容层；C1/C2 adapter 留待各阶段审计。 |
-| S-05 真实 26.2 往返 | **BLOCKED（Minecraft）/ BLOCKED（MaLiLib live）** | 缺 A 类真实文件；B 类需等待 C1。26.3 Minecraft 自身语义往返已 PASS。 |
+| S-05 真实 26.2 往返 | **PASS（Minecraft F8）/ BLOCKED（MaLiLib live）/ NOT TESTED（鼠标等）** | 真实混合快照的 Minecraft 子集完成导入、应用、重启和 version 1 再导出，规范语义相等；MaLiLib 等待 C1；0–7 鼠标、unknown/空绑定和非空 modifiers 不在该原件中。 |
 | S-06 F25 | **PASS（不可应用策略）/ NOT TESTED（物理触发）** | 314 在预览中明确不可用且禁用，不改变 live binding；没有可用物理 F25 事件。 |
 | S-07 未知扩展值 | **PASS（不可应用策略）** | 未分配 extension 显示 unsupported、不可勾选、不可应用且不覆盖原绑定。 |
 
@@ -251,7 +272,7 @@ JAR 含 `META-INF/neoforge.mods.toml` 和 `CommandKeysNeoForge`，不含 `fabric
 
 | 项目 | 状态 | 原因/后续 |
 | --- | --- | --- |
-| 真实 26.2 Minecraft provider 跨版本往返 | **BLOCKED** | 缺最小 A 类 golden file；按第 5.1 节补充。 |
+| 真实 26.2 Minecraft provider F8 跨版本往返 | **PASS** | 原件与 options 交叉一致；26.3 导入、应用、重启和再导出语义一致，见第 5.1 节。 |
 | 真实 26.2 MaLiLib live 往返 | **BLOCKED** | C1 adapter 未迁移；C1 完成后执行。 |
 | CommandKeys 运行与 adapter | **BLOCKED** | 当前依赖是 NeoForge JAR；先修正 Fabric 依赖选择，再进入 C2。 |
 | M4–M8 动态鼠标测试 | **NOT TESTED** | 当前 UI 控制工具只能可靠注入左/右/中；B1 静态往返已覆盖 0–7。 |
@@ -266,6 +287,6 @@ JAR 含 `META-INF/neoforge.mods.toml` 和 `CommandKeysNeoForge`，不含 `fabric
 - **C1：可开始。** 首批验收必须包括 MaLiLib 单键/多键、鼠标、reset、配置保存和真实 26.2 golden live 往返。
 - **C2：暂不可开始 adapter 实施。** 先建立一个仅修正 CommandKeys Fabric 发布物选择的独立构建提交，并验证 Fabric Loader 实际加载；随后再迁移 adapter。
 - **C3：可开始。** 使用当前 Mod Menu 21.0.0 验证配置按钮入口、父屏返回和不安装 Mod Menu 的启动组合。
-- 在最终发布前必须取得真实 26.2 Minecraft provider golden file，并完成其 26.3 动态往返；本条件不阻止先执行 C1/C3。
+- 真实 26.2 Minecraft provider F8 golden 的 26.3 动态往返已经完成；最终发布前仍需按 TEST-PLAN 补齐鼠标、unknown/空绑定和非空 modifiers 的 S-05 完整覆盖。
 
 最终判定：**CONDITIONAL GO**。

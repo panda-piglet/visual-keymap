@@ -12,9 +12,10 @@
 
 ## 2. 现有自动化覆盖
 
-- 仓库没有 `src/test`、JUnit、GameTest、测试依赖或测试源码。
-- 唯一 CI 是 `.github/workflows/release.yml`：tag push 后用 JDK 25 执行 `./gradlew build` 并发布。
-- 因此当前自动覆盖仅相当于编译/打包；没有任何用户功能、Mixin、第三方集成、配置或导入导出回归测试。
+- Phase 3 B2.5 已增加 JUnit 5 测试入口 `CanonicalInputCodeTest`，调用既有 `CanonicalInputCodeSelfTest`；`clean test` 与 `clean build` 会实际执行规范键码表、碰撞和往返检查。
+- 独立脚本 `tools/porting-26.3/Test-CanonicalInputCode.ps1` 继续提供不依赖 JUnit 的同范围自检；两条路径当前都报告 121 legacy、127 extension、247 keyboard、8 mouse 通过，扩展表 SHA-256 为 `0E45BE43A316246A555578E89F6BFF2016BB5CCD3FFDA713571DDAF30044AC28`。
+- CI 仍是 `.github/workflows/release.yml`：tag push 后用 JDK 25 执行 `./gradlew build` 并发布。当前 JUnit 测试已进入该 `build` 生命周期。
+- GUI、Mixin 注入、第三方 adapter、配置、SDL 对话框和实际导入导出仍主要依赖人工测试；不得因规范键码单元测试通过而判定这些功能全部通过。
 
 ## 3. 测试矩阵与准备
 
@@ -198,3 +199,24 @@ P1、P2、P3、P4、P5 均需建立 26.2 参照与 26.3 目标实例，使用独
 | S-08 | A/M | 分别通过 Minecraft、MaLiLib、CommandKeys 和外部 provider 读取、修改并保存同类键。 | 所有 adapter 在边界完成转换；provider、ID、顺序、默认值和保存时机保持 26.2 行为。 |
 
 迁移完成的最低通过标准是：B、N、V、L、E、C、X、S 各节全部必需用例通过，P1–P5 均能启动并完成相应专项；API-01 的 26.2 结果被明确记录并在 26.3 保持，不以“顺手修复”替代兼容验证。S-06 的物理触发或 S-07 的新增键策略如受上游能力限制，必须有可复现证据和维护者明确决策，不能以静默丢失通过验收。
+
+## 15. Phase 3 B2.5 真实混合快照执行状态
+
+2026-10-31 收到未修改的 `baseline-private/26.2/version 1.json` 和 `options.txt`。原始 JSON 同时包含 Minecraft 与 MaLiLib provider；原件及个人配置只保存在工作区私有目录，不进入 Git。为隔离未迁移的 C1 adapter，动态测试使用按 provider 过滤出的 Minecraft-only ignored 派生副本。完整哈希和步骤见 `BASELINE-VALIDATION.md` 第 8 节与 `PHASE3-B2.5-REPORT.md` 第 5 节。
+
+状态含义沿用基线报告：`PASS`、`FAIL`、`NOT TESTED`、`BLOCKED`、`STATICALLY VERIFIED`。一个用例只有部分覆盖时，按子项分别列出，不把整行升级为完整 PASS。
+
+| ID/子项 | 状态 | 证据与剩余边界 |
+| --- | --- | --- |
+| E-01 Minecraft 普通键读写 | **PASS（F8）** | 真实 26.2 记录 `297` 导入后，26.3 原版 Key Binds 立即显示 F8；实际游戏动作触发仍未单独测试。 |
+| E-07 保存和重启 | **PASS（Minecraft F8）** | 导入后隔离 `options.txt` 为 `key.keyboard.f8`；完全退出并重启后仍显示 F8。 |
+| X-02/X-03 version 1 导出 | **PASS（Minecraft F8）** | 重启后再导出仍为 version 1，provider/ID/297/空 modifiers 与原件语义一致。 |
+| X-05 provider/ID 匹配 | **PASS（Minecraft）/ STATICALLY VERIFIED（MaLiLib）** | Minecraft 记录被唯一匹配；MaLiLib 记录从派生文件中排除，等待 C1。 |
+| X-06 预览 | **PASS（Minecraft）** | 预览显示 1 个变化和 `Not Bound → F8`，默认勾选。 |
+| X-07 确认应用 | **PASS（Minecraft 全选主路径）** | `Import Selected` 后立即应用并持久化；部分选择、全部取消和 Esc 仍未测试。 |
+| X-09 键盘码 | **PASS（F8=297）** | 真实跨版本键盘样本通过；该原件没有鼠标 0–7 或空 keys。 |
+| S-05 Minecraft F8 | **PASS** | 未修改原件 → 明确标记派生副本 → 26.3 导入/应用/重启/再导出，规范语义完全一致。 |
+| S-05 MaLiLib live | **BLOCKED** | 原件含 J=74、F9=298，但 C1 尚未迁移；本阶段没有调用 adapter 写入路径。 |
+| S-05 mouse 0–7、unknown/空绑定、非空 modifiers | **NOT TESTED** | 新原件不含这些类别；此前合成/26.3 样本不能冒充真实 26.2 数据。 |
+
+结论：B2.5 中“缺少真实 26.2 Minecraft provider 快照”的单项遗留问题已关闭；S-05 整体仍需上述 MaLiLib 和数据类别子项后才能判为完整 PASS。
