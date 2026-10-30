@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "bindings": [
+    {
+      "provider": "malilib",
+      "id": "tweakFreeCamera",
+      "keys": [
+        74
+      ],
+      "modifiers": []
+    },
+    {
+      "provider": "malilib",
+      "id": "tweakHoldAttack",
+      "keys": [
+        298
+      ],
+      "modifiers": []
+    }
+  ]
+}
