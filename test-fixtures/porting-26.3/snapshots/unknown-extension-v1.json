@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "bindings": [
+    {
+      "provider": "fixture.external",
+      "id": "fixture.extension.unassigned",
+      "keys": [16777344],
+      "modifiers": []
+    }
+  ]
+}

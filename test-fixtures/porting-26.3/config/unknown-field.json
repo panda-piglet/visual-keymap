@@ -1,0 +1,6 @@
+{
+  "showNumpad": true,
+  "prioritizeConflictingKeybinds": true,
+  "sortMode": "default",
+  "fixtureUnknownField": "must not contain user data"
+}

@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "bindings": [
+    {
+      "provider": "fixture.external",
+      "id": "fixture.extension.first",
+      "keys": [16777217],
+      "modifiers": []
+    },
+    {
+      "provider": "fixture.external",
+      "id": "fixture.extension.last",
+      "keys": [16777343],
+      "modifiers": []
+    }
+  ]
+}

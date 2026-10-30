@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "bindings": [
+    {
+      "provider": "fixture.minecraft",
+      "id": "fixture.keyboard.a",
+      "keys": [65],
+      "modifiers": []
+    },
+    {
+      "provider": "fixture.minecraft",
+      "id": "fixture.mouse.left",
+      "keys": [0],
+      "modifiers": []
+    },
+    {
+      "provider": "fixture.minecraft",
+      "id": "fixture.empty",
+      "keys": [],
+      "modifiers": []
+    },
+    {
+      "provider": "fixture.external",
+      "id": "fixture.modifier",
+      "keys": [74],
+      "modifiers": [341]
+    },
+    {
+      "provider": "fixture.external",
+      "id": "fixture.f25.tombstone",
+      "keys": [314],
+      "modifiers": []
+    }
+  ]
+}
