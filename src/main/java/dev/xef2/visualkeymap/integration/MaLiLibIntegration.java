@@ -63,9 +63,7 @@ public class MaLiLibIntegration implements VisualKeymapApi<MaLiLibIntegration.Ma
 
         @Override
         public List<Integer> getKeyCodes() {
-            return this.hotkey.getKeybind().getKeys().stream()
-                    .map(key -> key < -1 ? key + 100 : key)
-                    .toList();
+            return MaLiLibInputCode.toCanonicalCodes(this.hotkey.getKeybind().getKeys());
         }
 
         @Override
@@ -78,10 +76,9 @@ public class MaLiLibIntegration implements VisualKeymapApi<MaLiLibIntegration.Ma
         @Override
         public void setBoundKeys(List<InputConstants.Key> keys) {
             IKeybind keybind = this.hotkey.getKeybind();
+            List<Integer> scanCodes = MaLiLibInputCode.replaceSupportedScanCodes(keybind.getKeys(), keys);
             keybind.clearKeys();
-            keys.stream().map(InputConstants.Key::getValue)
-                    .map(code -> code >= 0 && code <= 7 ? code - 100 : code)
-                    .forEach(keybind::addKey);
+            scanCodes.forEach(keybind::addKey);
         }
 
         @Override
