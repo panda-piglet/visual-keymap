@@ -1,8 +1,8 @@
 package dev.xef2.visualkeymap.gui.screen;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import dev.xef2.visualkeymap.KeymapSnapshot;
 import dev.xef2.visualkeymap.VisualKeymap;
+import dev.xef2.visualkeymap.input.MinecraftInputCode;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
@@ -54,7 +54,7 @@ public class ImportPreviewScreen extends OptionsSubScreen {
                 VisualKeymap.getTranslatedComponent("gui.import_confirm"),
                 _ -> {
                     for (var match : this.matches) {
-                        if (match.selected) {
+                        if (match.selected && match.canApply()) {
                             match.binding.setBoundKeys(match.getKeysFromEntry());
                         }
                     }
@@ -112,11 +112,15 @@ public class ImportPreviewScreen extends OptionsSubScreen {
 
             ImportEntry(KeymapSnapshot.ImportMatch match) {
                 this.match = match;
+                if (!match.canApply()) {
+                    match.selected = false;
+                }
 
                 this.checkbox = Checkbox.builder(Component.empty(), minecraft.font)
                         .selected(match.selected)
                         .onValueChange((_, selected) -> match.selected = selected)
                         .build();
+                this.checkbox.active = match.canApply();
 
                 MutableComponent name = match.binding.getDisplayName().copy();
                 this.nameWidget = new StringWidget(0, ENTRY_HEIGHT, name, minecraft.font);
@@ -137,7 +141,7 @@ public class ImportPreviewScreen extends OptionsSubScreen {
                     MutableComponent text = Component.empty();
                     for (int i = 0; i < newKeyCodes.size(); i++) {
                         if (i > 0) text.append(" + ");
-                        text.append(InputConstants.Type.KEYSYM.getOrCreate(newKeyCodes.get(i)).getDisplayName());
+                        text.append(MinecraftInputCode.getDisplayName(newKeyCodes.get(i)));
                     }
                     newKeys = text;
                 }

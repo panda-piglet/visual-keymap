@@ -11,6 +11,8 @@
     "visualkeymap.gui.import_dialog": "导入键位配置",
     "visualkeymap.gui.import_preview_title": "导入预览 - %s 个键位变更",
     "visualkeymap.gui.import_confirm": "确认导入",
+    "visualkeymap.gui.key_unavailable": "%s（Minecraft 26.3 中不可用）",
+    "visualkeymap.gui.unsupported_key_code": "不支持的键码：%s",
 
     "visualkeymap.gui.open_config": "配置选项",
     "visualkeymap.gui.config_title": "可视化键位图选项",

@@ -11,6 +11,8 @@
     "visualkeymap.gui.import_dialog": "Import Keybindings",
     "visualkeymap.gui.import_preview_title": "Import Preview - %s keybinding changes",
     "visualkeymap.gui.import_confirm": "Import Selected",
+    "visualkeymap.gui.key_unavailable": "%s (unavailable in Minecraft 26.3)",
+    "visualkeymap.gui.unsupported_key_code": "Unsupported key code: %s",
 
     "visualkeymap.gui.open_config": "Config Options",
     "visualkeymap.gui.config_title": "Visual Keymap Options",

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import dev.xef2.visualkeymap.VisualKeymap;
 import dev.xef2.visualkeymap.api.KeyBinding;
 import dev.xef2.visualkeymap.gui.screen.VisualKeymapScreen;
+import dev.xef2.visualkeymap.input.MinecraftInputCode;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
@@ -130,12 +131,14 @@ public class KeyboardWidget extends AbstractLayout {
         private static final int MAX_DISPLAYED_BINDINGS = 5;
 
         private final InputConstants.Key key;
+        private final int canonicalCode;
         private List<? extends KeyBinding> bindings;
         private boolean conflict;
 
         public KeyWidget(InputConstants.Key key, Component text) {
             super(0, 0, 0, 0, text);
             this.key = key;
+            this.canonicalCode = MinecraftInputCode.requireCanonical(key);
 
             updateBindings();
         }
@@ -184,7 +187,7 @@ public class KeyboardWidget extends AbstractLayout {
         @Override
         protected void extractContents(@NotNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
             int borderColor;
-            if (sharedData.selectedKeyCode != null && sharedData.selectedKeyCode == this.key.getValue()) {
+            if (sharedData.selectedKeyCode != null && sharedData.selectedKeyCode == this.canonicalCode) {
                 borderColor = CommonColors.WHITE;
             } else if (this.bindings.stream().anyMatch(
                     binding -> binding.containsSearchText(sharedData.searchText))) {

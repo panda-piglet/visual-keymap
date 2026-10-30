@@ -7,6 +7,7 @@ import dev.xef2.visualkeymap.VisualKeymap;
 import dev.xef2.visualkeymap.api.KeyBinding;
 import dev.xef2.visualkeymap.gui.widget.KeybindsListWidget;
 import dev.xef2.visualkeymap.gui.widget.KeyboardWidget;
+import dev.xef2.visualkeymap.input.MinecraftInputCode;
 import dev.xef2.visualkeymap.mixin.HeaderAndFooterLayoutAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -163,13 +164,14 @@ public class VisualKeymapScreen extends OptionsSubScreen {
     }
 
     private List<? extends KeyBinding> getBindingsForKey(InputConstants.Key key) {
+        int canonicalCode = MinecraftInputCode.requireCanonical(key);
         return this.keyBindings.stream()
-                .filter(binding -> binding.getFullKeyCodes().contains(key.getValue()))
+                .filter(binding -> binding.getFullKeyCodes().contains(canonicalCode))
                 .toList();
     }
 
     private void setSelectedKey(InputConstants.Key key) {
-        int keyCode = key.getValue();
+        int keyCode = MinecraftInputCode.requireCanonical(key);
         if (this.sharedData.selectedKeyCode != null && this.sharedData.selectedKeyCode == keyCode) {
             this.sharedData.selectedKeyCode = null;
             this.keybindsListWidget.setKeyBindings(this.getUnboundBindings());
@@ -205,7 +207,11 @@ public class VisualKeymapScreen extends OptionsSubScreen {
     @Override
     public boolean mouseClicked(@NotNull MouseButtonEvent mouseButtonEvent, boolean bl) {
         if (this.sharedData.selectedKeyBinding != null) {
-            this.pressedKeys.add(InputConstants.Type.MOUSE.getOrCreate(mouseButtonEvent.button()));
+            InputConstants.Key key = InputConstants.Type.MOUSE.getOrCreate(mouseButtonEvent.button());
+            if (MinecraftInputCode.encode(key).isEmpty()) {
+                return true;
+            }
+            this.pressedKeys.add(key);
             this.setKeyBinding(true);
             return true;
         } else {
@@ -218,6 +224,9 @@ public class VisualKeymapScreen extends OptionsSubScreen {
         InputConstants.Key key = InputConstants.getKey(keyEvent);
         if (this.sharedData.selectedKeyBinding != null && !this.pressedKeys.contains(key)) {
             if (!keyEvent.isEscape()) {
+                if (MinecraftInputCode.encode(key).isEmpty()) {
+                    return true;
+                }
                 this.pressedKeys.add(key);
             }
             this.setKeyBinding(keyEvent.isEscape());
