@@ -2,6 +2,14 @@ plugins {
     id 'net.fabricmc.fabric-loom' version '1.19.3'
 }
 
+loom {
+    runs {
+        client {
+            runDir = "runs/mc-26.3-b2.5"
+        }
+    }
+}
+
 version = project.mod_version
 group = project.maven_group
 
