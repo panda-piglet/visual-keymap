@@ -1,0 +1,611 @@
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=C:\Windows\Temp
+Initialized native services in: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\native
+Initialized jansi services in: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\native
+The current JVM process isn't compatible with build requirement. The maximum heap size is insufficient.
+
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.5.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Starting process 'Gradle build daemon'. Working directory: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\daemon\9.5.1 Command: E:\02_Development\05_Environment\graalvm-jdk-25.0.4+7.1\bin\java.exe --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED --enable-native-access=ALL-UNNAMED -Xmx1G -Dfile.encoding=UTF-8 -Duser.country=CN -Duser.language=zh -Duser.variant -cp C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\wrapper\dists\gradle-9.5.1-bin\iq79hdu3mqx29lgffhp8bfmx\gradle-9.5.1\lib\gradle-daemon-main-9.5.1.jar -javaagent:C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\wrapper\dists\gradle-9.5.1-bin\iq79hdu3mqx29lgffhp8bfmx\gradle-9.5.1\lib\agents\gradle-instrumentation-agent-9.5.1.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 9.5.1
+Successfully started process 'Gradle build daemon'
+An attempt to start the daemon took 1.242 secs.
+The client will now receive all logging from the daemon (pid: 29256). The daemon log file: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\daemon\9.5.1\daemon-29256.out.log
+Daemon will be stopped at the end of the build 
+Using 32 worker leases.
+Operational build model parameters: {cachingModelBuilding=false, configurationCache=false, configurationCacheDisabledReason=null, configurationCacheParallelLoad=false, configurationCacheParallelStore=false, configureOnDemand=false, invalidateCoupledProjects=false, isolatedProjects=false, modelAsProjectDependency=false, modelBuilding=false, parallelModelBuilding=false, parallelProjectConfiguration=false, parallelProjectExecution=false, resilientModelBuilding=false}
+Received JVM installation metadata from 'E:\02_Development\05_Environment\graalvm-jdk-25.0.4+7.1': {JAVA_HOME=E:\02_Development\05_Environment\graalvm-jdk-25.0.4+7.1, JAVA_VERSION=25.0.4, JAVA_VENDOR=Oracle Corporation, RUNTIME_NAME=Java(TM) SE Runtime Environment, RUNTIME_VERSION=25.0.4+7-LTS-jvmci-b01, VM_NAME=Java HotSpot(TM) 64-Bit Server VM, VM_VERSION=25.0.4+7-LTS-jvmci-b01, VM_VENDOR=Oracle Corporation, OS_ARCH=amd64}
+Watching the file system is configured to be enabled if available
+Now considering [E:\02_Development\01_Workspace\VisualKeyMap26.3\VisualKeyMap26.3-repo] as hierarchies to watch
+File system watching is active
+Starting Build
+Settings evaluated using settings file 'E:\02_Development\01_Workspace\VisualKeyMap26.3\VisualKeyMap26.3-repo\settings.gradle'.
+Projects loaded. Root project using build file 'E:\02_Development\01_Workspace\VisualKeyMap26.3\VisualKeyMap26.3-repo\build.gradle'.
+Included projects: [root project 'VisualKeyMap26.3-repo']
+
+> Configure project :
+Evaluating root project 'VisualKeyMap26.3-repo' using build file 'E:\02_Development\01_Workspace\VisualKeyMap26.3\VisualKeyMap26.3-repo\build.gradle'.
+Resolved plugin [id: 'net.fabricmc.fabric-loom', version: '1.17-SNAPSHOT']
+Cached resource https://maven.fabricmc.net/net/fabricmc/unpick/unpick/3.0.0-beta.13/unpick-3.0.0-beta.13.pom is up-to-date (lastModified: Sun Oct 26 23:40:23 CST 2025).
+Downloading https://maven.fabricmc.net/net/fabricmc/unpick/unpick/3.0.0-beta.13/unpick-3.0.0-beta.13.module to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download9751271598542840045bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/google/errorprone/error_prone_annotations/2.48.0/error_prone_annotations-2.48.0.pom]
+Downloading https://plugins.gradle.org/m2/com/google/errorprone/error_prone_annotations/2.48.0/error_prone_annotations-2.48.0.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download17086650440538208885bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/google/errorprone/error_prone_parent/2.48.0/error_prone_parent-2.48.0.pom]
+Downloading https://plugins.gradle.org/m2/com/google/errorprone/error_prone_parent/2.48.0/error_prone_parent-2.48.0.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download12553731829482242170bin
+Downloading https://maven.fabricmc.net/net/fabricmc/tiny-mappings-parser/0.3.0+build.17/tiny-mappings-parser-0.3.0+build.17.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download16484993398513120672bin
+Downloading https://maven.fabricmc.net/net/fabricmc/tiny-mappings-parser/0.3.0+build.17/tiny-mappings-parser-0.3.0+build.17.module to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download2776817774726869148bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/cadixdev/lorenz/0.5.7/lorenz-0.5.7.pom]
+Downloading https://plugins.gradle.org/m2/org/cadixdev/lorenz/0.5.7/lorenz-0.5.7.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download12284845100906681056bin
+Downloading https://plugins.gradle.org/m2/org/cadixdev/lorenz/0.5.7/lorenz-0.5.7.module to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download3105693129984323427bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/cadixdev/at/0.1.0-rc1/at-0.1.0-rc1.pom]
+Downloading https://plugins.gradle.org/m2/org/cadixdev/at/0.1.0-rc1/at-0.1.0-rc1.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download6920602925712905576bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/cadixdev/bombe/0.3.4/bombe-0.3.4.pom]
+Downloading https://plugins.gradle.org/m2/org/cadixdev/bombe/0.3.4/bombe-0.3.4.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download5780258462145129272bin
+Downloading https://maven.fabricmc.net/org/ow2/asm/asm-util/9.10.1/asm-util-9.10.1.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download6287007288762982768bin
+Downloading https://maven.fabricmc.net/net/fabricmc/mercury/0.4.3/mercury-0.4.3.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download15553765264140236353bin
+Downloading https://maven.fabricmc.net/net/fabricmc/tiny-mappings-parser/0.3.0+build.17/tiny-mappings-parser-0.3.0+build.17.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download7893500217666267553bin
+Downloading https://maven.fabricmc.net/net/fabricmc/stitch/0.6.2/stitch-0.6.2.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download13423090569219442719bin
+Downloading https://maven.fabricmc.net/net/fabricmc/mapping-io/0.8.0/mapping-io-0.8.0.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download2680146285694740629bin
+Downloading https://maven.fabricmc.net/net/fabricmc/mercurymixin/0.2.2/mercurymixin-0.2.2.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download9665444885187640087bin
+Downloading https://maven.fabricmc.net/org/ow2/asm/asm/9.10.1/asm-9.10.1.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download5662422317490007849bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-loom-native/0.2.0/fabric-loom-native-0.2.0.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download8822837763599263267bin
+Downloading https://maven.fabricmc.net/org/ow2/asm/asm-analysis/9.10.1/asm-analysis-9.10.1.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download16809932599998460458bin
+Downloading https://maven.fabricmc.net/org/ow2/asm/asm-commons/9.10.1/asm-commons-9.10.1.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download11120239830657970243bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-loom/1.17.21/fabric-loom-1.17.21.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download5321257591713354247bin
+Downloading https://maven.fabricmc.net/net/fabricmc/lorenz-tiny/4.0.2/lorenz-tiny-4.0.2.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download16854247643036620649bin
+Downloading https://maven.fabricmc.net/org/ow2/asm/asm-tree/9.10.1/asm-tree-9.10.1.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download4281215350456953833bin
+Downloading https://maven.fabricmc.net/net/fabricmc/class-tweaker/0.3.0-beta.2/class-tweaker-0.3.0-beta.2.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download11482552260993580189bin
+Downloading https://maven.fabricmc.net/net/fabricmc/unpick/unpick-format-utils/3.0.0-beta.13/unpick-format-utils-3.0.0-beta.13.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download4992596601507443278bin
+Downloading https://plugins.gradle.org/m2/org/jetbrains/kotlin/kotlin-metadata-jvm/2.3.20/kotlin-metadata-jvm-2.3.20.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download12155137990124944312bin
+Downloading https://maven.fabricmc.net/net/fabricmc/unpick/unpick/3.0.0-beta.13/unpick-3.0.0-beta.13.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download12837469265418954727bin
+Downloading https://plugins.gradle.org/m2/org/cadixdev/at/0.1.0-rc1/at-0.1.0-rc1.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download16857664377157386008bin
+Downloading https://plugins.gradle.org/m2/com/google/code/gson/gson/2.14.0/gson-2.14.0.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download5565086205839622758bin
+Downloading https://plugins.gradle.org/m2/com/google/errorprone/error_prone_annotations/2.48.0/error_prone_annotations-2.48.0.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download14340583619299313958bin
+Downloading https://maven.fabricmc.net/net/fabricmc/tiny-remapper/0.14.0/tiny-remapper-0.14.0.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download8424202103522136219bin
+Downloading https://plugins.gradle.org/m2/org/cadixdev/bombe/0.3.4/bombe-0.3.4.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download488852901092168140bin
+Downloading https://plugins.gradle.org/m2/org/cadixdev/lorenz/0.5.7/lorenz-0.5.7.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download15990985318871196183bin
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\class-tweaker\0.3.0-beta.2\71c710f85eb78d1873f548bad325bdd6d8992f82\class-tweaker-0.3.0-beta.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.ow2.asm\asm-commons\9.10.1\4229e4c55fd8e01c23f9fe9884075cc628aacc50\asm-commons-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.ow2.asm\asm\9.10.1\ada2141c0cc52ee8f5c48cd5fa4ce0e794f22236\asm-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\stitch\0.6.2\258353092961557791208c9653e7d93610dfe74a\stitch-0.6.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.ow2.asm\asm-util\9.10.1\7bb9d450e8d4cbf9f9e04096c44bbfe7fba80b15\asm-util-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.ow2.asm\asm-tree\9.10.1\e244332a17564c1d1572449399a842de35881be2\asm-tree-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc.unpick\unpick\3.0.0-beta.13\29de601c914d8cbf5aa0af3b63c852e2d143248d\unpick-3.0.0-beta.13.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.ow2.asm\asm-analysis\9.10.1\8d49f14d51f632cb1d87c88d1ceaf50db0d8af1b\asm-analysis-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\tiny-remapper\0.14.0\e9249ca2d1503164c4d4c9891e683d776b95af76\tiny-remapper-0.14.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc.unpick\unpick-format-utils\3.0.0-beta.13\7a5ee3ff320e973a6a53f3d8557f17db6b92e698\unpick-format-utils-3.0.0-beta.13.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\fabric-loom\1.17.21\971f00d987dc10c381551ed8533bbbc768b9fe8\fabric-loom-1.17.21.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\com.google.code.gson\gson\2.14.0\efc0e34ede4e3204eaefb84a00e55e8c86634382\gson-2.14.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\mapping-io\0.8.0\6e572f573c1fcd4916a5a3f457f2a8a950eb31b9\mapping-io-0.8.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\lorenz-tiny\4.0.2\1f5e748f1ff977a9ccbb3bdb35b2ec6a6e78d04a\lorenz-tiny-4.0.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\fabric-loom-native\0.2.0\2b335b1b1918af7a7d6ae5c739c708a99b3c1f9e\fabric-loom-native-0.2.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\mercurymixin\0.2.2\801fbebdd6a9ab19d142ba16bfd16cd15a8e4ebd\mercurymixin-0.2.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\mercury\0.4.3\e007ec37a7e64ff6eaaa38413c202d38ea4f63bd\mercury-0.4.3.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-metadata-jvm\2.3.20\4b6dc7915d060ec8c619f4be820e85fa69d738d1\kotlin-metadata-jvm-2.3.20.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\com.google.errorprone\error_prone_annotations\2.48.0\bbe30942a31d1778c74cb272321267eca82dc708\error_prone_annotations-2.48.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\tiny-mappings-parser\0.3.0+build.17\2f10540a290e382a7cd35c16ec3900046a4e252\tiny-mappings-parser-0.3.0+build.17.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.cadixdev\lorenz\0.5.7\68b615cec8ca89db6e55789b63046ccf363c8698\lorenz-0.5.7.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.cadixdev\bombe\0.3.4\5025aa95f382f9eeadc87eeb88dd2be0e08f17ec\bombe-0.3.4.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.cadixdev\at\0.1.0-rc1\5265fad46414922d093c124dc3a6d247c1314ec3\at-0.1.0-rc1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\7b647241cdbc485ce918a6d22284cc51\transformed\.gradle-instrumented-classpath.marker because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\7b647241cdbc485ce918a6d22284cc51\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\c9c8542d5aaea4ad29a7716f03f66acb\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\de356aa8431b8a0cacdaf040765e3e58\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\c45fe9f6cadf2bdbea88a9c6170f86d9\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\a251403cb8747fca9107f1d3421f695a\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\c85d08c1dcfdd0c6d27e52b030adc8da\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\04dc6329637027b572d6948dd3efe84e\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\3d0586048dadfdb34ffc2041ab557799\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\2c2e17661cc8a0b3d5ebea41583b55a1\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\26a6d72dde4b5e2786a4439308fb803e\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\bdc1bb64703e43a23eb34d9fe7994dd3\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\07f5634a47e03b7884d91515f03871fe\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\4416383a62c8e98c127c8f67e1bbb9d4\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\a0b01c44b3a358f8b75d29a291333e1c\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\fb45eccc841fc7329f293697bfcad059\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\1188377c1e1109e22ec620a29aef29d6\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\cb38c2fbf8a328898b2f3407bb4e68d2\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\2c916d514cfd7d0457e68ec9bebb9e1e\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\481863d50cf8b810a65d10acae88306e\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\0faac84f1badaae17d2681a484d502f7\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\5b6bbc28fe23d5d08da24e691f7033f3\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\b2b282462544b8cfa57f4b7dbc5877e2\transformed\analysis\instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\7b647241cdbc485ce918a6d22284cc51\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\c9c8542d5aaea4ad29a7716f03f66acb\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\c45fe9f6cadf2bdbea88a9c6170f86d9\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\a251403cb8747fca9107f1d3421f695a\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\de356aa8431b8a0cacdaf040765e3e58\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\c85d08c1dcfdd0c6d27e52b030adc8da\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\2c2e17661cc8a0b3d5ebea41583b55a1\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\04dc6329637027b572d6948dd3efe84e\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\3d0586048dadfdb34ffc2041ab557799\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\26a6d72dde4b5e2786a4439308fb803e\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\4416383a62c8e98c127c8f67e1bbb9d4\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\a0b01c44b3a358f8b75d29a291333e1c\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\bdc1bb64703e43a23eb34d9fe7994dd3\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\cb38c2fbf8a328898b2f3407bb4e68d2\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\fb45eccc841fc7329f293697bfcad059\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\bc68724919de6bc870cd029fe5fb724c\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\481863d50cf8b810a65d10acae88306e\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\2c916d514cfd7d0457e68ec9bebb9e1e\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\07f5634a47e03b7884d91515f03871fe\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\0faac84f1badaae17d2681a484d502f7\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\1188377c1e1109e22ec620a29aef29d6\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\b2b282462544b8cfa57f4b7dbc5877e2\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\5b6bbc28fe23d5d08da24e691f7033f3\transformed\analysis\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.ow2.asm\asm-commons\9.10.1\4229e4c55fd8e01c23f9fe9884075cc628aacc50\asm-commons-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc.unpick\unpick-format-utils\3.0.0-beta.13\7a5ee3ff320e973a6a53f3d8557f17db6b92e698\unpick-format-utils-3.0.0-beta.13.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\class-tweaker\0.3.0-beta.2\71c710f85eb78d1873f548bad325bdd6d8992f82\class-tweaker-0.3.0-beta.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\tiny-remapper\0.14.0\e9249ca2d1503164c4d4c9891e683d776b95af76\tiny-remapper-0.14.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\fabric-loom\1.17.21\971f00d987dc10c381551ed8533bbbc768b9fe8\fabric-loom-1.17.21.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\stitch\0.6.2\258353092961557791208c9653e7d93610dfe74a\stitch-0.6.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc.unpick\unpick\3.0.0-beta.13\29de601c914d8cbf5aa0af3b63c852e2d143248d\unpick-3.0.0-beta.13.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.ow2.asm\asm-util\9.10.1\7bb9d450e8d4cbf9f9e04096c44bbfe7fba80b15\asm-util-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.ow2.asm\asm-analysis\9.10.1\8d49f14d51f632cb1d87c88d1ceaf50db0d8af1b\asm-analysis-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.cadixdev\at\0.1.0-rc1\5265fad46414922d093c124dc3a6d247c1314ec3\at-0.1.0-rc1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\c6ce208a07a9631d45d40579c051b76b\transformed\.gradle-instrumented-classpath.marker because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\fabric-loom-native\0.2.0\2b335b1b1918af7a7d6ae5c739c708a99b3c1f9e\fabric-loom-native-0.2.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\com.google.code.gson\gson\2.14.0\efc0e34ede4e3204eaefb84a00e55e8c86634382\gson-2.14.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\lorenz-tiny\4.0.2\1f5e748f1ff977a9ccbb3bdb35b2ec6a6e78d04a\lorenz-tiny-4.0.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\com.google.errorprone\error_prone_annotations\2.48.0\bbe30942a31d1778c74cb272321267eca82dc708\error_prone_annotations-2.48.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.cadixdev\bombe\0.3.4\5025aa95f382f9eeadc87eeb88dd2be0e08f17ec\bombe-0.3.4.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.ow2.asm\asm-tree\9.10.1\e244332a17564c1d1572449399a842de35881be2\asm-tree-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\mapping-io\0.8.0\6e572f573c1fcd4916a5a3f457f2a8a950eb31b9\mapping-io-0.8.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.ow2.asm\asm\9.10.1\ada2141c0cc52ee8f5c48cd5fa4ce0e794f22236\asm-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.cadixdev\lorenz\0.5.7\68b615cec8ca89db6e55789b63046ccf363c8698\lorenz-0.5.7.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-metadata-jvm\2.3.20\4b6dc7915d060ec8c619f4be820e85fa69d738d1\kotlin-metadata-jvm-2.3.20.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\tiny-mappings-parser\0.3.0+build.17\2f10540a290e382a7cd35c16ec3900046a4e252\tiny-mappings-parser-0.3.0+build.17.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\mercurymixin\0.2.2\801fbebdd6a9ab19d142ba16bfd16cd15a8e4ebd\mercurymixin-0.2.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\mercury\0.4.3\e007ec37a7e64ff6eaaa38413c202d38ea4f63bd\mercury-0.4.3.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\644b5d659683defb1fb5cb16a92b9a97\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\3bccc910919e43068500a79079bc7c45\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\772c2994cdda768d29e72f90d12b9079\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\cf9844bdbf424e64b60b526cbcb7dd58\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\c6ce208a07a9631d45d40579c051b76b\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\2b7bec6bb2443766adcd0f91c089aead\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\ef82cbeda39d13636d1c3cb1d884b652\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\aff1f627241fde9794e6dad0f0f8b71e\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\38e3584bc5535ceb74c539da2560e4ee\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\b6f06d1a0095877f1ff1f4a1a43ed522\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\2ccf9c807bea7da7acc2214f23c1123c\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\6185b9715d3f97dbd8541e61b1dd241a\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\c32989cdf1e9282d2c9777431949897b\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\853ca1ec55c8f32cdc10297b4720c192\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\8227cd18f4110b72cde21ceac1d0829d\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\0f572338d897ed896abe5337ad393d1f\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\2aa81f4af704e13d49fddd4354c0ff70\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\f24739f9dccd90b62a90d1509cb847e2\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\ea96f6aa43a4d40afb86bdeb72caecaf\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\c80a781e3174bf453c00c85fa541e07c\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\360626531793235961465fc10883148a\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\52593b5a7bf46c4e5f710340dc2dc7ef\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\9.5.1\transforms\b5c9c37fad65f2587be86fcbfe23bbad\transformed\merge\instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\fabric-loom-native\0.2.0\2b335b1b1918af7a7d6ae5c739c708a99b3c1f9e\fabric-loom-native-0.2.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\lorenz-tiny\4.0.2\1f5e748f1ff977a9ccbb3bdb35b2ec6a6e78d04a\lorenz-tiny-4.0.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\mercurymixin\0.2.2\801fbebdd6a9ab19d142ba16bfd16cd15a8e4ebd\mercurymixin-0.2.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.cadixdev\at\0.1.0-rc1\5265fad46414922d093c124dc3a6d247c1314ec3\at-0.1.0-rc1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.ow2.asm\asm-analysis\9.10.1\8d49f14d51f632cb1d87c88d1ceaf50db0d8af1b\asm-analysis-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\com.google.errorprone\error_prone_annotations\2.48.0\bbe30942a31d1778c74cb272321267eca82dc708\error_prone_annotations-2.48.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.cadixdev\bombe\0.3.4\5025aa95f382f9eeadc87eeb88dd2be0e08f17ec\bombe-0.3.4.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\class-tweaker\0.3.0-beta.2\71c710f85eb78d1873f548bad325bdd6d8992f82\class-tweaker-0.3.0-beta.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.ow2.asm\asm-tree\9.10.1\e244332a17564c1d1572449399a842de35881be2\asm-tree-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\tiny-mappings-parser\0.3.0+build.17\2f10540a290e382a7cd35c16ec3900046a4e252\tiny-mappings-parser-0.3.0+build.17.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc.unpick\unpick-format-utils\3.0.0-beta.13\7a5ee3ff320e973a6a53f3d8557f17db6b92e698\unpick-format-utils-3.0.0-beta.13.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.ow2.asm\asm-commons\9.10.1\4229e4c55fd8e01c23f9fe9884075cc628aacc50\asm-commons-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.cadixdev\lorenz\0.5.7\68b615cec8ca89db6e55789b63046ccf363c8698\lorenz-0.5.7.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.ow2.asm\asm\9.10.1\ada2141c0cc52ee8f5c48cd5fa4ce0e794f22236\asm-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc.unpick\unpick\3.0.0-beta.13\29de601c914d8cbf5aa0af3b63c852e2d143248d\unpick-3.0.0-beta.13.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.ow2.asm\asm-util\9.10.1\7bb9d450e8d4cbf9f9e04096c44bbfe7fba80b15\asm-util-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\stitch\0.6.2\258353092961557791208c9653e7d93610dfe74a\stitch-0.6.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\tiny-remapper\0.14.0\e9249ca2d1503164c4d4c9891e683d776b95af76\tiny-remapper-0.14.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\mapping-io\0.8.0\6e572f573c1fcd4916a5a3f457f2a8a950eb31b9\mapping-io-0.8.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\com.google.code.gson\gson\2.14.0\efc0e34ede4e3204eaefb84a00e55e8c86634382\gson-2.14.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-metadata-jvm\2.3.20\4b6dc7915d060ec8c619f4be820e85fa69d738d1\kotlin-metadata-jvm-2.3.20.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\fabric-loom\1.17.21\971f00d987dc10c381551ed8533bbbc768b9fe8\fabric-loom-1.17.21.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\caches\modules-2\files-2.1\net.fabricmc\mercury\0.4.3\e007ec37a7e64ff6eaaa38413c202d38ea4f63bd\mercury-0.4.3.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Fabric Loom: 1.17.21
+(kotlin.metadata.jvm.KotlinClassMetadata) with version (2.3.20-release-208) was loaded from (/C:/Users/panda_piglet/AppData/Local/Temp/visual-keymap-gradle-analysis/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-metadata-jvm/2.3.20/4b6dc7915d060ec8c619f4be820e85fa69d738d1/kotlin-metadata-jvm-2.3.20.jar)
+(org.objectweb.asm.ClassVisitor) with version (9.10.1) was loaded from (/C:/Users/panda_piglet/AppData/Local/Temp/visual-keymap-gradle-analysis/caches/modules-2/files-2.1/org.ow2.asm/asm/9.10.1/ada2141c0cc52ee8f5c48cd5fa4ce0e794f22236/asm-9.10.1.jar)
+(org.objectweb.asm.tree.analysis.Analyzer) with version (9.10.1) was loaded from (/C:/Users/panda_piglet/AppData/Local/Temp/visual-keymap-gradle-analysis/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/9.10.1/8d49f14d51f632cb1d87c88d1ceaf50db0d8af1b/asm-analysis-9.10.1.jar)
+(org.objectweb.asm.commons.ClassRemapper) with version (9.10.1) was loaded from (/C:/Users/panda_piglet/AppData/Local/Temp/visual-keymap-gradle-analysis/caches/modules-2/files-2.1/org.ow2.asm/asm-commons/9.10.1/4229e4c55fd8e01c23f9fe9884075cc628aacc50/asm-commons-9.10.1.jar)
+(org.objectweb.asm.tree.ClassNode) with version (9.10.1) was loaded from (/C:/Users/panda_piglet/AppData/Local/Temp/visual-keymap-gradle-analysis/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/9.10.1/e244332a17564c1d1572449399a842de35881be2/asm-tree-9.10.1.jar)
+(org.objectweb.asm.util.ASMifier) with version (9.10.1) was loaded from (/C:/Users/panda_piglet/AppData/Local/Temp/visual-keymap-gradle-analysis/caches/modules-2/files-2.1/org.ow2.asm/asm-util/9.10.1/7bb9d450e8d4cbf9f9e04096c44bbfe7fba80b15/asm-util-9.10.1.jar)
+(com.google.gson.Gson) with version (null) was loaded from (/C:/Users/panda_piglet/AppData/Local/Temp/visual-keymap-gradle-analysis/caches/modules-2/files-2.1/com.google.code.gson/gson/2.14.0/efc0e34ede4e3204eaefb84a00e55e8c86634382/gson-2.14.0.jar)
+Caching disabled for Groovy DSL script compilation (proj) because:
+  Build cache is disabled
+  Not worth caching.
+Compiling build file 'E:\02_Development\01_Workspace\VisualKeyMap26.3\VisualKeyMap26.3-repo\build.gradle' using BuildScriptTransformer.
+Downloaded new Minecraft jars
+:Extracting server jar from bootstrap
+Skipping Minecraft jar verification!
+:merging jars
+Resource missing. [HTTP GET: https://maven.fabricmc.net/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.pom]
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-loader/0.19.3/fabric-loader-0.19.3.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download17963654843188104968bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/terraformersmc/modmenu/20.0.0-beta.3/modmenu-20.0.0-beta.3.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/maven/modrinth/commandkeys/3.103.0+26.2/commandkeys-3.103.0+26.2.pom]
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/0.152.2+26.2/fabric-api-0.152.2+26.2.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download2204036004589939625bin
+Resource missing. [HTTP GET: https://libraries.minecraft.net/com/terraformersmc/modmenu/20.0.0-beta.3/modmenu-20.0.0-beta.3.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.jar]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/maven/modrinth/commandkeys/3.103.0+26.2/commandkeys-3.103.0+26.2.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/com/terraformersmc/modmenu/20.0.0-beta.3/modmenu-20.0.0-beta.3.jar]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/maven/modrinth/commandkeys/3.103.0+26.2/commandkeys-3.103.0+26.2.jar]
+Resource missing. [HTTP GET: https://repo.maven.apache.org/maven2/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.pom]
+Resource missing. [HTTP GET: https://repo.maven.apache.org/maven2/com/terraformersmc/modmenu/20.0.0-beta.3/modmenu-20.0.0-beta.3.pom]
+Resource missing. [HTTP GET: https://repo.maven.apache.org/maven2/maven/modrinth/commandkeys/3.103.0+26.2/commandkeys-3.103.0+26.2.pom]
+Resource missing. [HTTP GET: https://jitpack.io/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.pom]
+Resource missing. [HTTP GET: https://jitpack.io/com/terraformersmc/modmenu/20.0.0-beta.3/modmenu-20.0.0-beta.3.pom]
+Resource missing. [HTTP GET: https://jitpack.io/maven/modrinth/commandkeys/3.103.0+26.2/commandkeys-3.103.0+26.2.pom]
+Resource missing. [HTTP GET: https://masa.dy.fi/maven/sakura-ryoko/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.pom]
+Resource missing. [HTTP GET: https://masa.dy.fi/maven/sakura-ryoko/maven/modrinth/commandkeys/3.103.0+26.2/commandkeys-3.103.0+26.2.pom]
+Resource missing. [HTTP GET: https://masa.dy.fi/maven/sakura-ryoko/com/terraformersmc/modmenu/20.0.0-beta.3/modmenu-20.0.0-beta.3.pom]
+Resource missing. [HTTP GET: https://maven.terraformersmc.com/releases/maven/modrinth/commandkeys/3.103.0+26.2/commandkeys-3.103.0+26.2.pom]
+Resource missing. [HTTP GET: https://maven.terraformersmc.com/releases/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.pom]
+Downloading https://maven.terraformersmc.com/releases/com/terraformersmc/modmenu/20.0.0-beta.3/modmenu-20.0.0-beta.3.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download6075522385332277463bin
+Resource missing. [HTTP GET: https://maven.fallenbreath.me/releases/maven/modrinth/commandkeys/3.103.0+26.2/commandkeys-3.103.0+26.2.pom]
+Resource missing. [HTTP GET: https://maven.fallenbreath.me/releases/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.pom]
+Downloading https://maven.terraformersmc.com/releases/com/terraformersmc/modmenu/20.0.0-beta.3/modmenu-20.0.0-beta.3.module to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download9147804235563253158bin
+Resource missing. [HTTP GET: https://api.modrinth.com/maven/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.pom]
+Downloading https://api.modrinth.com/maven/maven/modrinth/commandkeys/3.103.0+26.2/commandkeys-3.103.0+26.2.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download8919395168768597588bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api-base/2.0.4+ece063239e/fabric-api-base-2.0.4+ece063239e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download7775971234868110795bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-command-api-v2/3.1.0+00cb03469e/fabric-command-api-v2-3.1.0+00cb03469e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download5979771980001310035bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api-lookup-api-v1/2.0.17+11e1c9a39e/fabric-api-lookup-api-v1-2.0.17+11e1c9a39e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download5257196487817729954bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-key-mapping-api-v1/2.0.5+e2bdee789e/fabric-key-mapping-api-v1-2.0.5+e2bdee789e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download9471421912998081739bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-game-rule-api-v1/4.0.8+46a6d00c9e/fabric-game-rule-api-v1-4.0.8+46a6d00c9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download13419790339061927699bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-events-interaction-v0/5.2.6+8f57f7ee9e/fabric-events-interaction-v0-5.2.6+8f57f7ee9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download7396566212728707200bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-block-getter-api-v2/2.0.7+ec56b6019e/fabric-block-getter-api-v2-2.0.7+ec56b6019e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download15218858148342448836bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-content-registries-v0/11.2.2+b7a678a99e/fabric-content-registries-v0-11.2.2+b7a678a99e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download6976282555460726773bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-block-api-v1/3.0.3+ec56b6019e/fabric-block-api-v1-3.0.3+ec56b6019e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download4424753418521683093bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-registry-sync-v0/7.1.0+c7bd5b8e9e/fabric-registry-sync-v0-7.1.0+c7bd5b8e9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download16295102573940127423bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-menu-api-v1/2.0.16+086d547a9e/fabric-menu-api-v1-2.0.16+086d547a9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download8944764568414464254bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-crash-report-info-v1/1.0.5+086d547a9e/fabric-crash-report-info-v1-1.0.5+086d547a9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download18257626980701287710bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-object-builder-api-v1/24.0.6+46a6d00c9e/fabric-object-builder-api-v1-24.0.6+46a6d00c9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download13076094495361418845bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-client-gametest-api-v1/5.1.0+db5795489e/fabric-client-gametest-api-v1-5.1.0+db5795489e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download1955112583340546896bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-dimensions-v1/5.1.9+9cbf5da59e/fabric-dimensions-v1-5.1.9+9cbf5da59e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download11987428744378775023bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-rendering-fluids-v1/6.0.4+06488ac19e/fabric-rendering-fluids-v1-6.0.4+06488ac19e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download14262303919713838694bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-convention-tags-v2/4.6.4+2aae60389e/fabric-convention-tags-v2-4.6.4+2aae60389e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download10379935910969481767bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-creative-tab-api-v1/5.0.14+d871b99e9e/fabric-creative-tab-api-v1-5.0.14+d871b99e9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download13463520321782480798bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-gametest-api-v1/4.0.21+4a7fa0819e/fabric-gametest-api-v1-4.0.21+4a7fa0819e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download15610458866519310993bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-sound-api-v1/2.0.5+11a26f319e/fabric-sound-api-v1-2.0.5+11a26f319e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download4113482844849462693bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-lifecycle-events-v1/4.1.3+4575b05f9e/fabric-lifecycle-events-v1-4.1.3+4575b05f9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download14013323461392698680bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-data-generation-api-v1/25.4.2+5e56e5409e/fabric-data-generation-api-v1-25.4.2+5e56e5409e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download7145246977496561429bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-renderer-api-v1/14.0.2+93d3a2f59e/fabric-renderer-api-v1-14.0.2+93d3a2f59e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download8878535399082616566bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-renderer-indigo/9.0.2+e73ab60d9e/fabric-renderer-indigo-9.0.2+e73ab60d9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download7560623287347645563bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-entity-events-v1/5.0.5+06488ac19e/fabric-entity-events-v1-5.0.5+06488ac19e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download1960088751514567566bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-networking-api-v1/6.3.3+72073ef09e/fabric-networking-api-v1-6.3.3+72073ef09e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download14829174713843006704bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-tag-api-v1/2.1.3+794df31d9e/fabric-tag-api-v1-2.1.3+794df31d9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download15778168231750468127bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-loot-api-v3/3.0.17+06488ac19e/fabric-loot-api-v3-3.0.17+06488ac19e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download3543869616100140070bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-resource-conditions-api-v1/6.1.0+10e9a28b9e/fabric-resource-conditions-api-v1-6.1.0+10e9a28b9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download3142111363211342547bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-model-loading-api-v1/8.0.12+c80601bb9e/fabric-model-loading-api-v1-8.0.12+c80601bb9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download9525946495009887072bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-particles-v1/5.0.18+d1756aa99e/fabric-particles-v1-5.0.18+d1756aa99e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download11378222406103233040bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-resource-loader-v1/2.0.13+9edec1269e/fabric-resource-loader-v1-2.0.13+9edec1269e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download7803394661949783916bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-data-attachment-api-v1/2.2.16+aa0fd6fe9e/fabric-data-attachment-api-v1-2.2.16+aa0fd6fe9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download8725771603266237966bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-permission-api-v1/1.0.2+7c33558a9e/fabric-permission-api-v1-1.0.2+7c33558a9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download2034423674245230679bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-biome-api-v1/18.0.6+c7bd5b8e9e/fabric-biome-api-v1-18.0.6+c7bd5b8e9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download108151521258896289bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-debug-api-v1/1.0.2+c792624d9e/fabric-debug-api-v1-1.0.2+c792624d9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download8906391610523372479bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-serialization-api-v1/2.0.4+11a26f319e/fabric-serialization-api-v1-2.0.4+11a26f319e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download13591814759884504038bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-item-api-v1/14.1.6+0ecb053f9e/fabric-item-api-v1-14.1.6+0ecb053f9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download14158574983832166215bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-screen-api-v1/5.0.3+086d547a9e/fabric-screen-api-v1-5.0.3+086d547a9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download15441393678264028434bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api-deprecated/0.152.2+26.2/fabric-api-deprecated-0.152.2+26.2.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download16755048573776625501bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-transitive-access-wideners-v1/8.1.3+e098252d9e/fabric-transitive-access-wideners-v1-8.1.3+e098252d9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download6862264184294118149bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-transfer-api-v1/8.0.11+39b5a3929e/fabric-transfer-api-v1-8.0.11+39b5a3929e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download12337304119987730130bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-rendering-v1/25.1.6+46a6d00c9e/fabric-rendering-v1-25.1.6+46a6d00c9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download7695576537235288812bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-recipe-api-v1/9.0.20+11e1c9a39e/fabric-recipe-api-v1-9.0.20+11e1c9a39e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download9896288364685409051bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-message-api-v1/7.0.7+086d547a9e/fabric-message-api-v1-7.0.7+086d547a9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download4525375703213286359bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-resource-loader-v0/3.3.20+4fc5413f9e/fabric-resource-loader-v0-3.3.20+4fc5413f9e.pom to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download2650265704156156530bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-loader/0.19.3/fabric-loader-0.19.3.jar to C:\Users\panda_piglet\AppData\Local\Temp\visual-keymap-gradle-analysis\.tmp\gradle_download7205379432106553508bin
+Resource missing. [HTTP HEAD: https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api-deprecated/0.152.2+26.2/fabric-api-deprecated-0.152.2+26.2.jar]
+
+[Incubating] Problems report is available at: file:///E:/02_Development/01_Workspace/VisualKeyMap26.3/VisualKeyMap26.3-repo/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+A problem occurred configuring root project 'VisualKeyMap26.3-repo'.
+> Could not resolve all files for configuration ':mainRuntimeDependencyResolve'.
+   > Could not find fi.dy.masa.malilib:malilib-fabric-26.2:0.29.0.
+     Searched in the following locations:
+       - file:/E:/02_Development/01_Workspace/VisualKeyMap26.3/VisualKeyMap26.3-repo/.gradle/loom-cache/remapped_mods/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.pom
+       - file:/C:/Users/panda_piglet/AppData/Local/Temp/visual-keymap-gradle-analysis/caches/fabric-loom/minecraftMaven/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.pom
+       - file:/E:/02_Development/01_Workspace/VisualKeyMap26.3/VisualKeyMap26.3-repo/.gradle/loom-cache/minecraftMaven/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.pom
+       - https://maven.fabricmc.net/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.pom
+       - https://libraries.minecraft.net/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.pom
+       - https://libraries.minecraft.net/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.jar
+       - https://repo.maven.apache.org/maven2/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.pom
+       - https://jitpack.io/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.pom
+       - https://masa.dy.fi/maven/sakura-ryoko/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.pom
+       - https://maven.terraformersmc.com/releases/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.pom
+       - https://maven.fallenbreath.me/releases/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.pom
+       - https://api.modrinth.com/maven/fi/dy/masa/malilib/malilib-fabric-26.2/0.29.0/malilib-fabric-26.2-0.29.0.pom
+     Required by:
+         root project 'VisualKeyMap26.3-repo'
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.5.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 1m 18s
+Watched directory hierarchies: []

@@ -130,7 +130,7 @@
 | Fabric Loom | 1.17-SNAPSHOT | 1.19.3 | 官方当前示例写 `1.19-SNAPSHOT`；1.19.3 是同一发布线的稳定发布物，避免可变快照 | `build.gradle:2` |
 | Fabric Loader | 0.19.3 | 0.20.1 | 官方当前示例与 Loader 正式发布 | `gradle.properties:6`；`fabric.mod.json` 由占位符同步 |
 | Fabric API | 0.152.2+26.2 | 0.165.0+26.3 | 官方 26.3 最新发布（截至调查日） | `gradle.properties:13` |
-| MaLiLib | `26.2:0.29.0` | `26.3:0.30.2` | 26.3 Fabric 正式文件；当前 Maven 坐标形式可解析 | `gradle.properties:14` |
+| MaLiLib | 原属性 `26.2:0.29.0`，原坐标现为 404 | `0.30.2`，坐标 `maven.modrinth:malilib:0.30.2` | 26.3 Fabric 正式文件；2026-10-30 实测官方 Modrinth POM 返回 200。原 `fi.dy.masa.malilib:malilib-fabric-26.2:0.29.0` 在已声明仓库均不可解析 | `build.gradle:25,29`、`gradle.properties:14` |
 | CommandKeys | `3.103.0+26.2` | `3.104.1+26.3` | GitHub/Modrinth 26.3 Fabric 正式版 | `gradle.properties:15` |
 | Mod Menu | `20.0.0-beta.3` | `21.0.0` | 官方 26.3 正式版 | `gradle.properties:16` |
 
@@ -150,8 +150,9 @@
    - 原因：与 Fabric 官方当前 26.3 示例一致。
    - 风险：低到中。需检查配置缓存、发布任务和 IDE 导入；项目当前构建脚本较简单。
 
-3. `gradle.properties:5-6,13-16`
-   - 只更新上表版本值，不改变依赖 scope、仓库或 artifact 坐标结构。
+3. `gradle.properties:5-6,13-16` 与 `build.gradle:25,29`
+   - 更新上表版本值；MaLiLib 的两处依赖坐标改为官方 Modrinth Maven 的 `maven.modrinth:malilib:${project.malilib_version}`，属性值使用 `0.30.2`。
+   - 原坐标恢复测试证明 Loom 1.17.21 可下载，但 MaLiLib 旧坐标为 404；使用仓库外 init script 将它精确替换为 `maven.modrinth:malilib:0.29.0` 后，原版 `help`、`clean build` 和 `runClient` 启动均成功。故这是发布坐标变化，不是删除依赖或改变功能。
    - `compileOnly` + `runtimeOnly` 的第三方依赖安排保持不变，避免迁移时改变打包边界。
 
 4. `src/main/resources/fabric.mod.json:30`
@@ -276,7 +277,7 @@
 #### 发布与依赖
 
 - 正式 Fabric 文件：`malilib-fabric-26.3-0.30.2.jar`。
-- Gradle 值：`malilib_version=26.3:0.30.2`；现有依赖声明无需改结构。
+- Gradle 值：`malilib_version=0.30.2`；两处依赖声明使用官方 Modrinth Maven 坐标 `maven.modrinth:malilib:${project.malilib_version}`。原 Masa Maven 形式不再可解析，不能只替换属性中的 Minecraft 前缀。
 - 发布 JAR 元数据声明 Minecraft `>=26.3 <26.4`，环境为 client。
 
 #### API 对比

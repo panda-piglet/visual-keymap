@@ -1,21 +1,18 @@
 # Visual Keymap：Minecraft 26.3 迁移就绪性审查
 
 > 审查日期：2026-10-30  
-> 审查范围：Phase 1、Phase 2 调查成果，未修改功能源码、构建配置或版本号  
+> 审查范围：Phase 1、Phase 2 与 Phase 2.6 阻碍解除；未修改功能源码、构建配置或版本号
 > 源码基线：`USTC-XeF2/visual-keymap@053e736c77b15e0727c93abed7c94c3b0fb64618`  
-> 最终结论：**NO-GO**
+> Phase 2.6 复核结论：**CONDITIONAL GO**（仍需维护者批准键码提案并明确批准进入 Phase 3）
 
 ## 1. 结论摘要
 
-调查内容本身已经达到较高完整度：18 个 Java 源文件、5 个资源/元数据文件、README、构建文件和发布工作流均已纳入 Phase 1/2；Minecraft 26.3 源码、主要 API 变化和全部第三方 26.3 发布物也已有证据。JDK 25 阻碍已经解除，当前终端和 Gradle wrapper 均已实际使用 GraalVM 25.0.4。
+Phase 2.5 的三个 NO-GO 事项中，P0 正式工作树已经解除，P1 已建立可重复的基线构建/启动反馈回路，B1 已形成具体且经过 26.2 动态探针验证的编码提案。当前状态提升为 **CONDITIONAL GO**：可以在维护者另行明确批准 Phase 3 后从 A（构建环境和依赖）开始，但不得在键码提案获批前实现 B1，也不得在 26.2 对照资产到位前宣告行为兼容完成。
 
-当前仍**不适合开始 Phase 3**，原因不是缺少迁移方向，而是缺少可执行、可回滚的正式起点：
-
-1. 正式工作区 `VisualKeyMap26.3` 目前只有 `docs/`，没有 Visual Keymap 源码、Gradle wrapper 或 `.git`。现有源码只存在于临时调查副本，不能作为正式迁移工作树。
-2. 原始 26.2 基线尚未完成一次成功的 Gradle 项目初始化和构建。离线 `help` 精确失败于未缓存的 Loom 1.17.21；在线解析连续无进展后被主动终止。因此目前不能证明该环境能执行编译、`runClient` 或测试任务。
-3. 26.3-only 键没有 26.2 规范整数。若不先批准稳定的扩展编码及 version 1 行为，核心输入兼容层会在 public `List<Integer>`、鼠标 `0..7` 和快照语义之间产生不可逆的设计分歧。
-
-以上三项均有最小解除路径；第三方功能无需删除、禁用或用空实现替代。解除后应重新做一次短就绪性复核，再决定进入 Phase 3。
+- P0：正式仓库、远端、分支、基线和独立文档提交均已验证，生产文件零差异。
+- P1：Loom 1.17.21 可在线恢复；原失败的真实根因是 MaLiLib 0.29.0 的旧 Maven 坐标已返回 404。使用仓库外精确同版本 Modrinth 坐标别名后，`help`、`clean build` 和 `runClient` 启动链均成功。
+- B1：提议使用 `0x01000000` 扩展 namespace；首批 127 键为 `0x01000001..0x0100007F`。完整规则见 [`KEYCODE-DESIGN.md`](KEYCODE-DESIGN.md)，仍等待维护者批准。
+- 26.2 资产：构建日志、启动日志、默认 options/config 和自动探针已取得；真实交互快照、第三方配置和人工视觉行为仍待准备，但不阻碍 Phase 3 的 A 单元。
 
 ## 2. 审查依据与覆盖范围
 
@@ -26,22 +23,24 @@
 - [`COMPATIBILITY.md`](COMPATIBILITY.md)：mod/entrypoint/public API/provider/snapshot/Mixin/第三方兼容契约。
 - [`TEST-PLAN.md`](TEST-PLAN.md)：26.2→26.3 对照矩阵和功能回归用例。
 - [`MIGRATION-PLAN.md`](MIGRATION-PLAN.md)：依赖版本、旧/新 API、修改位置、风险、顺序和验证。
+- [`KEYCODE-DESIGN.md`](KEYCODE-DESIGN.md)：Phase 2.6 扩展整数布局、version 1 策略和旧版安全行为。
 
-目录内没有其他调查报告。为检查“是否漏查模块”，还重新枚举并核对上游基线：18 个 `src/main/java` 文件全部在上述文档中有对应职责或修改判断；`fabric.mod.json`、`visual-keymap.mixins.json`、两份语言文件、图标、README/README.zh-CN、`build.gradle`、`gradle.properties`、`settings.gradle` 和发布 workflow 均已检查。未发现未调查的生产代码模块。
+[`evidence/`](evidence/) 保存 Phase 2.6 的原配置失败日志、环境别名后的成功日志、客户端启动日志、26.2 动态探针输出和冻结映射表。为检查“是否漏查模块”，还重新枚举并核对上游基线：18 个 `src/main/java` 文件全部在上述文档中有对应职责或修改判断；`fabric.mod.json`、`visual-keymap.mixins.json`、两份语言文件、图标、README/README.zh-CN、`build.gradle`、`gradle.properties`、`settings.gradle` 和发布 workflow 均已检查。未发现未调查的生产代码模块。
 
 本次只修订了调查文档：
 
 - 修正 `TEST-PLAN.md` 的 M-02，取消“所有 `< -1` 都按鼠标偏移”的旧假设，限定 MaLiLib 鼠标码为 `-99..-92`，并加入其他负值/gamepad 保留验证。
 - 在 `TEST-PLAN.md` 新增 S-01–S-08 SDL/规范键码专项。
 - 在 `MIGRATION-PLAN.md` 更新 Java/Gradle 环境事实，并补充 Phase 3 前置门槛、独立实施单元、依赖关系、停止条件和 Git 回滚策略。
+- Phase 2.6 新增 `KEYCODE-DESIGN.md` 和构建/探针证据；再次修订 `MIGRATION-PLAN.md` 的 MaLiLib Maven 坐标，并把本报告状态更新为 CONDITIONAL GO。
 
 ## 3. 正式审查表
 
 | 审查项目 | 当前状态 | 证据或验证结果 | 剩余风险 | 是否阻碍 Phase 3 |
 | --- | --- | --- | --- | --- |
 | 用户可见功能清单 | READY | `BASELINE.md` 覆盖三个入口、键盘可视化、筛选/排序/冲突、编辑/重置、配置、导入导出、保存和本地化；关键方法包括 `VisualKeymap.onInitializeClient()`、`ControlsScreenMixin.addKeymapOptionAndRedirect()`、`VisualKeymapScreen`、`KeyboardWidget`、`KeybindsListWidget` | 真实 26.2 交互参照尚未录屏/固化 | 否；作为 Phase 3 首批夹具风险管理 |
-| 源码与资源模块覆盖 | READY | 18/18 Java 文件和 5/5 `src/main/resources` 文件已纳入文档；README、构建文件和 workflow 也已复核 | 临时源码副本不是正式工作树 | 正式工作树问题另列为 blocker |
-| Minecraft 原生按键集成 | PARTIAL | 已定位 `MinecraftImpl.getKeyCodes()/setBoundKeys()`、`KeyMappingAccessor`、`KeyMapping.resetMapping()`、`Options.save()`；26.3 `InputConstants`/`KeyMapping` 源码已核对 | GLFW→SDL 数值、unknown、鼠标顺序、F25 和新增键仍需实现/运行验证 | 新增键编码决策阻碍；其余可在迁移中控制 |
+| 源码与资源模块覆盖 | READY | 正式仓库含 18/18 Java 文件和 5/5 `src/main/resources` 文件；文档、README、构建文件和 workflow 均已复核 | 无未调查生产模块 | 否 |
+| Minecraft 原生按键集成 | PARTIAL | 已定位全部调用点；[`KEYCODE-DESIGN.md`](KEYCODE-DESIGN.md) 定义旧键、鼠标、127 个新增键和 version 1 规则，26.2 探针证明候选扩展值可原值往返 | 提案尚待维护者批准；F25 物理触发和真实 GUI/provider 往返仍待验证 | 只阻碍 B1/B2，不阻碍先执行 A |
 | GUI、渲染和文本输入 API | PARTIAL | 26.3 源码确认 `OptionsSubScreen`、layout、`GuiGraphicsExtractor`、`InputWithModifiers`、`TextInputManager` 等所用接口仍存在；计划未要求无关重构 | 渲染缩放、焦点、IME、narration、文件对话框只能运行时验证 | 否 |
 | Fabric API/Loader 集成 | READY | `ClientModInitializer`、`KeyMappingHelper`、`ClientTickEvents.END_CLIENT_TICK`、Loader entrypoint 机制均有目标版本和签名证据（静态） | 尚未在目标运行时加载 | 否；运行矩阵是 Phase 3 验收门槛 |
 | Mixin 目标 | PARTIAL | `ControlsScreenMixin`、`HeaderAndFooterLayoutAccessor`、`KeyMappingAccessor` 的 26.3 类/字段/调用点已做源码/字节码核对 | redirect 命中次数、accessor 映射和生产环境 apply 仍未运行 | 否；必须在 V 单元失败即停 |
@@ -52,14 +51,14 @@
 | 测试覆盖设计 | READY | B/N/V/L/E/C/X/M/K/MM/API 和新增 S-01–S-08 覆盖用户可见行为、依赖缺席、外部 provider、Mixin 与 SDL 碰撞（计划层） | 仓库无测试框架、测试代码或已运行结果；P6 消费方夹具未建立 | 否；测试基础设施需独立提交审查 |
 | JDK 25 | READY | 当前 `java -version`、`javac -version` 均为 25.0.4；process/machine `JAVA_HOME` 均指向 GraalVM 25.0.4 | Codex Java 的 `user.home=C:/` 是单独的宿主环境异常 | 否 |
 | Gradle 实际 JVM | READY | 原项目 wrapper 报告 Gradle 9.5.1；Launcher JVM 25.0.4，Daemon JVM 指向 GraalVM 25.0.4 | 未指定 `GRADLE_USER_HOME` 时尝试写 `C:/.gradle`；Codex daemon 需 Unix-domain temp workaround | 否；有明确命令级规避，普通终端需复核 |
-| 目标依赖版本组合 | PARTIAL | 计划组合为 Java 25、Gradle 9.8.2、Loom 1.19.3、Loader 0.20.1、Fabric API 0.165.0+26.3；发布元数据/官方示例支持该组合 | 尚未在正式项目冷缓存解析与编译 | 是，与基线构建/正式源码共同构成执行阻碍 |
+| 目标依赖版本组合 | PARTIAL | 计划组合为 Java 25、Gradle 9.8.2、Loom 1.19.3、Loader 0.20.1、Fabric API 0.165.0+26.3；MaLiLib 0.30.2 的官方 Modrinth POM 实测可解析 | 尚未在正式项目冷缓存完成 26.3 编译 | 否；这是 Phase 3 A 的首个验收门槛 |
 | Minecraft 26.3 源码 | READY | `E:/02_Development/01_Workspace/04_MinecraftCodeDigging/26.3/src/main/resources/version.json` 明确 `id/name=26.3`；7,303 个 Java 文件，目标 API 已源码级复核 | 反编译源码不能代替运行测试 | 否 |
 | Minecraft 26.2 证据 | PARTIAL | 上游模组源码、官方 26.2 client JAR 和既有 `javap`/字节码结果可用 | 没有完整 26.2 反编译源码和已运行参照实例 | 否；实际行为由 P1 参照实例补足 |
-| 正式 Visual Keymap 工作树 | BLOCKED | 当前根目录仅有 `docs/`，`Test-Path .git=False`；临时副本 HEAD 为目标提交且干净，但不在正式工作区 | 无法实施、提交、比较或安全回滚 | **是** |
-| 基线构建与依赖解析 | BLOCKED | 离线 `gradlew help` 失败于未缓存 `net.fabricmc:fabric-loom:1.17.21`；在线探测在 daemon 启动后 60 秒无进展并终止；没有成功 `build` | 不能区分后续错误是环境、旧 snapshot 失效还是迁移引入 | **是** |
-| 编译、启动、测试任务可执行性 | BLOCKED | `--version` 可执行，但尚无 `help`、`clean build`、`runClient` 或测试成功记录 | Phase 3 无可用反馈回路 | **是** |
+| 正式 Visual Keymap 工作树 | READY | 正式仓库 HEAD 起点为 `053e736`，分支 `port/mc-26.3`；origin 为 `panda-piglet/visual-keymap`，upstream 为 `USTC-XeF2/visual-keymap`；文档提交 `97cc831` 后工作树干净 | 文档后续更新尚待第二次独立提交 | 否 |
+| 基线构建与依赖解析 | PARTIAL | Loom 1.17.21 已在线下载；原坐标直接失败于 MaLiLib 0.29.0 404；仓库外 init script 精确替换为同版本官方 Modrinth artifact 后 `help` 与 `clean build` 成功 | 原构建文件本身仍含失效坐标；目标迁移 A 必须改为官方 Modrinth 坐标 | 否；根因、恢复方法和 Phase 3 最小修改均明确 |
+| 编译、启动、测试任务可执行性 | READY | `clean build` 成功，主 JAR/sources JAR 生成；`runClient` 加载 Minecraft 26.2、Fabric、MaLiLib、Mod Menu、Visual Keymap 并完成图形/声音/资源初始化 | 当前 `test` 为 `NO-SOURCE`；只证明任务链和客户端启动，不证明用户交互 | 否 |
 | 任务拆分与依赖关系 | READY | `MIGRATION-PLAN.md` 已补 P0/P1/A/B1/B2/C1–C3/V 单元、依赖和单元验收；先构建再 API 的顺序明确（计划层） | 只有在正式 Git 工作树中才能执行 | 否；由工作树 blocker 覆盖 |
-| Git 回滚和失败处理 | PARTIAL | 已规定专用分支、分单元检查点、测试/生产分离提交、`git revert`、禁止清除不明修改和停止门槛 | 当前没有 `.git`，策略无法落地 | **是**，直到 P0 完成 |
+| Git 回滚和失败处理 | READY | 专用分支已存在；基线提交与独立文档提交可作为两个检查点，生产文件相对 `053e736` 零差异 | 后续仍需按 A/B1/B2/C/V 分提交 | 否 |
 
 ## 4. 完整性、一致性与假设审查
 
@@ -106,14 +105,21 @@ Phase 2 已证明 MaLiLib 0.30.2 的负值不再都代表鼠标，只有 `-99..-
 
 ### 5.3 构建反馈回路
 
-当前只能运行 wrapper 版本检查，不能完成项目配置。离线错误为：
+Phase 2.6 的首次原配置在线 `help` 已证明 Loom 1.17.21 正常存在并成功下载。项目配置随后失败于：
 
 ```text
-Could not resolve net.fabricmc:fabric-loom:1.17.21
-No cached version ... available for offline mode
+Could not find fi.dy.masa.malilib:malilib-fabric-26.2:0.29.0
 ```
 
-在线探测没有在合理时间内产生进展。未取得以下任一成功证据：`gradlew help`、`gradlew clean build`、`gradlew runClient`、测试任务。因此“迁移后可编译、可启动、可测试”目前是 **BLOCKED**，不能仅凭版本元数据判为就绪。
+原声明仓库中的该 POM/JAR 均返回 404；同一个 MaLiLib 0.29.0 官方发布物仍在 Modrinth，`maven.modrinth:malilib:0.29.0` POM 返回 200。为保持项目文件不变，复核使用仓库外 init script 做精确坐标替换。结果：
+
+- `gradlew help`：成功，36 秒；
+- `gradlew clean build`：成功，55 秒；`compileJava`、resources、JAR、sources JAR 和 build 均执行；`test` 为 `NO-SOURCE`；
+- `gradlew runClient`：成功进入 26.2 客户端渲染线程，加载 Visual Keymap 1.4.0、MaLiLib 0.29.0、Mod Menu、Fabric API；Mixin subsystem 为 Java 25，OpenGL、OpenAL 和资源图集初始化完成后由审查者主动终止。
+
+日志位于 [`evidence/`](evidence/)。启动中的 Windows performance counter、离线开发用户 401、首次无 MaLiLib 配置文件等错误不导致客户端启动失败，也不是 Visual Keymap 源码问题。
+
+结论：基线构建反馈回路已恢复。原项目构建配置仍不可在无 init script 时直接解析 MaLiLib，这是已定位的发布坐标变化；Phase 3 A 必须把 0.30.2 的两处依赖声明改为官方 Modrinth 坐标，不能继续声称“只改属性值即可”。
 
 ## 6. 第三方依赖与功能保留审查
 
@@ -142,59 +148,92 @@ No cached version ... available for offline mode
 
 Git 策略现已明确：从精确基线创建专用分支，按 P0/A/B1/B2/C1/C2/C3/V 设置检查点，测试基础设施独立提交；失败时 revert 单一检查点或在新分支重做，不对不明修改执行硬重置。涉及 API/schema/provider ID、删除第三方功能、修既有 Bug 或键码碰撞时必须停止并重新审查。
 
-## 8. 问题分级
+## 8. Phase 2.6 四项状态
 
-### BLOCKER：Phase 3 前必须解决
+| 项目 | 状态 | 实际证据 | 剩余问题 | 是否仍阻碍迁移 |
+| --- | --- | --- | --- | --- |
+| P0 正式 Git 工作树 | READY | 正式仓库 `.git` 存在；起点 `053e736c77b15e0727c93abed7c94c3b0fb64618`；`origin=https://github.com/panda-piglet/visual-keymap.git`；`upstream=https://github.com/USTC-XeF2/visual-keymap.git`；分支 `port/mc-26.3`；初始调查文档提交 `97cc831`，Phase 2.6 设计/证据另有独立文档提交；生产文件相对基线无差异 | 无 | 否 |
+| P1 原版构建 | PARTIAL | JDK/Gradle 均为 25；Loom 1.17.21 成功解析；环境别名后 `help`、`clean build` 成功且 `runClient` 完成客户端初始化 | 原 MaLiLib 0.29.0 坐标已 404，未经 init script 的原配置仍失败；Phase 3 A 必须改用官方 Modrinth 坐标 | 不阻碍 A；未修坐标前阻碍目标 clean build |
+| B1 新增键码设计 | PARTIAL | 121 个旧键、247 个目标键、127 个新增键和 F25 差异已自动枚举；`0x01000001..0x0100007F` 零碰撞；26.2 InputConstants/JSON 探针原值往返成功 | [`KEYCODE-DESIGN.md`](KEYCODE-DESIGN.md) 尚待维护者批准；真实旧版 GUI/provider 往返待测 | **阻碍 B1/B2 实现，不阻碍 A** |
+| 26.2 测试资产 | PARTIAL | 已有构建产物、构建/启动日志、默认 `options.txt`、默认 `visualkeymap.json`、扩展码探针和冻结映射表 | 缺真实交互导出的 version 1 文件、第三方配置改动和视觉/交互记录 | 不阻碍 A；阻碍 B2/C/V 的最终兼容验收 |
 
-#### B-1 正式源码和 Git 基线缺失
+## 9. 问题分级
 
-当前工作区只有文档且无 `.git`。必须把 Visual Keymap 正式源码放入本工作区，验证 HEAD/基线为 `053e736c77b15e0727c93abed7c94c3b0fb64618`，确认远端和工作树状态，并建立专用迁移分支。临时调查目录不能替代此步骤。
+### BLOCKER
 
-#### B-2 没有成功的基线构建反馈回路
+- **B1 开始前必须批准扩展键码提案。**批准范围是 namespace、冻结 ID、version 1 承载、26.2“保留但不可触发”、未知扩展不覆盖和 F25 tombstone。未经批准不得实现输入兼容层。
+- **进入 Phase 3 仍需要维护者明确指令。**本报告的 CONDITIONAL GO 不是自动开工授权。
 
-必须在不修改原版本/构建配置的情况下完成 `gradlew help` 和 `gradlew clean build`，或证明旧 Loom snapshot 已从上游不可恢复并由维护者批准把“仅构建环境恢复”作为独立、首个可回滚任务。还需至少确认 `runClient` 能进入启动流程。否则后续无法可靠归因迁移错误。
+### RISK
 
-#### B-3 26.3-only 键的扩展编码与快照规则未决
+- 原 MaLiLib Maven 坐标已失效；Phase 3 A 必须在独立构建提交中改用 `maven.modrinth:malilib:0.30.2`，保留 `compileOnly`/`runtimeOnly` 语义。
+- F25 数据可保留，但 26.3 没有物理键；不得映射到 SDL 314 或近似键。
+- MaLiLib gamepad/其他负值必须保持未编辑数据，不得沿用所有 `< -1` 都按鼠标转换的规则。
+- required Mixin 目前只有 26.2 启动成功和 26.3 静态目标证据；目标 runtime apply 仍是 V 单元门槛。
+- 外部 `KeyBinding` 的 README 可实现性、无可选依赖 classpath、GUI/IME/narration/文件对话框仍需专项验证。
+- 真实 26.2 对照资产未齐；在其到位前不能判断用户行为完全等价。
 
-建议批准以下原则：既有 26.2 规范整数和鼠标 `0..7` 不变；为新增键使用带命名空间、无碰撞、可稳定往返的扩展整数；裸 SDL 值只存在于兼容层边界；version 1 对扩展值的写入/读回行为必须明确并有测试。若选择 typed key，也必须证明不会改变 public `List<Integer>` 和现有 snapshot schema。该决策必须在 B1 实现前完成。
+### NON-BLOCKING
 
-### RISK：可在迁移过程中控制
+- 缺少完整 26.2 反编译源码；官方 JAR、运行探针和正式模组源码已足以支持迁移分析。
+- Codex 的 `user.home` 和 Unix-domain socket 异常；明确的 `GRADLE_USER_HOME`/`JAVA_TOOL_OPTIONS` 只影响调查宿主，不要求修改项目。
+- `runClient` 中的 Windows performance counter、离线开发用户 401 和首次缺少 MaLiLib 配置文件日志不阻止客户端启动。
+- 现有测试任务为 `NO-SOURCE`；可在 Phase 3 以独立测试基础设施提交补充，不与生产适配混合。
 
-- F25 数据可保留，但物理触发可能受 26.3 SDL 后端限制；S-06 要求可复现证据，不能静默换键。
-- MaLiLib gamepad/其他负值超出原 26.2 功能范围；未编辑时必须无损，编辑行为等待真实实例验证。
-- required Mixin 只有静态证据；任何 apply 失败都应停止 V 单元。
-- 外部 `KeyBinding` 的 README 可实现性可能存在 26.2 既有缺陷；API-01 先建立旧版本事实。
-- 真实 26.2 golden snapshot、P1–P6 运行目录和测试消费方尚未创建。
-- GUI 缩放、IME、narration、文件对话框与错误路径依赖人工回归。
-- 默认构建同时声明多个可选 runtime 依赖；“无可选依赖”实例的 classpath/run 方案需在测试基础设施中明确，不能只删除 JAR 后假定有效。
-- 目标依赖组合已有发布证据但未做本机冷缓存解析；执行时仍可能出现仓库或 transitive dependency 问题。
+## 10. 26.2 最小测试资产清单
 
-### NON-BLOCKING：不妨碍迁移目标
+以下清单只要求维护者提供必须来自真实 26.2 游戏操作的材料。代码可生成的夹具由迁移执行者负责，不要求维护者手工制作。
 
-- 没有完整 26.2 反编译源码；官方 JAR、基线源码和运行参照可以补足。
-- 当前 Codex 的 `user.home`/Unix-domain socket 异常；已有单次环境变量 workaround，且不要求修改项目。
-- 现有仓库没有自动化测试；测试计划已完整，测试基础设施可作为 Phase 3 独立提交建立。
-- 26.2 已有 Bug、README/实现不一致或异常路径问题；只记录并保持，不纳入迁移修复。
-- 三个第三方模组已有正式 26.3 发布物，不需要功能降级方案。
+### 10.1 自动生成，不需要维护者提供
 
-## 9. 开始迁移前需要维护者作出的技术决策
+- 有效/无效 version 1 JSON：未知 provider/ID、空 keys、mouse `0..7`、modifier-only、未知 version、null、缺字段和非法 JSON。
+- 121 个旧键、127 个扩展键、F25、unknown、边界值和碰撞测试数据。
+- API-01 外部 provider 测试模组源码、异常 entrypoint、稳定 provider/ID/order 夹具。
+- 默认 `visualkeymap.json`、期望 schema、public 签名清单、构建产物哈希和自动化断言。
+- 只读/不可写目录、重复导出、排序/冲突算法等可由 harness 构造的测试条件。
 
-1. **必须决定：26.3-only 键编码。**建议采用稳定的 tagged integer namespace，保持所有既有整数与 version 1 字段不变，并在 S-07 中验证。还需明确旧 26.2 客户端读到扩展值时的预期是“保留但不可触发”还是拒绝导入；不得默认为裸 SDL 数字。
-2. **建议确认：允许添加最小测试基础设施。**若批准，应把 test source set/依赖修改作为独立提交；若不批准，则必须接受 SDL 映射、golden file 和 API 消费方只能用外部 harness/人工方式执行，回归置信度会降低。
-3. **执行时决定：若旧 Loom 1.17.21 已无法解析，是否接受独立恢复提交。**该提交只恢复 26.2 基线构建，不得同时改 Minecraft 版本或功能代码，并应在迁移分支上保留完整失败证据。
+### 10.2 必须从实际 26.2 游戏操作取得的文件
 
-## 10. 最终决策与最小解除清单
+请使用一个独立的 26.2 实例，安装 Visual Keymap 1.4.0、Fabric API、Mod Menu 20.0.0-beta.3、MaLiLib 0.29.x、至少一个真正注册 MaLiLib 热键的模组、CommandKeys 3.103.0。完成下述最小改动后提供一个压缩包：
 
-### 决策：NO-GO
+1. 一个原版键盘绑定改为非默认键；一个原版绑定改为鼠标；另一个原版绑定清空。
+2. 一个 MaLiLib 单键、一个 2 键组合、一个鼠标热键。
+3. CommandKeys 准备一个单键宏和一个 limit+主键宏，并至少有两个 profile。
+4. 在 Visual Keymap 中切换三项配置后正常离开并重启一次。
+5. 通过模组的导出按钮生成真实 `visualkeymap-export.json`。
 
-JDK、目标源码、API 调查和第三方版本已经足够，但正式源码/Git 工作树、成功构建反馈回路和新增键编码契约尚未到位。此时进入 Phase 3 会让实现无法安全提交/回滚，也无法判断编译失败来自基线环境还是迁移，因此不能给出 GO 或 CONDITIONAL GO。
+压缩包只需包含：
 
-解除 NO-GO 所需的最小工作：
+- `visualkeymap-export.json`；
+- `options.txt`；
+- `config/visualkeymap.json`；
+- 本次实际发生变化的 MaLiLib 所属模组配置文件；
+- CommandKeys 配置文件；
+- 对应运行的 `logs/latest.log`；
+- 一个简短 `versions.txt`，写明精确 mod 文件名和所用 profile/绑定名称。
 
-1. 在正式工作区放置 Visual Keymap Git 仓库，验证精确基线、远端、工作树和专用迁移分支。
-2. 使用当前已验证的 JDK 25，在未改版本的基线完成 `gradlew help`、`gradlew clean build`，并确认 `runClient` 至少进入启动流程；保存命令和日志。若旧 Loom 不可恢复，先提交证据并取得“独立恢复构建环境”的批准。
-3. 维护者批准 26.3-only 键的扩展编码与 version 1 行为原则。
-4. 固化最小 26.2 比较资产：至少一份真实 version 1 快照、一份原版/第三方配置集和 API-01 的 26.2 编译结果。
-5. 按上述结果更新本报告中的 BLOCKED 行；全部解除后再给出 GO/CONDITIONAL GO，并从 `MIGRATION-PLAN.md` 的 P0/P1/A 开始。
+不要提供整个 `.minecraft`、账号文件、服务器地址、聊天记录或无关配置。若配置中含隐私内容，应先使用专门测试 profile/宏，避免事后编辑破坏证据。
 
-本审查到此停止。未开始 Phase 3，未修改任何功能源码、构建配置或版本号。
+### 10.3 必须人工观察或录制
+
+最少提供三段短录屏，或一段连续录屏并附时间点：
+
+1. **入口与返回链：**原版“选项→控制”按钮、Visual Keymap 独立快捷键、Mod Menu 入口各打开一次，并显示返回到正确父屏。
+2. **输入行为：**原版改键、编辑中 Esc 清空、左/右/中鼠标；MaLiLib 两键组合的按下/释放结束时机；CommandKeys limit+主键。M4/M5 无硬件时只需注明“不可用”，不要求模拟。
+3. **GUI 与持久化：**键盘高亮/冲突、搜索和三种排序、导入预览勾选/取消、完成后重启并展示绑定仍存在。另记录通过 Done、Esc、打开其他屏幕离开主界面的保存结果；可在同一录像中分段完成。
+
+语言和缩放最低覆盖 `zh_cn` 与 `en_us` 各一张主界面截图、一个小/中/大 GUI 缩放对照。IME、narration、只读目录和无效 JSON 的异常行为可在后续专项人工回归中记录，不要求放入首批压缩包。
+
+## 11. 最终决策
+
+### 决策：CONDITIONAL GO
+
+P0 已完全解除；P1 已建立可用反馈回路并精确定位旧坐标问题；B1 已从抽象原则收敛为可审查的具体设计。剩余事项不再阻碍从 Phase 3 的 A 单元开始，但必须遵守：
+
+1. 维护者另行明确批准进入 Phase 3；本阶段不自动开始。
+2. A 单元先只迁移构建环境和依赖，并修正 MaLiLib 官方 Maven 坐标；验收为目标依赖解析、`clean build` 到达实际编译及产物元数据正确。
+3. [`KEYCODE-DESIGN.md`](KEYCODE-DESIGN.md) 获得明确批准前，不得实现 B1/B2。
+4. 26.2 实际资产最迟在 B2/C 的行为改动合并前到位；缺失项不能用“源码看起来一致”代替。
+5. 自动化测试基础设施、生产适配和第三方 adapter 分开提交，继续使用既定停止/回滚策略。
+
+本审查到此停止。未开始 Phase 3，未修改任何功能源码、构建配置或版本号，未合并主分支，也未发布版本。
