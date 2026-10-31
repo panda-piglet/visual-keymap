@@ -177,8 +177,8 @@ P1、P2、P3、P4、P5 均需建立 26.2 参照与 26.3 目标实例，使用独
 - 26.2 GUI 渲染提取和布局 API 的全部使用。
 - 按键捕获状态机，尤其多键必须在释放前完成的交互。
 - 原版 debug modifier、`KeyMapping.order` 参与冲突的语义。
-- CommandKeys、Mod Menu 单独存在/缺席时的完整类加载与 API 链接；MaLiLib 存在/缺席组合已在 C1 探针中通过。
-- 第三方 provider entrypoint 的真实可实现性。
+- CommandKeys、Mod Menu 和 MaLiLib 的存在/缺席类加载矩阵已分别在 C1–C3 探针中通过；各自 GUI 与实际触发仍有人工项目。
+- 第三方 provider entrypoint 的外部包编译、Loader 发现、失败隔离和通用契约已在 C3 通过；GUI 实际显示/点击仍需人工观察。
 - 配置读写、错误路径和默认值。
 - 快照 schema、provider/ID 稳定性、鼠标码与 modifiers 现状。
 - 本地化、GUI 缩放、辅助 narration 与文件对话框的平台差异。
@@ -261,3 +261,21 @@ C1 的自动化和真实对象适配已收口；仍需人工完成 GUI 可见行
 | Minecraft/MaLiLib 回归 | **PASS（build/JUnit/启动）** | `clean test` 7 tests、`clean build` 均通过；MaLiLib 存在/缺席和 CommandKeys 共存启动通过。未重复 B2/C1 人工 GUI 项。 |
 
 仍需人工完成：CommandKeys GUI 显示/搜索/profile 切换、按住/释放编辑、重置按钮状态、本地世界内无害宏实际触发，以及多个同时未绑定宏的 26.2→26.3 对照。完整证据和命令见 `PHASE3-C2-REPORT.md`。
+
+## 18. Phase 3 C3 Mod Menu 与公开 API 执行状态
+
+2026-10-31 使用 Mod Menu 21.0.0、原始提交 `053e736c77b15e0727c93abed7c94c3b0fb64618` 和当前 26.3 分支完成 C3。C3-A/C3-B 探针分别位于独立 `c3aTestmod`、`c3bTestmod` source set；发布 JAR 扫描确认不含测试类。
+
+| ID/子项 | 状态 | 证据与剩余边界 |
+| --- | --- | --- |
+| N-03 / MM-01 配置入口 | **PASS（entrypoint/factory）/ NOT TESTED（真实点击）** | Loader 发现 `visual-keymap` 提供的 `ModMenuImpl`；工厂实际创建 `VisualKeymapScreen`。当前 computer-use 只返回浏览器 surface，未暴露 SDL 窗口，故未把程序化工厂调用冒充 Mod Menu 列表点击。 |
+| MM-02 返回链 | **PASS（运行时 onClose）/ NOT TESTED（物理 Done/Esc）** | 两个独立屏幕实例依次安装并调用 `onClose()`，均返回传入父屏；实际鼠标点击 Done 和键盘 Esc 仍需人工执行。 |
+| MM-03 缺席启动 | **PASS** | `runNoModMenuClient -PexcludeModMenuRuntime` 到达 `CLIENT_STARTED`；证据为 `visual-keymap=true`、`modmenu=false`，无 Mod Menu 类加载/entrypoint 错误。 |
+| API-01 外部消费方 | **PASS（26.2 与 26.3）** | 同一 `com.example.mymod.MyModVisualKeymapImpl` 在原始 26.2 源码和当前 26.3 编译、加载通过。五个核心方法由 `javap` 确认为 `public abstract`。 |
+| API-02 Provider 契约 | **PASS（模型/回调）/ NOT TESTED（GUI 像素与点击）** | provider `c3-external`、4 个稳定 ID、0/1/4 主键、modifier、comment、order、搜索、冲突、编辑、重置、保存及 version 1 快照均动态通过；GUI 行、tooltip 和按钮点击仍需人工观察。 |
+| API-03 异常隔离 | **PASS（26.2 与 26.3）** | 同一测试模组声明抛异常 entrypoint 和有效 entrypoint；两版均报告 `visualkeymap.entrypoints=2`，失败实现未进入 provider 列表，有效实现继续工作。 |
+| API-04 provider 顺序 | **PASS** | 26.2：Minecraft → 外部 → MaLiLib；26.3：Minecraft → 外部 → MaLiLib → CommandKeys。与既定条件加载顺序一致。 |
+| API-05 签名 | **PASS（既有 descriptor）** | `VisualKeymapApi`、`KeyBinding`、`VisualKeymap`、`KeymapSnapshot`/`BindingEntry` 的既有 public/protected 签名一致；`ImportMatch.canApply()` 是 B1/B2 安全策略新增方法，不替换旧方法。entrypoint key 仍为 `visualkeymap`。 |
+| P5 共存启动 | **PASS（基础启动）** | 26.3 C3-B 运行同时加载外部 provider、MaLiLib、Tweakeroo、CommandKeys、Mod Menu 与 Visual Keymap，并完成探针。 |
+
+完整命令、签名表、架构审查和人工步骤见 `PHASE3-C3-REPORT.md`。C1/C2 尚未人工验证的 GUI 与实际热键/宏触发状态保持不变。

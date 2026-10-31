@@ -80,7 +80,7 @@
 - final 的 tooltip、完整键码、搜索匹配和本地化按键文本逻辑。
 - 静态 `getConflictBindings()`。
 
-**源码与 README 的待验证差异：**五个核心抽象方法当前没有显式 `public` 或 `protected` 修饰符，而 README 要求第三方实现此 API。迁移前应制作外部包测试模组，验证 `main@053e736` 是否能按 README 编译并被加载；本阶段不改变修饰符，因为那会是单独的 API 修正决策。
+**C3 验证结论：**五个核心抽象方法在源码中采用合法但不常见的 `abstract public` 顺序；`javap -public/-protected` 证实它们均为 `public abstract`。同一外部包消费方已在 `main@053e736`（Minecraft 26.2）和当前 26.3 编译并动态加载通过，因此此前的可见性疑虑已解除。C3 没有修改这些修饰符或其他既有 API descriptor。
 
 ### 4.3 `VisualKeymap` 静态入口
 

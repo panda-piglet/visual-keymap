@@ -72,7 +72,7 @@ VisualKeymapScreen
 - 默认状态、重置和写入的抽象协议。
 - 冲突分组：`ConflictKey(fullKeyCodes, order)`。
 
-迁移敏感点：`getId()`、`getKeyCodes()`、`setBoundKeys()`、`isDefault()`、`resetToDefault()` 在当前源码中没有显式访问修饰符。README 宣称外部模组可实现 API，但外部包能否实际提供可实例化的 `KeyBinding` 子类需通过独立消费方编译测试确认；这是兼容性验证项，不在本阶段修改。
+迁移敏感点复核：`getId()`、`getKeyCodes()`、`setBoundKeys()`、`isDefault()`、`resetToDefault()` 使用 `abstract public` 声明，字节码均为 `public abstract`。Phase 3 C3 使用同一外部包消费方在 26.2 原始提交和 26.3 目标分支完成编译、Loader 发现与动态调用，README 所述扩展路径可用；迁移未改变其可见性或 descriptor。
 
 ### 4.3 `KeymapSnapshot`
 
