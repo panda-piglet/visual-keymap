@@ -171,13 +171,13 @@ P1、P2、P3、P4、P5 均需建立 26.2 参照与 26.3 目标实例，使用独
 
 ## 13. 当前未覆盖功能与风险
 
-由于现有仓库没有测试，下列全部是当前未自动覆盖面：
+当前已有规范键码 JUnit、MaLiLib 边界 JUnit 和不进入发布 JAR 的 Fabric 客户端探针。下列项目仍未被自动化完整覆盖：
 
 - required Mixin 的注入目标与 accessor 字段。
 - 26.2 GUI 渲染提取和布局 API 的全部使用。
 - 按键捕获状态机，尤其多键必须在释放前完成的交互。
 - 原版 debug modifier、`KeyMapping.order` 参与冲突的语义。
-- 三个可选模组存在/缺席时的类加载与 API 链接。
+- CommandKeys、Mod Menu 单独存在/缺席时的完整类加载与 API 链接；MaLiLib 存在/缺席组合已在 C1 探针中通过。
 - 第三方 provider entrypoint 的真实可实现性。
 - 配置读写、错误路径和默认值。
 - 快照 schema、provider/ID 稳定性、鼠标码与 modifiers 现状。
@@ -220,3 +220,25 @@ P1、P2、P3、P4、P5 均需建立 26.2 参照与 26.3 目标实例，使用独
 | S-05 mouse 0–7、unknown/空绑定、非空 modifiers | **NOT TESTED** | 新原件不含这些类别；此前合成/26.3 样本不能冒充真实 26.2 数据。 |
 
 结论：B2.5 中“缺少真实 26.2 Minecraft provider 快照”的单项遗留问题已关闭；S-05 整体仍需上述 MaLiLib 和数据类别子项后才能判为完整 PASS。
+
+## 16. Phase 3 C1 MaLiLib 执行状态
+
+2026-10-31 使用 MaLiLib 0.30.2 与 Tweakeroo 0.30.1（Minecraft 26.3）完成真实加载探针。探针位于独立 `c1Testmod`/`optionalDependencyTestmod` source set，不进入发布 JAR；运行目录分别为 `runs/mc-26.3-c1/` 与 `runs/mc-26.3-c1-no-malilib/`。原始私有快照未修改，SHA-256 仍为 `B3244C2560E54D84D459277AD9C12BCCB19F6AB9D5DF11D2226052FBFD320970`。
+
+| ID/子项 | 状态 | 证据与剩余边界 |
+| --- | --- | --- |
+| B-03 / P3 启动 | **PASS** | Fabric Loader 实际加载 `malilib 0.30.2`、`tweakeroo 0.30.1`、Visual Keymap 与测试探针；四次探针启动均正常到达 `CLIENT_STARTED` 并自行关闭。 |
+| 可选依赖缺席启动 | **PASS** | `runNoMaLiLibClient -PexcludeMaLiLibRuntime` 到达 `CLIENT_STARTED`；证据文件为 `visual-keymap=true`、`malilib=false`、`tweakeroo=false`，无缺类/链接错误。 |
+| M-01 枚举 | **PARTIAL** | 真实运行枚举 217 个注册绑定，并唯一找到 `tweakFreeCamera`、`tweakHoldAttack`；GUI 中类别、显示名和 comment tooltip 仍 **NOT TESTED**。 |
+| M-02 键码边界 | **PASS（自动化与真实对象）** | JUnit 6 项通过；真实对象验证 J/F9、`-99..-92` 鼠标边界、组合键，以及 `-200/-300` 不被当作鼠标且编辑时原值保留。 |
+| M-03 保存/重启 | **PARTIAL** | J/F9 与四键组合均调用 `saveAllConfigs()`/`updateUsedKeys()` 后跨完整客户端重启保持；实际世界内热键触发仍 **NOT TESTED**。 |
+| M-04 重置/搜索 | **PARTIAL** | 真实对象 `resetToDefault()` 后 `isDefault=true`；按内部 hotkey 名的 GUI 搜索仍 **NOT TESTED**。 |
+| E-04 多键 | **PARTIAL** | `[J,F9,Mouse Left,Mouse Right]` 保存并跨重启保持，MaLiLib 原始值为 `[13,66,-99,-97]`；GUI 按住/释放状态机与首键提前释放仍 **NOT TESTED**。 |
+| E-06 未绑定/重置 | **PASS（adapter）/ NOT TESTED（GUI）** | 真实对象清空得到空列表，重置恢复 MaLiLib 默认；按钮状态和可见交互未人工观察。 |
+| X-02/X-03 MaLiLib 导出 | **PASS（语义）** | 再导出保持 version 1、provider `malilib`、两个原 ID、J=74、F9=298、空 modifiers；两次输出 SHA-256 均为 `C883934384A7676649C4222D34C4381472DF5D89F5E34D8455A0ED14D116500F`。 |
+| X-05 MaLiLib provider/ID 匹配 | **PASS** | 未修改的真实混合快照通过 provider/ID 唯一匹配两个 Tweakeroo 热键并成功应用。 |
+| X-06/X-07 GUI 预览与确认 | **BLOCKED（自动化环境）** | 当前 computer-use 层无法枚举 SDL 创建的 Minecraft 窗口；未把探针直接应用冒充为 GUI 预览/确认通过。 |
+| S-05 MaLiLib live | **PASS（adapter 动态往返）** | 真实 26.2 J/F9 数据在 26.3 应用、保存、重启、再导出语义一致；GUI 文件对话框路径仍按上一行保留。 |
+| S-08 MaLiLib adapter | **PASS** | 所有规范整数与 SDL/MaLiLib 原始值转换集中在 `MaLiLibInputCode`，provider/ID/顺序/保存调用未改变。 |
+
+C1 的自动化和真实对象适配已收口；仍需人工完成 GUI 可见行为、冲突/排序展示和世界内实际热键触发，不能因上述动态探针通过而宣称这些项目已 PASS。完整证据见 `PHASE3-C1-REPORT.md`。
