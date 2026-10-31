@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "visual-keymap-c3b-test",
+  "version": "1.0.0",
+  "name": "Visual Keymap C3-B Test",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.xef2.visualkeymap.c3btest.PublicApiProbe"
+    ],
+    "visualkeymap": [
+      "com.example.mymod.ThrowingVisualKeymapImpl",
+      "com.example.mymod.MyModVisualKeymapImpl"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": ">=26.2 <=26.3",
+    "visual-keymap": "*"
+  }
+}

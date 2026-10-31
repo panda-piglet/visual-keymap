@@ -19,6 +19,10 @@ sourceSets {
         compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
         runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
     }
+    c3bTestmod {
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+    }
 }
 
 configurations {
@@ -34,6 +38,9 @@ configurations {
     c3aTestmodImplementation.extendsFrom implementation
     c3aTestmodCompileOnly.extendsFrom compileOnly
     c3aTestmodRuntimeOnly.extendsFrom runtimeOnly
+    c3bTestmodImplementation.extendsFrom implementation
+    c3bTestmodCompileOnly.extendsFrom compileOnly
+    c3bTestmodRuntimeOnly.extendsFrom runtimeOnly
 }
 
 loom {
@@ -52,6 +59,9 @@ loom {
         }
         "visual-keymap-c3a-test" {
             sourceSet sourceSets.c3aTestmod
+        }
+        "visual-keymap-c3b-test" {
+            sourceSet sourceSets.c3bTestmod
         }
     }
 
@@ -116,6 +126,14 @@ loom {
             systemProperties.put("visualkeymap.optional.expectTweakeroo", "true")
             systemProperties.put("visualkeymap.optional.expectCommandkeys", "true")
             systemProperties.put("visualkeymap.optional.expectModmenu", "false")
+            generateRunConfig = false
+        }
+        c3bApiClient {
+            client()
+            displayName = "Visual Keymap C3-B API Client"
+            sourceSet = sourceSets.c3bTestmod.name
+            runDirectory = file("runs/mc-26.3-c3b-api")
+            systemProperties.put("visualkeymap.c3.manual", providers.gradleProperty("c3Manual").orElse("false"))
             generateRunConfig = false
         }
     }
