@@ -242,3 +242,22 @@ P1、P2、P3、P4、P5 均需建立 26.2 参照与 26.3 目标实例，使用独
 | S-08 MaLiLib adapter | **PASS** | 所有规范整数与 SDL/MaLiLib 原始值转换集中在 `MaLiLibInputCode`，provider/ID/顺序/保存调用未改变。 |
 
 C1 的自动化和真实对象适配已收口；仍需人工完成 GUI 可见行为、冲突/排序展示和世界内实际热键触发，不能因上述动态探针通过而宣称这些项目已 PASS。完整证据见 `PHASE3-C1-REPORT.md`。
+
+## 17. Phase 3 C2 CommandKeys 执行状态
+
+2026-10-31 固定使用 CurseForge file `9106946` 对应的 CommandKeys `3.104.1+26.3` Fabric JAR。JAR SHA-256 为 `BA684B93B65C38FF799F9F19CEC2782B6FE6D582AE125E121218AD57C42177B3`；`fabric.mod.json`、manifest、Fabric Loader 列表和 `isModLoaded("commandkeys")` 均已验证。C2 探针位于独立 `c2Testmod` source set，运行目录为 `runs/mc-26.3-c2/`，不进入发布 JAR。
+
+| ID/子项 | 状态 | 证据与剩余边界 |
+| --- | --- | --- |
+| B-03 / CommandKeys 共存启动 | **PASS** | Loader 实际加载 CommandKeys 3.104.1、MaLiLib 0.30.2、Tweakeroo 0.30.1、Mod Menu 21.0.0、Visual Keymap；到达 `CLIENT_STARTED`。 |
+| CommandKeys 独立加载 | **PASS** | 排除 MaLiLib/Tweakeroo/Mod Menu 后，CommandKeys、Visual Keymap 和探针正常启动；`isModLoaded("commandkeys")=true`。 |
+| CommandKeys 缺席启动 | **PASS** | `runNoCommandKeysClient -PexcludeCommandKeysRuntime` 到达 `CLIENT_STARTED`；Visual Keymap/MaLiLib/Tweakeroo/Mod Menu 正常加载，CommandKeys=false。 |
+| K-01 活动 profile | **PARTIAL** | 动态切换 Alpha/Beta 后 adapter 分别只枚举当前 profile 的 4/1 条 macroMap，ID 和顺序正确；GUI 重新打开仍 **NOT TESTED**。 |
+| K-02 名称/comment | **PARTIAL** | 真实对象覆盖空/非空宏名、首消息空白和多消息；得到 `... [+1]` 与 `alpha primary [+1]`；GUI 行和 tooltip 样式仍 **NOT TESTED**。 |
+| K-03 消息搜索 | **PARTIAL** | 第二条消息、多词消息和 profile 隔离通过 `containsSearchText()` 动态验证，重启后仍命中；GUI 输入/高亮仍 **NOT TESTED**。 |
+| K-04 编辑/保存/重启 | **PARTIAL** | 单键 J=`74`、Left Ctrl+F1=`[341,290]`、左键=`0`、清空=`[]`、重置均通过；`Config.save()` 后新客户端进程语义保持。GUI 捕获状态机和实际宏触发仍 **NOT TESTED**。 |
+| K-05 快照排除 | **PASS（自动化）** | provider 保持空字符串；修改前、保存后和重启后 version 1 snapshot binding 数均为 0。 |
+| S-08 CommandKeys adapter | **PASS（adapter）** | 读取端通过 `MinecraftInputCode.requireCanonical()`；没有 SDL 键盘整数泄漏到 GUI/冲突/排序/快照。写入端保持 typed key + `Profile.setKey/setLimitKey`。 |
+| Minecraft/MaLiLib 回归 | **PASS（build/JUnit/启动）** | `clean test` 7 tests、`clean build` 均通过；MaLiLib 存在/缺席和 CommandKeys 共存启动通过。未重复 B2/C1 人工 GUI 项。 |
+
+仍需人工完成：CommandKeys GUI 显示/搜索/profile 切换、按住/释放编辑、重置按钮状态、本地世界内无害宏实际触发，以及多个同时未绑定宏的 26.2→26.3 对照。完整证据和命令见 `PHASE3-C2-REPORT.md`。
