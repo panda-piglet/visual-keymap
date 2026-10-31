@@ -9,3 +9,5 @@ Run a matrix profile from the repository root after building the release JAR:
 ```
 
 Profiles P1 through P6 correspond to `docs/porting-26.3/TEST-PLAN.md`. Each profile writes `runs/pN/phase4-production-smoke.txt` below this harness and then stops the client.
+
+Add `-Pphase4Manual=true` to leave the client open after the startup assertions for manual GUI and physical-input regression testing.

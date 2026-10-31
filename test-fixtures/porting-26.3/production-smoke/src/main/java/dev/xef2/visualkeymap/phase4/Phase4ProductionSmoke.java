@@ -47,7 +47,9 @@ public final class Phase4ProductionSmoke implements ClientModInitializer {
                     throwable.addSuppressed(writeError);
                 }
             } finally {
-                client.stop();
+                if (!Boolean.getBoolean("visualkeymap.phase4.manual")) {
+                    client.stop();
+                }
             }
         });
     }

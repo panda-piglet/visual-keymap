@@ -54,6 +54,7 @@ loom {
             runDir = "runs/${phase4Profile.toLowerCase(Locale.ROOT)}"
             systemProperties.put('visualkeymap.phase4.profile', phase4Profile)
             systemProperties.put('visualkeymap.phase4.releaseJar', releaseJar.absolutePath)
+            systemProperties.put('visualkeymap.phase4.manual', providers.gradleProperty('phase4Manual').orElse('false'))
         }
     }
 }
