@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "visual-keymap-c3a-test",
+  "version": "1.0.0",
+  "name": "Visual Keymap C3-A Test",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.xef2.visualkeymap.c3atest.ModMenuIntegrationProbe"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.20.1",
+    "minecraft": "26.3",
+    "visual-keymap": "*",
+    "modmenu": "21.0.0"
+  }
+}

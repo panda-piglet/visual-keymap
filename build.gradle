@@ -15,6 +15,10 @@ sourceSets {
         compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
         runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
     }
+    c3aTestmod {
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+    }
 }
 
 configurations {
@@ -27,6 +31,9 @@ configurations {
     c2TestmodImplementation.extendsFrom implementation
     c2TestmodCompileOnly.extendsFrom compileOnly
     c2TestmodRuntimeOnly.extendsFrom runtimeOnly
+    c3aTestmodImplementation.extendsFrom implementation
+    c3aTestmodCompileOnly.extendsFrom compileOnly
+    c3aTestmodRuntimeOnly.extendsFrom runtimeOnly
 }
 
 loom {
@@ -42,6 +49,9 @@ loom {
         }
         "visual-keymap-c2-test" {
             sourceSet sourceSets.c2Testmod
+        }
+        "visual-keymap-c3a-test" {
+            sourceSet sourceSets.c3aTestmod
         }
     }
 
@@ -68,6 +78,7 @@ loom {
             systemProperties.put("visualkeymap.optional.expectMalilib", "false")
             systemProperties.put("visualkeymap.optional.expectTweakeroo", "false")
             systemProperties.put("visualkeymap.optional.expectCommandkeys", "true")
+            systemProperties.put("visualkeymap.optional.expectModmenu", "true")
             generateRunConfig = false
         }
         c2IntegrationClient {
@@ -86,6 +97,25 @@ loom {
             systemProperties.put("visualkeymap.optional.expectMalilib", "true")
             systemProperties.put("visualkeymap.optional.expectTweakeroo", "true")
             systemProperties.put("visualkeymap.optional.expectCommandkeys", "false")
+            systemProperties.put("visualkeymap.optional.expectModmenu", "true")
+            generateRunConfig = false
+        }
+        c3aModMenuClient {
+            client()
+            displayName = "Visual Keymap C3-A Mod Menu Client"
+            sourceSet = sourceSets.c3aTestmod.name
+            runDirectory = file("runs/mc-26.3-c3a-modmenu")
+            generateRunConfig = false
+        }
+        noModMenuClient {
+            client()
+            displayName = "Visual Keymap Client without Mod Menu"
+            sourceSet = sourceSets.optionalDependencyTestmod.name
+            runDirectory = file("runs/mc-26.3-c3a-no-modmenu")
+            systemProperties.put("visualkeymap.optional.expectMalilib", "true")
+            systemProperties.put("visualkeymap.optional.expectTweakeroo", "true")
+            systemProperties.put("visualkeymap.optional.expectCommandkeys", "true")
+            systemProperties.put("visualkeymap.optional.expectModmenu", "false")
             generateRunConfig = false
         }
     }
