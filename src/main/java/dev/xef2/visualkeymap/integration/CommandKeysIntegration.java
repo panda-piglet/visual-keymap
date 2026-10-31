@@ -5,6 +5,7 @@ import dev.terminalmc.commandkeys.CommandKeys;
 import dev.terminalmc.commandkeys.config.*;
 import dev.xef2.visualkeymap.api.KeyBinding;
 import dev.xef2.visualkeymap.api.VisualKeymapApi;
+import dev.xef2.visualkeymap.input.MinecraftInputCode;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
@@ -85,7 +86,7 @@ public class CommandKeysIntegration implements VisualKeymapApi<CommandKeysIntegr
         public List<Integer> getKeyCodes() {
             return Stream.of(this.keybind.getLimitKey(), this.keybind.getKey())
                     .filter(key -> !key.equals(InputConstants.UNKNOWN))
-                    .map(InputConstants.Key::getValue)
+                    .map(MinecraftInputCode::requireCanonical)
                     .toList();
         }
 
