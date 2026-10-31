@@ -1,0 +1,19 @@
+{
+    "schemaVersion": 1,
+    "id": "visual-keymap-phase4-smoke",
+    "version": "1.0.0",
+    "name": "Visual Keymap Phase 4 Production Smoke",
+    "environment": "client",
+    "entrypoints": {
+        "client": [
+            "dev.xef2.visualkeymap.phase4.Phase4ProductionSmoke"
+        ],
+        "visualkeymap": "__PHASE4_VISUALKEYMAP_ENTRYPOINTS__"
+    },
+    "depends": {
+        "fabricloader": ">=0.20.1",
+        "fabric-api": "*",
+        "minecraft": "~26.3",
+        "visual-keymap": "*"
+    }
+}

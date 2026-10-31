@@ -1,0 +1,80 @@
+plugins {
+    id 'net.fabricmc.fabric-loom' version '1.19.3'
+}
+
+def phase4Profile = providers.gradleProperty('phase4Profile').orElse('P1').get().toUpperCase(Locale.ROOT)
+def supportedProfiles = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6'] as Set
+if (!supportedProfiles.contains(phase4Profile)) {
+    throw new GradleException("Unsupported Phase 4 profile: ${phase4Profile}")
+}
+
+def repositoryRoot = file('../../..')
+def releaseJar = new File(repositoryRoot, 'build/libs/visual-keymap-26.3-1.4.0.jar')
+if (!releaseJar.isFile()) {
+    throw new GradleException("Build the production JAR first: ${releaseJar}")
+}
+
+repositories {
+    maven { url = 'https://maven.terraformersmc.com/releases/' }
+    maven { url = 'https://api.modrinth.com/maven' }
+    exclusiveContent {
+        forRepository {
+            maven { url = 'https://cursemaven.com' }
+        }
+        filter {
+            includeGroup 'curse.maven'
+        }
+    }
+}
+
+dependencies {
+    minecraft 'com.mojang:minecraft:26.3'
+    implementation 'net.fabricmc:fabric-loader:0.20.1'
+    implementation 'net.fabricmc.fabric-api:fabric-api:0.165.0+26.3'
+
+    // The system under test is the remapped release artifact, not the repository's main source set.
+    compileOnly files(releaseJar)
+    runtimeOnly files(releaseJar)
+
+    if (phase4Profile in ['P2', 'P5']) {
+        runtimeOnly 'com.terraformersmc:modmenu:21.0.0'
+    }
+    if (phase4Profile in ['P3', 'P5']) {
+        runtimeOnly 'maven.modrinth:malilib:0.30.2'
+        runtimeOnly 'maven.modrinth:tweakeroo:fWxKATn6'
+    }
+    if (phase4Profile in ['P4', 'P5']) {
+        runtimeOnly 'curse.maven:commandkeys-873388:9106946'
+    }
+}
+
+loom {
+    runs {
+        client {
+            runDir = "runs/${phase4Profile.toLowerCase(Locale.ROOT)}"
+            systemProperties.put('visualkeymap.phase4.profile', phase4Profile)
+            systemProperties.put('visualkeymap.phase4.releaseJar', releaseJar.absolutePath)
+        }
+    }
+}
+
+processResources {
+    inputs.property 'phase4Profile', phase4Profile
+    def providerEntrypoints = phase4Profile == 'P6'
+            ? '["dev.xef2.visualkeymap.phase4.ThrowingProvider", "dev.xef2.visualkeymap.phase4.Phase4Provider"]'
+            : '[]'
+    filesMatching('fabric.mod.json') {
+        filter { line -> line.replace('"__PHASE4_VISUALKEYMAP_ENTRYPOINTS__"', providerEntrypoints) }
+    }
+}
+
+def targetJavaVersion = 25
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release.set(targetJavaVersion)
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion(targetJavaVersion)
+    targetCompatibility = JavaVersion.toVersion(targetJavaVersion)
+}
