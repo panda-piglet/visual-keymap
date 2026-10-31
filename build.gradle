@@ -11,6 +11,10 @@ sourceSets {
         compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
         runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
     }
+    c2Testmod {
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+    }
 }
 
 configurations {
@@ -20,6 +24,9 @@ configurations {
     optionalDependencyTestmodImplementation.extendsFrom implementation
     optionalDependencyTestmodCompileOnly.extendsFrom compileOnly
     optionalDependencyTestmodRuntimeOnly.extendsFrom runtimeOnly
+    c2TestmodImplementation.extendsFrom implementation
+    c2TestmodCompileOnly.extendsFrom compileOnly
+    c2TestmodRuntimeOnly.extendsFrom runtimeOnly
 }
 
 loom {
@@ -32,6 +39,9 @@ loom {
         }
         "visual-keymap-optional-dependency-test" {
             sourceSet sourceSets.optionalDependencyTestmod
+        }
+        "visual-keymap-c2-test" {
+            sourceSet sourceSets.c2Testmod
         }
     }
 
@@ -55,6 +65,14 @@ loom {
             displayName = "Visual Keymap Client without MaLiLib"
             sourceSet = sourceSets.optionalDependencyTestmod.name
             runDirectory = file("runs/mc-26.3-c1-no-malilib")
+            generateRunConfig = false
+        }
+        c2IntegrationClient {
+            client()
+            displayName = "Visual Keymap C2 Integration Client"
+            sourceSet = sourceSets.c2Testmod.name
+            runDirectory = file("runs/mc-26.3-c2")
+            systemProperties.put("visualkeymap.c2.stage", providers.gradleProperty("c2Stage").orElse("dependency"))
             generateRunConfig = false
         }
     }
