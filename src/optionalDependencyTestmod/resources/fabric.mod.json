@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "visual-keymap-optional-dependency-test",
+  "version": "1.0.0",
+  "name": "Visual Keymap Optional Dependency Test",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.xef2.visualkeymap.c1test.OptionalDependencyProbe"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.20.1",
+    "minecraft": "26.3",
+    "visual-keymap": "*"
+  }
+}

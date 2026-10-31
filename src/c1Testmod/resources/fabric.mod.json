@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "visual-keymap-c1-test",
+  "version": "1.0.0",
+  "name": "Visual Keymap C1 Integration Test",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.xef2.visualkeymap.c1test.C1IntegrationProbe"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.20.1",
+    "minecraft": "26.3",
+    "visual-keymap": "*",
+    "malilib": "*",
+    "tweakeroo": "*"
+  }
+}

@@ -2,10 +2,60 @@ plugins {
     id 'net.fabricmc.fabric-loom' version '1.19.3'
 }
 
+sourceSets {
+    c1Testmod {
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+    }
+    optionalDependencyTestmod {
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+    }
+}
+
+configurations {
+    c1TestmodImplementation.extendsFrom implementation
+    c1TestmodCompileOnly.extendsFrom compileOnly
+    c1TestmodRuntimeOnly.extendsFrom runtimeOnly
+    optionalDependencyTestmodImplementation.extendsFrom implementation
+    optionalDependencyTestmodCompileOnly.extendsFrom compileOnly
+    optionalDependencyTestmodRuntimeOnly.extendsFrom runtimeOnly
+}
+
 loom {
+    mods {
+        "visual-keymap" {
+            sourceSet sourceSets.main
+        }
+        "visual-keymap-c1-test" {
+            sourceSet sourceSets.c1Testmod
+        }
+        "visual-keymap-optional-dependency-test" {
+            sourceSet sourceSets.optionalDependencyTestmod
+        }
+    }
+
     runs {
         client {
             runDir = "runs/mc-26.3-b2.5"
+        }
+        c1IntegrationClient {
+            client()
+            displayName = "Visual Keymap C1 Integration Client"
+            sourceSet = sourceSets.c1Testmod.name
+            runDirectory = file("runs/mc-26.3-c1")
+            systemProperties.put("visualkeymap.c1.stage", providers.gradleProperty("c1Stage").orElse("apply"))
+            systemProperties.put("visualkeymap.c1.snapshot", providers.gradleProperty("c1Snapshot").orElse(
+                    file("test-fixtures/porting-26.3/snapshots/real-26.2-malilib-v1.json").absolutePath
+            ))
+            generateRunConfig = false
+        }
+        noMaLiLibClient {
+            client()
+            displayName = "Visual Keymap Client without MaLiLib"
+            sourceSet = sourceSets.optionalDependencyTestmod.name
+            runDirectory = file("runs/mc-26.3-c1-no-malilib")
+            generateRunConfig = false
         }
     }
 }
@@ -42,9 +92,11 @@ dependencies {
     compileOnly "maven.modrinth:commandkeys:${project.commandkeys_version}"
     compileOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
 
-    runtimeOnly "maven.modrinth:malilib:${project.malilib_version}"
-    // C1 development runtime provider; runtimeOnly keeps it out of the published mod JAR.
-    runtimeOnly "maven.modrinth:tweakeroo:${project.tweakeroo_test_version}"
+    if (!providers.gradleProperty("excludeMaLiLibRuntime").isPresent()) {
+        runtimeOnly "maven.modrinth:malilib:${project.malilib_version}"
+        // C1 development runtime provider; runtimeOnly keeps it out of the published mod JAR.
+        runtimeOnly "maven.modrinth:tweakeroo:${project.tweakeroo_test_version}"
+    }
     runtimeOnly "maven.modrinth:commandkeys:${project.commandkeys_version}"
     runtimeOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
 
