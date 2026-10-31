@@ -79,6 +79,14 @@ repositories {
     maven { url = "https://maven.terraformersmc.com/releases/" }
     maven {url = "https://maven.fallenbreath.me/releases" }
     maven { url = "https://api.modrinth.com/maven" }
+    exclusiveContent {
+        forRepository {
+            maven { url = "https://cursemaven.com" }
+        }
+        filter {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 dependencies {
@@ -89,7 +97,7 @@ dependencies {
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     compileOnly "maven.modrinth:malilib:${project.malilib_version}"
-    compileOnly "maven.modrinth:commandkeys:${project.commandkeys_version}"
+    compileOnly "curse.maven:commandkeys-873388:${project.commandkeys_curse_file_id}"
     compileOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
 
     if (!providers.gradleProperty("excludeMaLiLibRuntime").isPresent()) {
@@ -97,7 +105,7 @@ dependencies {
         // C1 development runtime provider; runtimeOnly keeps it out of the published mod JAR.
         runtimeOnly "maven.modrinth:tweakeroo:${project.tweakeroo_test_version}"
     }
-    runtimeOnly "maven.modrinth:commandkeys:${project.commandkeys_version}"
+    runtimeOnly "curse.maven:commandkeys-873388:${project.commandkeys_curse_file_id}"
     runtimeOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
 
     testImplementation platform("org.junit:junit-bom:5.13.4")
