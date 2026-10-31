@@ -65,6 +65,9 @@ loom {
             displayName = "Visual Keymap Client without MaLiLib"
             sourceSet = sourceSets.optionalDependencyTestmod.name
             runDirectory = file("runs/mc-26.3-c1-no-malilib")
+            systemProperties.put("visualkeymap.optional.expectMalilib", "false")
+            systemProperties.put("visualkeymap.optional.expectTweakeroo", "false")
+            systemProperties.put("visualkeymap.optional.expectCommandkeys", "true")
             generateRunConfig = false
         }
         c2IntegrationClient {
@@ -73,6 +76,16 @@ loom {
             sourceSet = sourceSets.c2Testmod.name
             runDirectory = file("runs/mc-26.3-c2")
             systemProperties.put("visualkeymap.c2.stage", providers.gradleProperty("c2Stage").orElse("dependency"))
+            generateRunConfig = false
+        }
+        noCommandKeysClient {
+            client()
+            displayName = "Visual Keymap Client without CommandKeys"
+            sourceSet = sourceSets.optionalDependencyTestmod.name
+            runDirectory = file("runs/mc-26.3-c2-no-commandkeys")
+            systemProperties.put("visualkeymap.optional.expectMalilib", "true")
+            systemProperties.put("visualkeymap.optional.expectTweakeroo", "true")
+            systemProperties.put("visualkeymap.optional.expectCommandkeys", "false")
             generateRunConfig = false
         }
     }
@@ -123,8 +136,12 @@ dependencies {
         // C1 development runtime provider; runtimeOnly keeps it out of the published mod JAR.
         runtimeOnly "maven.modrinth:tweakeroo:${project.tweakeroo_test_version}"
     }
-    runtimeOnly "curse.maven:commandkeys-873388:${project.commandkeys_curse_file_id}"
-    runtimeOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
+    if (!providers.gradleProperty("excludeCommandKeysRuntime").isPresent()) {
+        runtimeOnly "curse.maven:commandkeys-873388:${project.commandkeys_curse_file_id}"
+    }
+    if (!providers.gradleProperty("excludeModMenuRuntime").isPresent()) {
+        runtimeOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
+    }
 
     testImplementation platform("org.junit:junit-bom:5.13.4")
     testImplementation "org.junit.jupiter:junit-jupiter"
