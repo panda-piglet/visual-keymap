@@ -12,7 +12,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public record KeymapSnapshot(int version, List<KeymapSnapshot.BindingEntry> bindings) {
 
@@ -50,17 +53,70 @@ public record KeymapSnapshot(int version, List<KeymapSnapshot.BindingEntry> bind
 
     public List<ImportMatch> matchBindings(List<VisualKeymapApi<?>> apis) {
         List<ImportMatch> matches = new ArrayList<>();
+        Map<BindingIdentity, List<BindingEntry>> entriesByIdentity = new LinkedHashMap<>();
+        Map<BindingIdentity, List<KeyBinding>> bindingsByIdentity = new LinkedHashMap<>();
+
         for (BindingEntry entry : this.bindings) {
-            for (VisualKeymapApi<?> api : apis) {
-                if (!api.getProviderName().equals(entry.provider())) continue;
-                for (KeyBinding binding : api.getKeyBindings()) {
-                    if (binding.getId().equals(entry.id())) {
-                        matches.add(new ImportMatch(binding, entry));
-                    }
+            BindingIdentity identity = new BindingIdentity(entry.provider(), entry.id());
+            entriesByIdentity.computeIfAbsent(identity, _ -> new ArrayList<>()).add(entry);
+        }
+
+        for (VisualKeymapApi<?> api : apis) {
+            String provider = api.getProviderName();
+            for (KeyBinding binding : api.getKeyBindings()) {
+                BindingIdentity identity = new BindingIdentity(provider, binding.getId());
+                bindingsByIdentity.computeIfAbsent(identity, _ -> new ArrayList<>()).add(binding);
+            }
+        }
+
+        for (var group : entriesByIdentity.entrySet()) {
+            List<BindingEntry> entries = group.getValue();
+            List<KeyBinding> bindings = bindingsByIdentity.getOrDefault(group.getKey(), List.of());
+            if (bindings.isEmpty()) continue;
+
+            if (entries.size() == 1 && bindings.size() == 1) {
+                matches.add(new ImportMatch(bindings.getFirst(), entries.getFirst()));
+                continue;
+            }
+
+            List<BindingEntry> unmatchedEntries = new ArrayList<>(entries);
+            List<KeyBinding> unmatchedBindings = new ArrayList<>(bindings);
+            Map<List<Integer>, Integer> entryKeyCounts = new HashMap<>();
+            Map<List<Integer>, Integer> bindingKeyCounts = new HashMap<>();
+
+            entries.forEach(entry -> entryKeyCounts.merge(entry.keys(), 1, Integer::sum));
+            bindings.forEach(binding -> bindingKeyCounts.merge(binding.getKeyCodes(), 1, Integer::sum));
+
+            for (var entryIterator = unmatchedEntries.iterator(); entryIterator.hasNext(); ) {
+                BindingEntry entry = entryIterator.next();
+                if (entryKeyCounts.get(entry.keys()) != 1
+                        || bindingKeyCounts.getOrDefault(entry.keys(), 0) != 1) {
+                    continue;
+                }
+                KeyBinding exactBinding = unmatchedBindings.stream()
+                        .filter(binding -> binding.getKeyCodes().equals(entry.keys()))
+                        .findFirst()
+                        .orElse(null);
+                if (exactBinding != null) {
+                    matches.add(new ImportMatch(exactBinding, entry));
+                    unmatchedBindings.remove(exactBinding);
+                    entryIterator.remove();
+                }
+            }
+
+            for (BindingEntry entry : unmatchedEntries) {
+                for (KeyBinding binding : unmatchedBindings) {
+                    if (binding.getKeyCodes().equals(entry.keys())) continue;
+                    ImportMatch ambiguousMatch = new ImportMatch(binding, entry);
+                    ambiguousMatch.selected = false;
+                    matches.add(ambiguousMatch);
                 }
             }
         }
         return matches;
+    }
+
+    private record BindingIdentity(String provider, String id) {
     }
 
     public record BindingEntry(String provider, String id, List<Integer> keys, List<Integer> modifiers) {
