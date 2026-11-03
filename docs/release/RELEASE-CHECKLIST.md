@@ -4,13 +4,13 @@ No item in this checklist authorizes publishing by itself.
 
 ## A. Maintainer decisions
 
-- [ ] Approve internal mod version.
-- [ ] Approve Git tag and player-facing release title.
-- [ ] Select release channel: fork GitHub pre-release, upstream official release, or separate community platform projects.
-- [ ] Approve the `beta`/`rc` label.
+- [x] Approve internal mod version: `1.4.1-community-beta.1`.
+- [x] Approve Git tag `v1.4.1-26.3-community-beta.1` and player-facing title `Visual Keymap 1.4.1 for Minecraft 26.3 — Community Beta 1`.
+- [x] Select release channel: community fork GitHub Pre-release only.
+- [x] Approve the `community-beta.1` label.
 - [ ] Approve final release notes and known issues.
-- [ ] Decide whether `LICENSE` and `NOTICE` are embedded in the JAR (recommended) or distributed beside it.
-- [ ] Confirm the GPL expression; do not assume `GPL-3.0-or-later` without evidence from the original licensing grant.
+- [x] Embed complete `LICENSE` and `NOTICE` files in the JAR under `META-INF/`.
+- [x] Preserve the upstream `GPL-3.0` expression and complete GPLv3 text; do not change it to `-or-later` without an upstream grant.
 
 ## B. Source and Git
 
@@ -19,19 +19,19 @@ No item in this checklist authorizes publishing by itself.
 - [x] Original author and upstream repository are preserved in metadata and public documentation.
 - [x] `baseline-private/` is not tracked.
 - [x] Existing untracked `docs/bugfixes/EVIDENCE-INVENTORY.md` remains outside release commits.
-- [ ] Working tree contains only approved release changes before the final build.
-- [ ] Final release commit is reviewed and recorded.
+- [x] Working tree contained only approved release changes before the candidate build; the private evidence index remained untracked.
+- [x] Candidate source commit is reviewed and recorded as `fadd4a82b01242cd83c5ac28592c4c65921b1e99`.
 - [ ] Exact corresponding source is available from the approved public tag/commit.
 
 ## C. Version, metadata and workflow
 
-- [ ] Update `mod_version` only after maintainer approval.
+- [x] `mod_version` is `1.4.1-community-beta.1`, updated after maintainer approval.
 - [x] Minecraft dependency is `~26.3`.
 - [x] Fabric Loader dependency is `>=0.20.1`.
 - [x] Client, Mod Menu and required Mixin declarations are present.
-- [ ] Explicitly set publishing `version-type: beta` and `github-prerelease: true`, or use another reviewed pre-release mechanism.
-- [ ] Prevent the fork workflow from publishing to the original Modrinth/CurseForge project IDs unless explicitly authorized.
-- [ ] Confirm release title, changelog source and target commit.
+- [ ] Create the GitHub Release manually with the **Pre-release** flag; no publishing workflow is enabled.
+- [x] The fork workflows contain no Modrinth/CurseForge publication path or token use.
+- [x] Release title, changelog version and candidate source commit are recorded.
 
 ## D. Public documentation
 
@@ -45,15 +45,15 @@ No item in this checklist authorizes publishing by itself.
 
 ## E. Final build after approved metadata changes
 
-- [ ] Use Java 25.
-- [ ] Run `.\gradlew.bat clean test build --no-daemon`.
-- [ ] Confirm all JUnit tests execute and pass.
-- [ ] Run or reuse approved production P1/P3/P5/P6 checks as required by the changed scope.
-- [ ] Inspect the production JAR for test classes, test providers, nested third-party JARs and unwanted dependencies.
-- [ ] Confirm the JAR contains the approved LICENSE/NOTICE packaging.
-- [ ] Record final filename, size and SHA-256.
-- [ ] Confirm `fabric.mod.json` inside the JAR has the approved version and dependency constraints.
-- [ ] Confirm the final artifact came from the final release commit.
+- [x] Use Java 25 (GraalVM JDK 25.0.4).
+- [x] Run `.\gradlew.bat clean test build --no-daemon --stacktrace`.
+- [x] Confirm all 39 JUnit tests execute and pass.
+- [x] Reuse approved production P1/P3/P5/P6 checks; Phase 5D changed no production Java/resource/API logic.
+- [x] Inspect the production JAR for test classes, test providers, nested third-party JARs and unwanted dependencies.
+- [x] Confirm the JAR contains exact approved LICENSE/NOTICE content.
+- [x] Record filename, 120,908-byte size and SHA-256 `CCFB834361257FF580D13A3510ED20EAEEA08B2070BA50D84534280B0BC46A67`.
+- [x] Confirm `fabric.mod.json` has version `1.4.1-community-beta.1`, Minecraft `~26.3` and Loader `>=0.20.1`.
+- [x] Confirm the candidate artifact came from `fadd4a82b01242cd83c5ac28592c4c65921b1e99`; later commits before this checklist update were documentation only.
 
 ## F. Pre-release evidence and accepted risk
 
@@ -62,8 +62,8 @@ No item in this checklist authorizes publishing by itself.
 - [x] BUG-01 is FIXED / VERIFIED with 10/10 maintainer manual tests.
 - [x] BUG-02 is FIXED / VERIFIED with 8/8 maintainer manual tests.
 - [x] Maintainer accepted the documented Phase 5B residual risks for a pre-release.
-- [ ] Verify no new blocker has been discovered since the last accepted evidence.
-- [ ] Keep R-03/R-11/R-12/R-13 and other incomplete items labelled `PARTIAL`/`BLOCKED`/`NOT TESTED` in public/internal records.
+- [x] Verify no new blocker has been discovered since the last accepted evidence.
+- [x] Keep R-03/R-11/R-12/R-13 and other incomplete items labelled `PARTIAL`/`BLOCKED`/`NOT TESTED` in public/internal records.
 
 ## G. Actions requiring separate authorization
 
@@ -73,4 +73,4 @@ No item in this checklist authorizes publishing by itself.
 - [ ] Publish to Modrinth or CurseForge.
 - [ ] Promote any build to Stable.
 
-Phase 5C does not authorize any item in section G.
+No completed review or checklist item authorizes an action in section G; each still requires explicit maintainer approval.

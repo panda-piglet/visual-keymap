@@ -1,6 +1,6 @@
-# Visual Keymap for Minecraft 26.3 — Community Pre-release
+# Visual Keymap 1.4.1 for Minecraft 26.3 — Community Beta 1
 
-> Version and release tag are pending maintainer approval. This is a pre-release build, not a stable upstream release.
+> Version `1.4.1-community-beta.1`; tag `v1.4.1-26.3-community-beta.1`. This is a community-maintained pre-release, not a stable or official upstream release.
 
 Visual Keymap has been ported to Minecraft 26.3 while preserving its keyboard visualization, unified binding editor, configuration behavior, public provider API and version 1 snapshot format.
 
@@ -52,7 +52,16 @@ Optional mods are not bundled. Install only the integrations you use.
 - Export to an unwritable file-system target has not been dynamically verified; normal export and overwriting an invalid file were verified.
 - Some language, GUI scale and Mod Menu return-path combinations remain non-exhaustive.
 
-See [KNOWN-ISSUES.md](KNOWN-ISSUES.md) for the precise scope. No unresolved confirmed crash, irreversible configuration loss or general data-corruption defect is currently known.
+See the [known issues for this tag](https://github.com/panda-piglet/visual-keymap/blob/v1.4.1-26.3-community-beta.1/docs/release/KNOWN-ISSUES.md) for the precise scope. No unresolved confirmed crash, irreversible configuration loss or general data-corruption defect is currently known.
+
+## Download verification
+
+- File: `visual-keymap-26.3-1.4.1-community-beta.1.jar`
+- Size: 120,908 bytes
+- SHA-256: `CCFB834361257FF580D13A3510ED20EAEEA08B2070BA50D84534280B0BC46A67`
+- Candidate source commit: `fadd4a82b01242cd83c5ac28592c4c65921b1e99`
+
+The GitHub release must remain marked **Pre-release**. Its tag/source archive provides the corresponding GPLv3 source; the JAR also contains `META-INF/LICENSE` and `META-INF/NOTICE`.
 
 ## Feedback and source
 

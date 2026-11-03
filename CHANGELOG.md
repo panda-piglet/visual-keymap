@@ -2,7 +2,7 @@
 
 All notable changes to the community-maintained Minecraft 26.3 port are documented here.
 
-## Unreleased — Minecraft 26.3 community pre-release
+## 1.4.1-community-beta.1 — Minecraft 26.3 Community Beta 1
 
 ### Changed
 
