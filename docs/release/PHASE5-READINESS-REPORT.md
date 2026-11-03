@@ -86,7 +86,7 @@ Phase 5B 已收到维护者七项真实客户端人工反馈：MaLiLib 四键编
 
 ## 5. 发布就绪性分类
 
-### READY FOR PRE-RELEASE（技术基础）/ 尚未通过公开预发布门槛
+### READY FOR PRE-RELEASE PREPARATION（维护者已接受披露风险）
 
 理由：
 
@@ -94,11 +94,11 @@ Phase 5B 已收到维护者七项真实客户端人工反馈：MaLiLib 四键编
 - Phase 5B 没有发现新故障，并补强了 MaLiLib 四键、冲突、重启、CommandKeys 快照/未绑定宏、外部 Provider 加载及导出覆盖证据。
 - 没有未解决 FAIL 或已知静默数据损坏缺陷。
 
-按 Phase 5A 已公布标准，六项重点测试目前仍全部为 PARTIAL，因此尚不能仅凭本轮“没有发现问题”宣布公开预发布门槛完成。发布前仍需：
+六项重点测试仍全部为 PARTIAL。Phase 5C 中，维护者明确接受这些未覆盖范围作为社区 Pre-release 的披露风险；状态不改为 PASS，也不再自动阻碍预发布准备。发布前仍需完成的是发布资料和工件决策，而不是重复执行已接受的测试：
 
-1. 完成 `REMAINING-MANUAL-TESTS.md` 已缩减的 R-02、R-03、R-10～R-13 剩余步骤，或由维护者逐项明确接受并披露风险。优先 R-03 不可写目标和 R-12 单对象编辑隔离。
-2. `RELEASE-DECISIONS.md` 的版本、渠道、GPL/署名与发布说明决策。
-3. 更新 README 或至少准备完整 RC release notes；重新构建并记录最终 commit/JAR SHA-256。
+1. `RELEASE-DECISIONS.md` 的版本、渠道、GPL/署名与发布说明决策。
+2. 完成 README、Release Notes、Known Issues 和 CHANGELOG 审批。
+3. 在批准版本/metadata/许可证打包方式后重新构建并记录最终 commit/JAR SHA-256。
 
 ### NOT YET READY FOR STABLE
 
@@ -116,8 +116,8 @@ Phase 5B 已收到维护者七项真实客户端人工反馈：MaLiLib 四键编
 2. 决定发布渠道和版本命名；在决定前不要创建 `v*` tag。
 3. 决定许可证表达、修改署名和源码交付方式。
 4. 准备 26.3 README/更新日志/已知限制。
-5. 剩余门槛完成或明确豁免后进入 Phase 5C，处理版本号、README、许可证、更新日志、最终构建、哈希与 tag 前审查。
+5. 按维护者决策进入 Phase 5C，处理版本号、README、许可证、更新日志、最终构建、哈希与 tag 前审查；不创建 tag 或发布。
 
 ## 7. 最终结论
 
-当前仍具备预发布技术基础，但按 Phase 5A 原门槛，六项重点测试尚未整组完成，故结论为 **READY FOR PRE-RELEASE（技术基础）/ 尚未通过公开预发布门槛**；同时 **NOT YET READY FOR STABLE**。BUG-01、BUG-02 已关闭，不再列为发布阻碍。建议先完成最小剩余高风险步骤，再批准进入 Phase 5C；若维护者选择接受个别缺口，需逐项记录豁免和发布说明。
+维护者已接受披露的 PARTIAL 风险，当前结论更新为 **READY FOR PRE-RELEASE PREPARATION**；同时 **NOT YET READY FOR STABLE**。BUG-01、BUG-02 已关闭，不再列为发布阻碍。剩余人工项目继续保留原状态并进入预发布反馈/稳定版收口清单；只有出现新的、有具体证据的严重风险才恢复为发布阻碍。
