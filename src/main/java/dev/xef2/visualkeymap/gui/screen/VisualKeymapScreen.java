@@ -1,10 +1,12 @@
 package dev.xef2.visualkeymap.gui.screen;
 
+import com.google.gson.JsonParseException;
 import com.mojang.blaze3d.platform.InputConstants;
 import dev.xef2.visualkeymap.KeymapSnapshot;
 import dev.xef2.visualkeymap.ModConfig;
 import dev.xef2.visualkeymap.VisualKeymap;
 import dev.xef2.visualkeymap.api.KeyBinding;
+import dev.xef2.visualkeymap.api.VisualKeymapApi;
 import dev.xef2.visualkeymap.gui.NativeFileDialog;
 import dev.xef2.visualkeymap.gui.widget.KeybindsListWidget;
 import dev.xef2.visualkeymap.gui.widget.KeyboardWidget;
@@ -19,6 +21,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.layouts.LayoutSettings;
 import net.minecraft.client.gui.layouts.LinearLayout;
+import net.minecraft.client.gui.screens.AlertScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.options.OptionsSubScreen;
 import net.minecraft.client.input.KeyEvent;
@@ -26,6 +29,8 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -34,6 +39,7 @@ import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class VisualKeymapScreen extends OptionsSubScreen {
+    private static final Logger LOGGER = LoggerFactory.getLogger(VisualKeymapScreen.class);
 
     private List<? extends KeyBinding> keyBindings = List.of();
     private final SharedData sharedData = new SharedData();
@@ -41,6 +47,7 @@ public class VisualKeymapScreen extends OptionsSubScreen {
 
     private KeyboardWidget keyboardWidget;
     private KeybindsListWidget keybindsListWidget;
+    private boolean suppressNextRemovalSave;
 
     public VisualKeymapScreen(Screen parent, Options options) {
         super(parent, options, VisualKeymap.getTranslatedComponent("gui.keymap_title"));
@@ -118,19 +125,58 @@ public class VisualKeymapScreen extends OptionsSubScreen {
                 VisualKeymap.getTranslatedComponent("gui.import_dialog").getString(),
                 path -> {
                     try {
-                        KeymapSnapshot snapshot = VisualKeymap.importKeyBindings(path.toFile());
-                        List<KeymapSnapshot.ImportMatch> matches = snapshot
-                                .matchBindings(VisualKeymap.getApiImplementations())
-                                .stream()
-                                .filter(m -> !m.binding.getKeyCodes().equals(m.entry.keys()))
-                                .toList();
+                        List<KeymapSnapshot.ImportMatch> matches = prepareImport(
+                                path, VisualKeymap.getApiImplementations()
+                        );
                         if (!matches.isEmpty()) {
                             this.minecraft.setScreenAndShow(new ImportPreviewScreen(this, matches));
                         }
-                    } catch (IOException ignored) {
+                    } catch (IOException exception) {
+                        LOGGER.error("Failed to read an imported keymap snapshot", exception);
+                        this.showImportError("gui.import_error_io");
+                    } catch (JsonParseException exception) {
+                        LOGGER.error("Failed to parse an imported keymap snapshot", exception);
+                        this.showImportError("gui.import_error_invalid");
                     }
                 }
         );
+    }
+
+    static List<KeymapSnapshot.ImportMatch> prepareImport(Path path, List<VisualKeymapApi<?>> apis)
+            throws IOException {
+        return VisualKeymap.importKeyBindings(path.toFile())
+                .matchBindings(apis)
+                .stream()
+                .filter(match -> !match.binding.getKeyCodes().equals(match.entry.keys()))
+                .toList();
+    }
+
+    private void showImportError(String messageKey) {
+        Runnable returnToKeymap = () -> this.minecraft.setScreenAndShow(this);
+        AlertScreen errorScreen = createImportErrorScreen(
+                returnToKeymap,
+                VisualKeymap.getTranslatedComponent("gui.import_error_title"),
+                VisualKeymap.getTranslatedComponent(messageKey)
+        );
+        this.suppressNextRemovalSave = true;
+        this.minecraft.setScreenAndShow(errorScreen);
+    }
+
+    private static AlertScreen createImportErrorScreen(Runnable closeAction, Component title, Component message) {
+        return new AlertScreen(closeAction, title, message) {
+            @Override
+            public void onClose() {
+                closeAction.run();
+            }
+        };
+    }
+
+    private boolean consumeRemovalSave() {
+        if (this.suppressNextRemovalSave) {
+            this.suppressNextRemovalSave = false;
+            return false;
+        }
+        return true;
     }
 
     private List<? extends KeyBinding> getUnboundBindings() {
@@ -230,7 +276,9 @@ public class VisualKeymapScreen extends OptionsSubScreen {
 
     @Override
     public void removed() {
-        VisualKeymap.saveKeyBindings();
+        if (this.consumeRemovalSave()) {
+            VisualKeymap.saveKeyBindings();
+        }
         super.removed();
     }
 
