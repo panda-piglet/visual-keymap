@@ -1,0 +1,99 @@
+name: Release Preflight
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-preflight-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  preflight:
+    name: Build and verify candidate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out requested commit
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-read-only: true
+          validate-wrappers: true
+
+      - name: Record repository and toolchain
+        shell: pwsh
+        run: |
+          Write-Host "Repository: $env:GITHUB_REPOSITORY"
+          Write-Host "Ref: $env:GITHUB_REF"
+          Write-Host "Requested SHA: $env:GITHUB_SHA"
+          Write-Host "Checked out SHA: $(git rev-parse HEAD)"
+          java -version
+          ./gradlew --version --no-daemon
+
+      - name: Clean build and test
+        id: build
+        continue-on-error: true
+        run: ./gradlew clean test build --no-daemon --stacktrace
+
+      - name: Verify release candidate
+        id: verify
+        continue-on-error: true
+        shell: pwsh
+        env:
+          PREFLIGHT_BUILD_RESULT: ${{ steps.build.outcome }}
+          PREFLIGHT_REPOSITORY: ${{ github.repository }}
+          PREFLIGHT_COMMIT: ${{ github.sha }}
+        run: |
+          ./scripts/release-preflight.ps1 `
+            -BuildResult $env:PREFLIGHT_BUILD_RESULT `
+            -Repository $env:PREFLIGHT_REPOSITORY `
+            -Commit $env:PREFLIGHT_COMMIT
+
+      - name: Upload Not Ready diagnostics
+        if: always() && steps.verify.outputs.ready != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-preflight-not-ready-${{ github.run_id }}
+          path: build/release-preflight/
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload qualified candidate
+        if: steps.build.outcome == 'success' && steps.verify.outputs.ready == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-keymap-26.3-preflight-${{ github.sha }}
+          path: |
+            ${{ steps.verify.outputs.jar_path }}
+            build/release-preflight/SHA256SUMS.txt
+            build/release-preflight/BUILD-METADATA.txt
+            build/release-preflight/RELEASE-VERIFICATION.md
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Enforce preflight result
+        if: always()
+        shell: pwsh
+        env:
+          PREFLIGHT_BUILD_RESULT: ${{ steps.build.outcome }}
+          PREFLIGHT_READY: ${{ steps.verify.outputs.ready }}
+        run: |
+          if ($env:PREFLIGHT_BUILD_RESULT -ne 'success' -or $env:PREFLIGHT_READY -ne 'true') {
+            Write-Error "Release preflight is Not Ready. Review the diagnostic artifact."
+            exit 1
+          }
+          Write-Host "Release preflight passed. The artifact is a candidate for maintainer review only."
