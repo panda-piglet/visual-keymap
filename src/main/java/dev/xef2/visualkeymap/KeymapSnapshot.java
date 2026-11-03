@@ -2,6 +2,7 @@ package dev.xef2.visualkeymap;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.mojang.blaze3d.platform.InputConstants;
 import dev.xef2.visualkeymap.api.KeyBinding;
 import dev.xef2.visualkeymap.api.VisualKeymapApi;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public record KeymapSnapshot(int version, List<KeymapSnapshot.BindingEntry> bindings) {
 
@@ -47,7 +49,24 @@ public record KeymapSnapshot(int version, List<KeymapSnapshot.BindingEntry> bind
 
     public static KeymapSnapshot readFromFile(File file) throws IOException {
         try (FileReader reader = new FileReader(file)) {
-            return GSON.fromJson(reader, KeymapSnapshot.class);
+            KeymapSnapshot snapshot = GSON.fromJson(reader, KeymapSnapshot.class);
+            if (snapshot == null) {
+                throw new JsonSyntaxException("Snapshot root must be an object");
+            }
+            if (snapshot.bindings == null) {
+                throw new JsonSyntaxException("Snapshot is missing the bindings list");
+            }
+            for (int index = 0; index < snapshot.bindings.size(); index++) {
+                BindingEntry entry = snapshot.bindings.get(index);
+                if (entry == null) {
+                    throw new JsonSyntaxException("Snapshot binding at index " + index + " is null");
+                }
+                if (entry.keys().stream().anyMatch(Objects::isNull)
+                        || entry.modifiers().stream().anyMatch(Objects::isNull)) {
+                    throw new JsonSyntaxException("Snapshot binding at index " + index + " contains a null key code");
+                }
+            }
+            return snapshot;
         }
     }
 
