@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 
 public final class CanonicalInputCodeSelfTest {
     private static final String EXPECTED_EXTENSION_SHA256 =
-            "0E45BE43A316246A555578E89F6BFF2016BB5CCD3FFDA713571DDAF30044AC28";
+            "6A5E29ED379500ECBB262D1D48F53198F5D95D65DF1FBB58458165E6767FD18E";
     private static final Pattern LEGACY_ROW = Pattern.compile("^LEGACY\\s+(\\S+)\\s+(-?\\d+)$");
 
     private CanonicalInputCodeSelfTest() {
@@ -35,7 +35,8 @@ public final class CanonicalInputCodeSelfTest {
 
         check(legacy.size() == 121, "legacy table must contain 121 rows including unknown");
         check(extensions.size() == 127, "extension table must contain 127 rows");
-        check(EXPECTED_EXTENSION_SHA256.equals(sha256(extensionPath)), "extension table hash changed");
+        check(EXPECTED_EXTENSION_SHA256.equals(normalizedLfSha256(extensionPath)),
+                "extension table hash changed");
 
         Set<Integer> allCanonicalCodes = new HashSet<>();
         for (Map.Entry<String, Integer> entry : legacy.entrySet()) {
@@ -180,8 +181,12 @@ public final class CanonicalInputCodeSelfTest {
         return result;
     }
 
-    private static String sha256(final Path path) throws IOException, NoSuchAlgorithmException {
-        byte[] digest = MessageDigest.getInstance("SHA-256").digest(Files.readAllBytes(path));
+    private static String normalizedLfSha256(final Path path) throws IOException, NoSuchAlgorithmException {
+        String normalized = Files.readString(path, StandardCharsets.UTF_8)
+                .replace("\r\n", "\n")
+                .replace('\r', '\n');
+        byte[] digest = MessageDigest.getInstance("SHA-256")
+                .digest(normalized.getBytes(StandardCharsets.UTF_8));
         return HexFormat.of().withUpperCase().formatHex(digest);
     }
 
