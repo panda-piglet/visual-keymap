@@ -11,6 +11,8 @@ param(
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 Set-Location -LiteralPath $root
+$isWindowsPlatform = $env:OS -eq 'Windows_NT'
+$utf8NoBom = New-Object System.Text.UTF8Encoding($false)
 
 if (-not [System.IO.Path]::IsPathRooted($ReportDirectory)) {
     $ReportDirectory = Join-Path $root $ReportDirectory
@@ -216,11 +218,21 @@ else {
     Add-Check -Name 'No test probes in production JAR' -Passed $false -Details 'No unique production JAR to inspect'
 }
 
-$javaInfo = (& java -version 2>&1 | Out-String).Trim()
-$javaExitCode = $LASTEXITCODE
-$gradleCommand = if ($IsWindows) { Join-Path $root 'gradlew.bat' } else { Join-Path $root 'gradlew' }
-$gradleInfo = (& $gradleCommand --version --no-daemon 2>&1 | Out-String).Trim()
-$gradleExitCode = $LASTEXITCODE
+if ($isWindowsPlatform) {
+    $javaInfo = (& cmd.exe /d /c 'java -version 2>&1' | Out-String).Trim()
+    $javaExitCode = $LASTEXITCODE
+    $gradleCommand = Join-Path $root 'gradlew.bat'
+    $gradleInvocation = "`"$gradleCommand`" --version --no-daemon 2>&1"
+    $gradleInfo = (& cmd.exe /d /c $gradleInvocation | Out-String).Trim()
+    $gradleExitCode = $LASTEXITCODE
+}
+else {
+    $javaInfo = (& java -version 2>&1 | Out-String).Trim()
+    $javaExitCode = $LASTEXITCODE
+    $gradleCommand = Join-Path $root 'gradlew'
+    $gradleInfo = (& $gradleCommand --version --no-daemon 2>&1 | Out-String).Trim()
+    $gradleExitCode = $LASTEXITCODE
+}
 Add-Check -Name 'Java environment report' `
     -Passed ($javaExitCode -eq 0) `
     -Details "java -version exit code: $javaExitCode"
@@ -232,10 +244,10 @@ $ready = @($checks | Where-Object { -not $_.Passed }).Count -eq 0
 
 $shaPath = Join-Path $ReportDirectory 'SHA256SUMS.txt'
 if ($null -ne $jar) {
-    Set-Content -LiteralPath $shaPath -Encoding utf8NoBOM -Value "$jarHash  $($jar.Name)"
+    [System.IO.File]::WriteAllText($shaPath, "$jarHash  $($jar.Name)`n", $utf8NoBom)
 }
 else {
-    Set-Content -LiteralPath $shaPath -Encoding utf8NoBOM -Value '# No unique production JAR was generated.'
+    [System.IO.File]::WriteAllText($shaPath, "# No unique production JAR was generated.`n", $utf8NoBom)
 }
 
 $metadata = @(
@@ -262,7 +274,11 @@ $metadata = @(
     'Gradle:'
     $gradleInfo
 )
-Set-Content -LiteralPath (Join-Path $ReportDirectory 'BUILD-METADATA.txt') -Encoding utf8NoBOM -Value $metadata
+[System.IO.File]::WriteAllLines(
+    (Join-Path $ReportDirectory 'BUILD-METADATA.txt'),
+    [string[]]$metadata,
+    $utf8NoBom
+)
 
 $verification = [System.Collections.Generic.List[string]]::new()
 $verification.Add('# Release Preflight Verification')
@@ -305,11 +321,18 @@ else {
         $verification.Add("- **$($failedCheck.Name):** $($failedCheck.Details)")
     }
 }
-Set-Content -LiteralPath (Join-Path $ReportDirectory 'RELEASE-VERIFICATION.md') -Encoding utf8NoBOM -Value $verification
+[System.IO.File]::WriteAllLines(
+    (Join-Path $ReportDirectory 'RELEASE-VERIFICATION.md'),
+    [string[]]$verification,
+    $utf8NoBom
+)
 
 if (-not [string]::IsNullOrWhiteSpace($env:GITHUB_OUTPUT)) {
-    Add-Content -LiteralPath $env:GITHUB_OUTPUT -Encoding utf8NoBOM -Value "ready=$($ready.ToString().ToLowerInvariant())"
-    Add-Content -LiteralPath $env:GITHUB_OUTPUT -Encoding utf8NoBOM -Value "jar_path=$jarRelativePath"
+    [System.IO.File]::AppendAllText(
+        $env:GITHUB_OUTPUT,
+        "ready=$($ready.ToString().ToLowerInvariant())`njar_path=$jarRelativePath`n",
+        $utf8NoBom
+    )
 }
 
 Write-Host "Release preflight result: $(if ($ready) { 'READY' } else { 'NOT READY' })"
