@@ -97,6 +97,14 @@ class KeymapSnapshotReadTest {
     }
 
     @Test
+    void preservesMissingVersionAsHistoricalVersionZero() throws Exception {
+        KeymapSnapshot snapshot = read("{\"bindings\":[]}");
+
+        assertEquals(0, snapshot.version());
+        assertEquals(List.of(), snapshot.bindings());
+    }
+
+    @Test
     void preservesIoFailureForMissingFiles() {
         Path missing = this.tempDir.resolve("missing.json");
 

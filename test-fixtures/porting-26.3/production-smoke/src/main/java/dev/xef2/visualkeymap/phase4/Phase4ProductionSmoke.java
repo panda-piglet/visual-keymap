@@ -1,5 +1,6 @@
 package dev.xef2.visualkeymap.phase4;
 
+import com.google.gson.JsonParseException;
 import com.mojang.blaze3d.platform.InputConstants;
 import dev.xef2.visualkeymap.KeymapSnapshot;
 import dev.xef2.visualkeymap.VisualKeymap;
@@ -10,11 +11,13 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.minecraft.client.gui.screens.AlertScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
@@ -104,6 +107,7 @@ public final class Phase4ProductionSmoke implements ClientModInitializer {
         net.minecraft.client.Minecraft.getInstance().setScreenAndShow(screen);
         check(net.minecraft.client.Minecraft.getInstance().gui.screen() == screen,
                 "VisualKeymapScreen did not initialize");
+        verifyInvalidSnapshotAndAlert(loader, screen, bindings, profile);
         screen.onClose();
         check(net.minecraft.client.Minecraft.getInstance().gui.screen() == parent,
                 "VisualKeymapScreen did not return to its parent");
@@ -131,7 +135,42 @@ public final class Phase4ProductionSmoke implements ClientModInitializer {
         evidence.add("mixins.keyMappingAccessor.used=true");
         evidence.add("mixins.headerAndFooterAccessor.used=true");
         evidence.add("screen.lifecycle=true");
+        evidence.add("invalidSnapshot.rejected=true");
+        evidence.add("invalidSnapshot.bindingsUnchanged=true");
+        evidence.add("invalidSnapshot.alertLifecycle=true");
         return evidence;
+    }
+
+    private static void verifyInvalidSnapshotAndAlert(FabricLoader loader, VisualKeymapScreen screen,
+                                                       List<? extends KeyBinding> bindings, String profile)
+            throws Exception {
+        Path invalidSnapshot = loader.getGameDir().resolve("bug01-invalid-snapshot.json");
+        Files.writeString(invalidSnapshot, "null");
+        List<List<Integer>> keysBefore = bindings.stream().map(KeyBinding::getKeyCodes).map(List::copyOf).toList();
+        try {
+            VisualKeymap.importKeyBindings(invalidSnapshot.toFile());
+            throw new AssertionError("Invalid snapshot was accepted");
+        } catch (JsonParseException expected) {
+            // Expected user-data failure; the release JAR must reject it before matching or applying bindings.
+        }
+        check(keysBefore.equals(bindings.stream().map(KeyBinding::getKeyCodes).map(List::copyOf).toList()),
+                "Invalid snapshot changed a live binding");
+
+        int externalSavesBefore = Phase4Provider.saveCalls;
+        Method showImportError = VisualKeymapScreen.class.getDeclaredMethod("showImportError", String.class);
+        showImportError.setAccessible(true);
+        showImportError.invoke(screen, "gui.import_error_invalid");
+        Screen current = net.minecraft.client.Minecraft.getInstance().gui.screen();
+        check(current instanceof AlertScreen, "Invalid snapshot did not open AlertScreen");
+        check(current.getTitle().equals(Component.translatable("visualkeymap.gui.import_error_title")),
+                "Unexpected import alert title component: " + current.getTitle());
+        current.onClose();
+        check(net.minecraft.client.Minecraft.getInstance().gui.screen() == screen,
+                "Import alert did not return to VisualKeymapScreen");
+        if (profile.equals("P6")) {
+            check(Phase4Provider.saveCalls == externalSavesBefore,
+                    "Opening the invalid-import alert saved the external provider");
+        }
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
