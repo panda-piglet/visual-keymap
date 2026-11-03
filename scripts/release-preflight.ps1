@@ -108,7 +108,14 @@ $jarEntries = @()
 if ($null -ne $jar) {
     $jarHash = (Get-FileHash -LiteralPath $jar.FullName -Algorithm SHA256).Hash.ToUpperInvariant()
     $jarSize = $jar.Length
-    $jarRelativePath = [System.IO.Path]::GetRelativePath($root, $jar.FullName).Replace('\', '/')
+    $rootPrefix = $root.TrimEnd([System.IO.Path]::DirectorySeparatorChar, [System.IO.Path]::AltDirectorySeparatorChar) + `
+        [System.IO.Path]::DirectorySeparatorChar
+    if ($jar.FullName.StartsWith($rootPrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+        $jarRelativePath = $jar.FullName.Substring($rootPrefix.Length).Replace('\', '/')
+    }
+    else {
+        $jarRelativePath = $jar.FullName.Replace('\', '/')
+    }
 
     Add-Type -AssemblyName System.IO.Compression.FileSystem
     $archive = [System.IO.Compression.ZipFile]::OpenRead($jar.FullName)
