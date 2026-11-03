@@ -210,6 +210,15 @@ processResources {
     }
 }
 
+tasks.named("jar") {
+    from(rootProject.file("LICENSE")) {
+        into("META-INF")
+    }
+    from(rootProject.file("NOTICE")) {
+        into("META-INF")
+    }
+}
+
 def targetJavaVersion = 25
 tasks.withType(JavaCompile).configureEach {
     // ensure that the encoding is set to UTF-8, no matter what the system default is

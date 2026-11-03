@@ -9,7 +9,10 @@ if (!supportedProfiles.contains(phase4Profile)) {
 }
 
 def repositoryRoot = file('../../..')
-def releaseJar = new File(repositoryRoot, 'build/libs/visual-keymap-26.3-1.4.0.jar')
+def releaseProperties = new Properties()
+new File(repositoryRoot, 'gradle.properties').withInputStream { releaseProperties.load(it) }
+def releaseJarName = "${releaseProperties.archives_base_name}-${releaseProperties.minecraft_version}-${releaseProperties.mod_version}.jar"
+def releaseJar = new File(repositoryRoot, "build/libs/${releaseJarName}")
 if (!releaseJar.isFile()) {
     throw new GradleException("Build the production JAR first: ${releaseJar}")
 }

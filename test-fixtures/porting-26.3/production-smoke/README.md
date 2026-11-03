@@ -1,6 +1,6 @@
 # Phase 4 production-JAR smoke harness
 
-This standalone Loom project loads `build/libs/visual-keymap-26.3-1.4.0.jar` as an external Fabric mod. It deliberately does not include the repository's `sourceSets.main` output.
+This standalone Loom project loads the production JAR named by the repository root's `gradle.properties` as an external Fabric mod. It deliberately does not include the repository's `sourceSets.main` output.
 
 Run a matrix profile from the repository root after building the release JAR:
 

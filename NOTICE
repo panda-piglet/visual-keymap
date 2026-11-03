@@ -1,20 +1,22 @@
 Visual Keymap — Minecraft 26.3 community-maintained port
 
 Original project:
-  Visual Keymap by XeF2
+  Visual Keymap by XeF2 and its contributors
   https://github.com/USTC-XeF2/visual-keymap
 
 Modified version:
   This repository contains community-maintained changes made in 2026 to
-  support Minecraft 26.3, together with snapshot import safety fixes.
+  support Minecraft 26.3, update compatible optional-mod integrations,
+  and add snapshot import safety fixes and release verification tooling.
   Unless adopted and published by the original project, community builds
   are not official releases by the original author.
 
 License:
-  GNU General Public License version 3. See the LICENSE file distributed
-  with the source. A public binary release must identify the exact source
-  revision used to build it and provide recipients access to the
-  corresponding source.
+  Distributed under the upstream GNU General Public License version 3
+  grant. See the unmodified LICENSE text distributed with the source and
+  binary. A public binary release must identify the exact source revision
+  used to build it and provide recipients access to the corresponding
+  source. This notice does not replace or alter the upstream license grant.
 
 Community source repository:
   https://github.com/panda-piglet/visual-keymap

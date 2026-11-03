@@ -55,6 +55,17 @@ function Escape-MarkdownCell {
     return ($Value -replace '\|', '\|') -replace "`r?`n", '<br>'
 }
 
+function Get-StreamSha256 {
+    param([System.IO.Stream]$Stream)
+    $sha256 = [System.Security.Cryptography.SHA256]::Create()
+    try {
+        return ([System.BitConverter]::ToString($sha256.ComputeHash($Stream))).Replace('-', '')
+    }
+    finally {
+        $sha256.Dispose()
+    }
+}
+
 if ([string]::IsNullOrWhiteSpace($Commit)) {
     $Commit = (git rev-parse HEAD).Trim()
 }
@@ -125,25 +136,62 @@ if ($null -ne $jar) {
                 -Passed ($jarMinecraftConstraint -eq "~$ExpectedMinecraftVersion") `
                 -Details "Expected ~$ExpectedMinecraftVersion; JAR metadata has $jarMinecraftConstraint"
         }
+
+        $licenseEntry = $archive.GetEntry('META-INF/LICENSE')
+        $noticeEntry = $archive.GetEntry('META-INF/NOTICE')
+        $licenseMatches = $false
+        $noticeMatches = $false
+
+        if ($null -ne $licenseEntry) {
+            $licenseStream = $licenseEntry.Open()
+            try {
+                $licenseMatches = (Get-StreamSha256 -Stream $licenseStream) -eq `
+                    (Get-FileHash -LiteralPath (Join-Path $root 'LICENSE') -Algorithm SHA256).Hash
+            }
+            finally {
+                $licenseStream.Dispose()
+            }
+        }
+        if ($null -ne $noticeEntry) {
+            $noticeStream = $noticeEntry.Open()
+            try {
+                $noticeMatches = (Get-StreamSha256 -Stream $noticeStream) -eq `
+                    (Get-FileHash -LiteralPath (Join-Path $root 'NOTICE') -Algorithm SHA256).Hash
+            }
+            finally {
+                $noticeStream.Dispose()
+            }
+        }
+
+        Add-Check -Name 'LICENSE packaged in JAR' `
+            -Passed ($null -ne $licenseEntry -and $licenseMatches) `
+            -Details $(if ($null -eq $licenseEntry) {
+                'META-INF/LICENSE is missing'
+            } elseif (-not $licenseMatches) {
+                'META-INF/LICENSE does not match the repository LICENSE'
+            } else {
+                'META-INF/LICENSE matches the repository LICENSE'
+            })
+        Add-Check -Name 'NOTICE packaged in JAR' `
+            -Passed ($null -ne $noticeEntry -and $noticeMatches) `
+            -Details $(if ($null -eq $noticeEntry) {
+                'META-INF/NOTICE is missing'
+            } elseif (-not $noticeMatches) {
+                'META-INF/NOTICE does not match the repository NOTICE'
+            } else {
+                'META-INF/NOTICE matches the repository NOTICE'
+            })
     }
     finally {
         $archive.Dispose()
     }
 
-    $hasLicense = @($jarEntries | Where-Object { $_ -match '^META-INF/LICENSE(?:[_.-].*)?$' }).Count -gt 0
-    $hasNotice = @($jarEntries | Where-Object { $_ -match '^META-INF/NOTICE(?:[_.-].*)?$' }).Count -gt 0
     $nestedJars = @($jarEntries | Where-Object { $_ -match '\.jar$' })
     $testEntries = @($jarEntries | Where-Object {
         $_ -match '(^|/)(test|tests|testmod)/' -or
         $_ -match '(SelfTest|TestProvider|Phase4ProductionSmoke|ThrowingProvider)'
     })
 
-    Add-Check -Name 'LICENSE packaged in JAR' `
-        -Passed $hasLicense `
-        -Details 'Expected a META-INF/LICENSE entry'
-    Add-Check -Name 'NOTICE packaged in JAR' `
-        -Passed $hasNotice `
-        -Details 'Expected a META-INF/NOTICE entry'
     Add-Check -Name 'No nested third-party JARs' `
         -Passed ($nestedJars.Count -eq 0) `
         -Details "Found $($nestedJars.Count) nested JAR(s)"
