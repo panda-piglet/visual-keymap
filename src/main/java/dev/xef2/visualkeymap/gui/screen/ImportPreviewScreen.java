@@ -21,7 +21,10 @@ import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Set;
 
 @Environment(EnvType.CLIENT)
 public class ImportPreviewScreen extends OptionsSubScreen {
@@ -29,11 +32,37 @@ public class ImportPreviewScreen extends OptionsSubScreen {
     private static final int ENTRY_HEIGHT = 36;
 
     private final List<KeymapSnapshot.ImportMatch> matches;
+    private final Set<KeymapSnapshot.ImportMatch> ambiguousMatches;
     private ImportListWidget listWidget;
 
     public ImportPreviewScreen(Screen parent, List<KeymapSnapshot.ImportMatch> matches) {
-        super(parent, Minecraft.getInstance().options, VisualKeymap.getTranslatedComponent("gui.import_preview_title", matches.size()));
+        super(parent, Minecraft.getInstance().options, getTitle(matches));
         this.matches = new ArrayList<>(matches);
+        this.ambiguousMatches = Collections.newSetFromMap(new IdentityHashMap<>());
+        this.matches.stream().filter(match -> !match.selected).forEach(this.ambiguousMatches::add);
+        ImportSelection.sanitize(this.matches);
+    }
+
+    private static Component getTitle(List<KeymapSnapshot.ImportMatch> matches) {
+        String key = matches.stream().anyMatch(match -> !match.selected)
+                ? "gui.import_preview_ambiguous_title"
+                : "gui.import_preview_title";
+        return VisualKeymap.getTranslatedComponent(key, matches.size());
+    }
+
+    @Override
+    protected void addTitle() {
+        LinearLayout header = this.layout.addToHeader(LinearLayout.vertical().spacing(2));
+        header.defaultCellSetting().alignHorizontallyCenter();
+        header.addChild(new StringWidget(this.title, this.font));
+        int headerHeight = 12;
+        if (!this.ambiguousMatches.isEmpty()) {
+            MultiLineTextWidget warning = header.addChild(new MultiLineTextWidget(
+                    VisualKeymap.getTranslatedComponent("gui.import_ambiguous_warning"), this.font
+            ).setMaxWidth(Math.max(100, this.width - 20)).setMaxRows(2).setCentered(true));
+            headerHeight += warning.getHeight() + 2;
+        }
+        this.layout.setHeaderHeight(headerHeight);
     }
 
     @Override
@@ -118,11 +147,18 @@ public class ImportPreviewScreen extends OptionsSubScreen {
 
                 this.checkbox = Checkbox.builder(Component.empty(), minecraft.font)
                         .selected(match.selected)
-                        .onValueChange((_, selected) -> match.selected = selected)
+                        .onValueChange((_, selected) -> {
+                            ImportSelection.setSelected(matches, match, selected);
+                            ImportListWidget.this.updateEntries();
+                        })
                         .build();
                 this.checkbox.active = match.canApply();
 
                 MutableComponent name = match.binding.getDisplayName().copy();
+                if (ambiguousMatches.contains(match)) {
+                    name.append(" ").append(VisualKeymap.getTranslatedComponent("gui.import_ambiguous_marker")
+                            .withStyle(ChatFormatting.YELLOW));
+                }
                 this.nameWidget = new StringWidget(0, ENTRY_HEIGHT, name, minecraft.font);
                 this.nameWidget.setTooltip(Tooltip.create(match.binding.getTooltip()));
 
